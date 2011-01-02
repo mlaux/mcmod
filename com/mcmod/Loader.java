@@ -3,6 +3,8 @@ package com.mcmod;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -11,12 +13,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
+import com.mcmod.api.Inventory;
+import com.mcmod.api.InventoryItem;
 import com.mcmod.api.Minecraft;
 
 /**
@@ -56,9 +62,52 @@ public class Loader extends JFrame {
 
 		JMenuBar bar = new JMenuBar();
 		JMenu menu = new JMenu("Cheats");
-		JMenuItem item = new JMenuItem("Infinite Items");
+		final JCheckBoxMenuItem item = new JCheckBoxMenuItem("Infinite Items");
+		JMenuItem spawn = new JMenuItem("Spawn Item");
+		
+		new Thread() {
+			public void run() {
+				while(true) {
+					if(item.isSelected()) {
+						Inventory i = minecraft.getPlayer().getInventory();
+						
+						for(InventoryItem item : i.getInventoryItems()) {
+							if(item.getCount() < 64) {
+								item.setCount(64);
+							}
+						}
+						
+						for(InventoryItem item : i.getEquippableItems()) {
+							if(item.getDamage() > 0) {
+								System.out.println(item.getDamage());
+								item.setDamage(0);
+							}
+						}
+					}
+					
+					try {
+						Thread.sleep(200);
+					} catch(Exception e) {}
+				}
+			}
+		}.start();
+		
+		spawn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String s = JOptionPane.showInputDialog("Item ID: ");
+			
+				try {
+					minecraft.getPlayer().getInventory().addItem(Integer.parseInt(s), 255);
+				} catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 		
 		menu.add(item);
+		menu.add(spawn);
 		bar.add(menu);
 		
 		super.setJMenuBar(bar);
