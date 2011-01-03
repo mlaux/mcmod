@@ -48,6 +48,17 @@ public class StaticWorm {
 		}
 	}
 	
+	public static Object instantiate(String name, Class<?>[] types, Object... args) {
+		try {
+			Constructor<?> cns = Loader.getClass(name).getConstructor(types);
+			return cns.newInstance(args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public static Object instantiate(String name, Object... args) {
 		try {
 		//	Class<?>[] types = new Class<?>[args.length];
@@ -58,6 +69,7 @@ public class StaticWorm {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 		return null;
 	}
 	

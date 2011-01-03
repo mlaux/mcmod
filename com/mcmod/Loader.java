@@ -26,7 +26,7 @@ import com.mcmod.api.Worm;
  */
 public class Loader extends JFrame {
 	private static URLClassLoader classLoader;
-	private static Minecraft minecraft;
+	public static Minecraft minecraft;
 	
 	
 	public static void main(String[] args) {
@@ -71,6 +71,8 @@ public class Loader extends JFrame {
 		thread.start();
 		
 		Loader.minecraft = new Minecraft(minecraft);
+		
+		super.setJMenuBar(new McMenuBar());
 		
 		pack();
 		setLocationRelativeTo(null);

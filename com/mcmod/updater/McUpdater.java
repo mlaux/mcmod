@@ -50,6 +50,7 @@ public class McUpdater {
 	}
 	
 	public McUpdater() throws IOException {
+		System.out.println(Util.getWorkingDirectory("minecraft"));
 		file = new JarFile(Util.getWorkingDirectory("minecraft") + "/bin/minecraft.jar");
 	}
 	

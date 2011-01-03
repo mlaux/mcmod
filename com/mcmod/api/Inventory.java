@@ -55,12 +55,8 @@ public class Inventory {
 	
 	public void addItem(int id, int count) {
 		try {
-			Class<?> itemClass = Loader.getClass("InventoryItem");
-			Constructor<?> itemConstructor = itemClass.getConstructor(Integer.TYPE, Integer.TYPE);
-			Object item = itemConstructor.newInstance(id, count);
-			
+			Object item = StaticWorm.instantiate("InventoryItem", new Class<?>[] { Integer.TYPE, Integer.TYPE }, id, count);
 			Object[] objects = (Object[]) worm.get("Inventory.inventoryItems");
-			
 			int x = getEmptySlot();
 			objects[x] = item;
 			
