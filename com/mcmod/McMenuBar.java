@@ -37,7 +37,7 @@ public class McMenuBar extends JMenuBar {
 					try {
 						int id = Integer.parseInt(item);
 						
-						Loader.minecraft.getPlayer().getInventory().addItem(id, 64);
+						Loader.getMinecraft().getPlayer().getInventory().addItem(id, 64);
 					} catch(NumberFormatException ex) {
 						JOptionPane.showMessageDialog(null, "Invalid number format.", "Item Spawn Error", JOptionPane.ERROR_MESSAGE);
 					}
