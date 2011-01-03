@@ -12,6 +12,10 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 	public McMenuBar() {
 		JMenu menu = new JMenu("Cheats");
 		menu.add(createItem("Item Spawner...", "spawner"));
+		menu.add(createItem("Test Health", "healthtest"));
+		menu.add(createItem("Hurt Test", "hurttest"));
+		menu.add(createItem("Attack Time", "attacktest"));
+		menu.add(createItem("Death Time", "deathtest"));
 		add(menu);
 	}
 	
@@ -34,6 +38,14 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 					JOptionPane.showMessageDialog(null, "Enter an item ID.", "Item Spawn Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
+		} else if(cmd.equals("healthtest")) {
+			System.out.println(Loader.getMinecraft().getPlayer().getHealth());
+		} else if(cmd.equals("hurttest")) {
+			System.out.println(Loader.getMinecraft().getPlayer().getHurtTime());
+		} else if(cmd.equals("attacktest")) {
+			System.out.println(Loader.getMinecraft().getPlayer().getAttackTime());
+		} else if(cmd.equals("deathtest")) {
+			System.out.println(Loader.getMinecraft().getPlayer().getDeathTime());
 		}
 	}
 }

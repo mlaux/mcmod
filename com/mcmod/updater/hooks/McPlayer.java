@@ -2,13 +2,16 @@ package com.mcmod.updater.hooks;
 
 import java.util.List;
 
+import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
+import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.mcmod.updater.McUpdater;
 import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.asm.McMethodNode;
 import com.mcmod.updater.util.InstructionSearcher;
+import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
 
 public class McPlayer extends McHook {
 	private static final String cst = "Player is now ";
@@ -58,5 +61,31 @@ public class McPlayer extends McHook {
 		fin = searcher.nextFieldInsn();
 	
 		identifyField("Minecraft.url", fin);
+		
+		McClassNode humanoidSuperClass = McUpdater.classes.get(humanoid.superName);
+		identifyClass(humanoidSuperClass, "PlayerEntity"); // This probably needs a better name.
+		
+		method = humanoidSuperClass.constants.get("bubble").get(0);
+		
+		searcher = new InstructionSearcher(method);
+		
+		searcher.nextLdcInsn("bubble");
+		fin = (FieldInsnNode) searcher.prevInsn(Opcodes.GETFIELD);
+		
+		identifyField("PlayerEntity.infoMap", fin);
+
+		for(MethodNode mn : humanoidSuperClass.constants.get("Health")) {
+			searcher = new InstructionSearcher(mn);
+			
+			if(searcher.nextInsn(Opcodes.PUTFIELD) != null) continue;
+			break;
+		}
+		
+		LdcInsnNode ldc;
+		while((ldc = searcher.nextLdcInsn()) != null) {
+			fin = (FieldInsnNode) searcher.nextInsn(Opcodes.GETFIELD);
+			String name = (String) ldc.cst;
+			identifyField("PlayerEntity." + Character.toLowerCase(name.charAt(0)) + name.substring(1), fin);
+		}
 	}
 }

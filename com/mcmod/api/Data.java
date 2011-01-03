@@ -18,6 +18,7 @@ public class Data {
 		String line;
 		
 		try {
+			System.out.println("Loading Accessors...");
 			while((line = br.readLine()) != null) {
 				// File format is type:data:[data:[data...]]
 				
@@ -39,18 +40,22 @@ public class Data {
 							throw new RuntimeException("Invalid hooks.dat");
 						
 						accessors.put(data[1], new Accessor(data[2], data[3], data[4]));
+						
+						System.out.println("Loaded Accessor: " + data[1]);
 						break;
 					case 'c':
 						if(data.length != 3)
 							throw new RuntimeException("Invalid hooks.dat");
 						
 						classes.put(data[1], data[2]);
+						System.out.println("Loaded Class: " + data[1]);
 						break;
 				}
 			}
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println("Finished.");
 	}
-
 }
