@@ -28,7 +28,6 @@ public class Loader extends JFrame {
 	private static URLClassLoader classLoader;
 	private static Minecraft minecraft;
 	
-	
 	public static void main(String[] args) {
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		

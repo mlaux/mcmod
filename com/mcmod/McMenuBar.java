@@ -8,43 +8,32 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-public class McMenuBar extends JMenuBar {
+public class McMenuBar extends JMenuBar implements ActionListener {
 	public McMenuBar() {
-		setupMenuBar();
-	}
-	
-	public void setupMenuBar() {
-		super.add(createCheatMenu());
-	}
-	
-	public JMenu createCheatMenu() {
 		JMenu menu = new JMenu("Cheats");
-		
-		menu.add(createItemSpawner());
-		
-		return menu;
+		menu.add(createItem("Item Spawner...", "spawner"));
+		add(menu);
 	}
 	
-	public JMenuItem createItemSpawner() {
-		JMenuItem spawner = new JMenuItem("Item Spawner");
-		
-		spawner.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String item = JOptionPane.showInputDialog("Item ID");
-				
-				if(item.length() > 0) {
-					try {
-						int id = Integer.parseInt(item);
-						
-						Loader.getMinecraft().getPlayer().getInventory().addItem(id, 64);
-					} catch(NumberFormatException ex) {
-						JOptionPane.showMessageDialog(null, "Invalid number format.", "Item Spawn Error", JOptionPane.ERROR_MESSAGE);
-					}
+	private JMenuItem createItem(String text, String cmd) {
+		JMenuItem it = new JMenuItem(text);
+		it.addActionListener(this);
+		it.setActionCommand(cmd);
+		return it;
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		String cmd = e.getActionCommand();
+		if(cmd.equals("spawner")) {
+			String item = JOptionPane.showInputDialog("Item ID");	
+			if(item.length() > 0) {
+				try {
+					int id = Integer.parseInt(item);
+					Loader.getMinecraft().getPlayer().getInventory().addItem(id, 64);
+				} catch(NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Enter an item ID.", "Item Spawn Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
-		});
-		
-		return spawner;
+		}
 	}
 }
