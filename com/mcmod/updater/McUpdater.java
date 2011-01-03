@@ -17,12 +17,14 @@ import org.objectweb.asm.ClassReader;
 import com.mcmod.Loader;
 import com.mcmod.Util;
 import com.mcmod.updater.asm.McClassNode;
+import com.mcmod.updater.hooks.McExtension;
 import com.mcmod.updater.hooks.McHook;
 import com.mcmod.updater.hooks.McInventory;
 import com.mcmod.updater.hooks.McInventoryItem;
 import com.mcmod.updater.hooks.McItem;
 import com.mcmod.updater.hooks.McPlayer;
 import com.mcmod.updater.hooks.McPlayerInfo;
+import com.mcmod.updater.hooks.McWindowAdapter;
 
 /****************************************************
  * 
@@ -69,7 +71,7 @@ public class McUpdater {
 	public McHook[] loadHooks() {
 		/* Tekk, I'm terribad at making a good dependency automated loader thing,
 		 * if you want, you can lol. */
-		return new McHook[] { new McPlayer(), new McPlayerInfo(), new McInventory(), new McInventoryItem(), new McItem() };
+		return new McHook[] { new McExtension(), new McWindowAdapter(), new McPlayer(), new McPlayerInfo(), new McInventory(), new McInventoryItem(), new McItem() };
 	}
 	
 	public void printLog() {

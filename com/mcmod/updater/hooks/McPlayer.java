@@ -50,5 +50,14 @@ public class McPlayer extends McHook {
 		identifyField("Humanoid", "inventory", player.name);
 		
 		identifyClass(player.desc.replaceAll("[L;]", ""), "Inventory");
+		
+		method = node.constants.get("www.minecraft.net").get(0);
+		
+		searcher = new InstructionSearcher(method);
+		searcher.nextLdcInsn("www.minecraft.net");
+		
+		player = searcher.nextFieldInsn();
+	
+		identifyField("Minecraft", "url", player.name);
 	}
 }
