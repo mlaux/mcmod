@@ -20,11 +20,7 @@ public class Item {
 			try {
 				f.setAccessible(true);
 				System.out.println(f.getName() + ": " + f.get(o));
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

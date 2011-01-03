@@ -26,7 +26,6 @@ public class McMethodNode extends MethodNode {
 		methods.add(this);
 		
 		owner.constants.put(cst, methods);
-		
 		instructions.add(new LdcInsnNode(cst));
 	}
 }

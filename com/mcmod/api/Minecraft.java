@@ -16,7 +16,7 @@ public class Minecraft {
 	}
 	
 	public List<Item> getItemCache() {
-		Object[] objects = (Object[]) StaticWorm.get("Item", "Item.itemCache");
+		Object[] objects = (Object[]) StaticWorm.get("Item.itemCache");
 		List<Item> items = new ArrayList<Item>();
 		
 		for(int x = 0; x < objects.length; x++) {

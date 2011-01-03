@@ -31,13 +31,11 @@ public class McInventoryItem extends McHook {
 		}
 		
 		InstructionSearcher searcher = new InstructionSearcher(method);
-		
 		LdcInsnNode ldc = null;
 		
 		while((ldc = searcher.nextLdcInsn()) != null) {
 			FieldInsnNode field = searcher.nextFieldInsn();
-			
-			identifyField("InventoryItem", ((String) ldc.cst).toLowerCase(), field.name);
+			identifyField("InventoryItem." + ((String) ldc.cst).toLowerCase(), field);
 		}
 	}
 }

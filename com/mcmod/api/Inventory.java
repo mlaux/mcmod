@@ -4,6 +4,8 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mcmod.Loader;
+
 public class Inventory {
 	private Worm worm;
 	
@@ -53,8 +55,8 @@ public class Inventory {
 	
 	public void addItem(int id, int count) {
 		try {
-			Class<?> itemClass = StaticWorm.getClass("InventoryItem");
-			Constructor itemConstructor = itemClass.getConstructor(Integer.TYPE, Integer.TYPE);
+			Class<?> itemClass = Loader.getClass("InventoryItem");
+			Constructor<?> itemConstructor = itemClass.getConstructor(Integer.TYPE, Integer.TYPE);
 			Object item = itemConstructor.newInstance(id, count);
 			
 			Object[] objects = (Object[]) worm.get("Inventory.inventoryItems");

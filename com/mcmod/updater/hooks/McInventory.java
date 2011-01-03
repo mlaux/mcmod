@@ -20,35 +20,30 @@ public class McInventory extends McHook {
 		MethodNode method = null;
 		
 		for(MethodNode m : node.constants.get("Slot")) {
-			int count = 0;
-			
 			InstructionSearcher searcher = new InstructionSearcher(m);
 			
-			Object o;
+			int count = 0;
+			while(searcher.nextLdcInsn("Slot") != null)
+				count++;
 			
-			while((o = searcher.nextLdcInsn("Slot")) != null) count++;
-			
-			if(count == 2) {
+			if(count == 2)
 				method = m;
-				break;
-			}
 		}
 		
-		for(FieldNode f : node.instance_fields) {
-			if(f.desc.equals("I")) {
-				identifyField("Inventory", "currentIndex", f.name);
-			}
+		for(FieldNode f : node.instanceFields) {
+			if(f.desc.equals("I"))
+				identifyField("Inventory.currentIndex", node, f);
 		}
 		
 		InstructionSearcher searcher = new InstructionSearcher(method);
 		
 		searcher.nextLdcInsn("Slot");
 		FieldInsnNode fin = searcher.nextFieldInsn();
-		identifyField("Inventory", "inventoryItems", fin.name);
+		identifyField("Inventory.inventoryItems", fin);
 		
 		searcher.nextLdcInsn("Slot");
 		fin = searcher.nextFieldInsn();
-		identifyField("Inventory", "equippableItems", fin.name);
+		identifyField("Inventory.equippableItems", fin);
 		
 		identifyClass(fin.desc.replaceAll("[\\[\\]L;]", ""), "InventoryItem");
 	}

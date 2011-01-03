@@ -4,26 +4,22 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mcmod.shared.Accessor;
+
 public class Worm {
 	private Object object = null;
 	private Class<?> objectClass;
-	private Map<String, Field> fieldCache = new HashMap<String, Field>();
+	private Map<Accessor, Field> fieldCache = new HashMap<Accessor, Field>();
 	
 	public Worm(Object object) {
 		this.object = object;
 		this.objectClass = object.getClass();
 	}
 	
-	public Worm(Class<?> objectClass) {
-		this.object = null;
-		this.objectClass = objectClass;
-	}
-	
 	public Object get(String fieldName) {
 		try {
 			return getField(fieldName).get(object);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -57,15 +53,15 @@ public class Worm {
 	}
  	
 	public Field getField(String name) {
-		String s = ReflectionLoader.reflection_data.get(name);
-		Field field = fieldCache.get(s);
+		Accessor acc = Data.accessors.get(name);
+		Field field = fieldCache.get(acc);
 		
 		if(field == null) {
 			try {
-				System.out.println("Getting: \"" + name + "\"" + s);
-				field = objectClass.getField(s);
+				String fName = acc.getItemName();
+				field = objectClass.getField(fName);
 				field.setAccessible(true);
-				fieldCache.put(s, field);
+				fieldCache.put(acc, field);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

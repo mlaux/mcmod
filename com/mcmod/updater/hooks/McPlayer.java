@@ -2,7 +2,6 @@ package com.mcmod.updater.hooks;
 
 import java.util.List;
 
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
@@ -12,7 +11,7 @@ import com.mcmod.updater.asm.McMethodNode;
 import com.mcmod.updater.util.InstructionSearcher;
 
 public class McPlayer extends McHook {
-	private String cst = "Player is now ";
+	private static final String cst = "Player is now ";
 	
 	@Override
 	public boolean canProcess(McClassNode node) {
@@ -28,12 +27,12 @@ public class McPlayer extends McHook {
 		InstructionSearcher searcher = new InstructionSearcher(method);
 		searcher.nextLdcInsn(cst);
 		
-		FieldInsnNode player = searcher.nextFieldInsn();
+		FieldInsnNode fin = searcher.nextFieldInsn();
 		
-		identifyClass(player.desc.replaceAll("[L;]", ""), "Player");
+		identifyClass(fin.desc.replaceAll("[L;]", ""), "Player");
 		identifyClass(node, "Minecraft");
 		
-		identifyField("Minecraft", "player", player.name);
+		identifyField("Minecraft.player", fin);
 		
 		McClassNode offlinePlayer = McHook.classes.get("Player");
 		McClassNode humanoid = McUpdater.classes.get(offlinePlayer.superName);
@@ -44,20 +43,20 @@ public class McPlayer extends McHook {
 		
 		searcher.nextLdcInsn("Inventory");
 		
-		player = searcher.nextFieldInsn();
+		fin = searcher.nextFieldInsn();
 		
 		identifyClass(humanoid, "Humanoid");
-		identifyField("Humanoid", "inventory", player.name);
+		identifyField("Humanoid.inventory", fin);
 		
-		identifyClass(player.desc.replaceAll("[L;]", ""), "Inventory");
+		identifyClass(fin.desc.replaceAll("[L;]", ""), "Inventory");
 		
 		method = node.constants.get("www.minecraft.net").get(0);
 		
 		searcher = new InstructionSearcher(method);
 		searcher.nextLdcInsn("www.minecraft.net");
 		
-		player = searcher.nextFieldInsn();
+		fin = searcher.nextFieldInsn();
 	
-		identifyField("Minecraft", "url", player.name);
+		identifyField("Minecraft.url", fin);
 	}
 }

@@ -54,7 +54,6 @@ public class InstructionSearcher {
 				
 				if(ldc.cst.equals(cst)) {
 					index = x;
-					
 					return ldc;
 				}
 			}

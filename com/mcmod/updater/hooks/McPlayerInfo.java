@@ -5,7 +5,6 @@ import java.util.List;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.mcmod.updater.McUpdater;
 import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.asm.McMethodNode;
 import com.mcmod.updater.util.InstructionSearcher;
@@ -28,22 +27,23 @@ public class McPlayerInfo extends McHook {
 		FieldInsnNode field = searcher.nextFieldInsn();
 		
 		field = searcher.nextFieldInsn();
+		
 		identifyClass(field.owner, "Minecraft");
-		identifyField("Minecraft", "playerInfo", field.name);
+		identifyField("Minecraft.playerInfo", field);
 		
 		field = searcher.nextFieldInsn();
 		
 		identifyClass(field.owner, "PlayerInfo");
-		identifyField("PlayerInfo", "username", field.name);
+		identifyField("PlayerInfo.username", field);
 		
 		for(int x = 0; x < 3; x++)
 			field = searcher.nextFieldInsn();
 		
-		identifyField("PlayerInfo", "sessionId", field.name);
+		identifyField("PlayerInfo.sessionId", field);
 		
 		for(int x = 0; x < 3; x++)
 			field = searcher.nextFieldInsn();
 		
-		identifyField("PlayerInfo", "password", field.name);
+		identifyField("PlayerInfo.password", field);
 	}
 }

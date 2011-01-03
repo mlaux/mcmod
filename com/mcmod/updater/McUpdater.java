@@ -1,11 +1,10 @@
 package com.mcmod.updater;
 
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +13,8 @@ import java.util.jar.JarFile;
 
 import org.objectweb.asm.ClassReader;
 
-import com.mcmod.Loader;
 import com.mcmod.Util;
+import com.mcmod.shared.Accessor;
 import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.hooks.McExtension;
 import com.mcmod.updater.hooks.McHook;
@@ -44,7 +43,7 @@ public class McUpdater {
 			McUpdater updater = new McUpdater();
 			updater.update();
 			updater.printLog();
-			updater.dump(new FileOutputStream(new File(Loader.class.getResource("hooks.dat").toURI())));
+			updater.dump(new FileOutputStream("hooks.dat"));
 		} catch(Exception e) {
 			e.printStackTrace(System.err);
 		}
@@ -80,8 +79,8 @@ public class McUpdater {
 			
 			System.out.println("[*] " + node.name + " identified as " + name);
 			
-			for(String s : node.identified_fields.keySet()) {
-				System.out.println("->    get" + (Character.toUpperCase(s.charAt(0))) + s.substring(1) + " returns " + name + "." + node.identified_fields.get(s));
+			for(String s : node.identifiedFields.keySet()) {
+				System.out.println("->    " + s + " is " + node.identifiedFields.get(s));
 			}
 			
 			System.out.println();
@@ -89,40 +88,24 @@ public class McUpdater {
 	}
 	
 	public void dump(OutputStream file) {
-		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(file));
+		PrintWriter writer = new PrintWriter(new OutputStreamWriter(file));
 		
 		System.out.print("Dumping file...");
 		
 		for(String name : McHook.classes.keySet()) {
 			McClassNode node = McHook.classes.get(name);
 			
-			try {
-				writer.write("c" + name + ":" + node.name);
-				writer.newLine();
-				writer.flush();
-			} catch(IOException e) {
-				e.printStackTrace(System.err);
-			}
+			writer.println("c:" + name + ":" + node.name);
 			
-			for(String s : node.identified_fields.keySet()) {
-				String field = node.identified_fields.get(s);
-			
-				try {
-					writer.write("f" + name + ":" + s + ":" + field);
-					writer.newLine();
-					writer.flush();
-				} catch(IOException e) {
-					e.printStackTrace(System.err);
-				}
+			for(String s : node.identifiedFields.keySet()) {
+				Accessor field = node.identifiedFields.get(s);
+				writer.println("f:" + s + ":" + field.getClassName() 
+						+ ":" + field.getItemName() + ":" + field.getItemSignature());
 			}
 		}
 		
-		try {
-			writer.close();
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-		
+		writer.flush();
+		writer.close();
 		System.out.println("done.");
 	}
 	

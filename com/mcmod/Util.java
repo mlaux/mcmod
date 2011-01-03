@@ -17,7 +17,7 @@ public class Util {
 			} else {
 				workingDirectory = new File(userHome, "." + file);
 			}
-		} else if(os.contains("unix") || os.contains("linux")) {
+		} else if(os.contains("unix")) {
 			workingDirectory = new File(userHome, "." + file);
 		} else if(os.contains("mac")) {
 			workingDirectory = new File(userHome, "Library/Application Support/" + file);
