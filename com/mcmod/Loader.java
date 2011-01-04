@@ -5,6 +5,8 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -24,7 +26,7 @@ import com.mcmod.api.Worm;
  * @author Nicholas Bailey
  */
 public class Loader extends JFrame {
-	private static McClassLoader classLoader;
+	private static McClassLoader2 classLoader;
 	private static Minecraft api;
 	
 	public static void main(String[] args) {
@@ -43,9 +45,9 @@ public class Loader extends JFrame {
 		loader.setVisible(true);
 	}
 	
-	public Loader(File[] files, String user) {
+	public Loader(URL[] urls, String user) {
 		super("Minecraft - McModded");
-		classLoader = new McClassLoader(files);
+		classLoader = new McClassLoader2(urls);
 		setLayout(new BorderLayout());
 
 		Canvas canvas = new Canvas();
@@ -82,12 +84,16 @@ public class Loader extends JFrame {
 		font.drawStringShadow("Hello McMod World!!", 30, 30, 0xffffffff);
 	}
 	
-	private static File[] getDependentJars(String base) {
-		String[] names = { "jinput.jar",  "lwjgl.jar",  "lwjgl_util.jar",  "minecraft.jar" };
-		File[] files = new File[names.length];
+	private static URL[] getDependentJars(String base) {
+		String[] names = { "jinput.jar",  "lwjgl.jar",  "lwjgl_util.jar"  };
+		URL[] files = new URL[names.length];
 		
 		for(int x = 0; x < names.length; x++)
-			files[x] = new File(base, names[x]);
+			try {
+				files[x] = new File(base, names[x]).toURI().toURL();
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
 		
 		return files;
 	}
