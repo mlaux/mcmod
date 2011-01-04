@@ -24,6 +24,8 @@ public class Inject {
 		injectMethodSig = ims;
 		
 		injectPosition = ip;
+		
+		System.out.println(ic);
 	}
 	
 	public String getCallClass() {
@@ -65,5 +67,7 @@ public class Inject {
 		
 		MethodInsnNode min = new MethodInsnNode(Opcodes.INVOKESTATIC, callClass, callMethod, "()V");
 		mn.instructions.insert(mn.instructions.get(injectPosition), min);
+		
+		System.out.println("Seems like a good injection.");
 	}
 }

@@ -15,6 +15,8 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
+import com.mcmod.api.Data;
+
 public class McClassLoader2 extends URLClassLoader {
 	private JarFile minecraft = null;
 	private String jarLocation = "";
@@ -46,6 +48,8 @@ public class McClassLoader2 extends URLClassLoader {
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
 		Class<?> c = null;
 		
+		String pathName = name.replaceAll("\\.", File.separator);
+		
 		if(loadedClasses.containsKey(name)) {
 			return loadedClasses.get(name);
 		}
@@ -54,14 +58,18 @@ public class McClassLoader2 extends URLClassLoader {
 			c = super.findSystemClass(name);
 		} catch(Exception e) {
 			try {
-				ZipEntry entry = minecraft.getEntry(name.replaceAll("\\.", File.separator) + ".class");
+				ZipEntry entry = minecraft.getEntry(pathName + ".class");
 				
 				if(entry != null) {
 					ClassNode node = new ClassNode();
 					ClassReader reader = new ClassReader(minecraft.getInputStream(entry));
 					reader.accept(node, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
 					
-					//TODO Hax to your heart's content.
+					if(Data.injections.containsKey(pathName))
+					{
+						System.out.println("Adding injection to: " + name);
+						Data.injections.get(pathName).process(node);
+					}
 					
 					ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 					node.accept(writer);

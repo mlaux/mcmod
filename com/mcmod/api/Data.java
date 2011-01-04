@@ -61,6 +61,7 @@ public class Data {
 						System.out.println("Loaded Class: " + data[1]);
 						break;
 					case 'i':
+						System.out.println("Loaded injection: " + data[3]);
 						if(data.length != 7)
 							throw new RuntimeException("Invalid hooks.dat");
 						
