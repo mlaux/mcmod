@@ -85,4 +85,18 @@ public class InstructionSearcher {
 		
 		return null;
 	}
+	
+	public AbstractInsnNode nextInsn() {
+		index++;
+		return nodes[index];
+	}
+	
+	public AbstractInsnNode prevInsn() {
+		index--;
+		return nodes[index];
+	}
+
+	public int position() {
+		return index;
+	}
 }

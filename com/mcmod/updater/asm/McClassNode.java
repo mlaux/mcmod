@@ -13,6 +13,7 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.mcmod.shared.Accessor;
+import com.mcmod.shared.Inject;
 
 public class McClassNode extends ClassNode {
 	public List<FieldNode> staticFields = new ArrayList<FieldNode>();
@@ -21,7 +22,8 @@ public class McClassNode extends ClassNode {
 	public List<MethodNode> staticMethods = new ArrayList<MethodNode>();
 	public List<MethodNode> instanceMethods = new ArrayList<MethodNode>();
 	
-	public Map<String, Accessor> identifiedFields = new HashMap<String, Accessor>();
+	public Map<String, Accessor> identifiedItems = new HashMap<String, Accessor>();
+	public Map<String, Inject> injections = new HashMap<String, Inject>();
 	
 	public Map<Object, List<McMethodNode>> constants = new HashMap<Object, List<McMethodNode>>();
 	

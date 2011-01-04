@@ -3,6 +3,7 @@ package com.mcmod.updater.hooks;
 import java.util.List;
 
 import org.objectweb.asm.tree.FieldInsnNode;
+import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.mcmod.updater.asm.McClassNode;
@@ -29,6 +30,20 @@ public class McPlayerInfo extends McHook {
 		field = searcher.nextFieldInsn();
 		
 		identifyClass(field.owner, "Minecraft");
+		
+		McClassNode mc = classes.get("Minecraft");
+		for(FieldNode fn : mc.instanceFields) {
+			if(fn.desc.equals("L" + classes.get("Font").name + ";"))
+				identifyField("Minecraft.font", mc, fn);
+		}
+		
+		for(MethodNode mn : mc.instanceMethods) {
+			if(!mn.name.equals("run")) continue;
+			InstructionSearcher is = new InstructionSearcher(mn);
+			is.nextLdcInsn("Post render");
+			identifyInject("com/mcmod/Loader", "onRender", mc, mn, is.position());
+		}
+		
 		identifyField("Minecraft.playerInfo", field);
 		
 		field = searcher.nextFieldInsn();

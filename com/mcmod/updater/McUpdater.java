@@ -15,8 +15,10 @@ import org.objectweb.asm.ClassReader;
 
 import com.mcmod.Util;
 import com.mcmod.shared.Accessor;
+import com.mcmod.shared.Inject;
 import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.hooks.McExtension;
+import com.mcmod.updater.hooks.McFont;
 import com.mcmod.updater.hooks.McHook;
 import com.mcmod.updater.hooks.McInventory;
 import com.mcmod.updater.hooks.McInventoryItem;
@@ -71,7 +73,16 @@ public class McUpdater {
 	public McHook[] loadHooks() {
 		/* Tekk, I'm terribad at making a good dependency automated loader thing,
 		 * if you want, you can lol. */
-		return new McHook[] { new McExtension(), new McWindowAdapter(), new McPlayer(), new McPlayerInfo(), new McInventory(), new McInventoryItem(), new McItem() };
+		return new McHook[] {
+			new McExtension(), 
+			new McWindowAdapter(), 
+			new McFont(),
+			new McPlayer(), 
+			new McPlayerInfo(),
+			new McInventory(), 
+			new McInventoryItem(), 
+			new McItem()
+		};
 	}
 	
 	public void printLog() {
@@ -80,8 +91,16 @@ public class McUpdater {
 			
 			System.out.println("[*] " + node.name + " identified as " + name);
 			
-			for(String s : node.identifiedFields.keySet()) {
-				System.out.println("->    " + s + " is " + node.identifiedFields.get(s));
+			for(String s : node.identifiedItems.keySet()) {
+				System.out.println("->    " + s + " is " + node.identifiedItems.get(s));
+			}
+			
+			for(Inject i : node.injections.values()) {
+				System.out.println("++    Callback to " + i.getCallClass()
+						+ "." + i.getCallMethod() + " inserted into "
+						+ i.getInjectClass() + "." + i.getInjectMethod()
+						+ "(" + i.getInjectMethodSignature() + ") at position " 
+						+ i.getInjectPosition());
 			}
 			
 			System.out.println();
@@ -98,10 +117,17 @@ public class McUpdater {
 			
 			writer.println("c:" + name + ":" + node.name);
 			
-			for(String s : node.identifiedFields.keySet()) {
-				Accessor field = node.identifiedFields.get(s);
+			for(String s : node.identifiedItems.keySet()) {
+				Accessor field = node.identifiedItems.get(s);
 				writer.println("f:" + s + ":" + field.getClassName() 
 						+ ":" + field.getItemName() + ":" + field.getItemSignature());
+			}
+			
+			for(Inject i : node.injections.values()) {
+				writer.println("i:" + i.getCallClass() + ":" + i.getCallMethod() 
+						+ ":" + i.getInjectClass() + ":" + i.getInjectMethod() 
+						+ ":" + i.getInjectMethodSignature()
+						+ ":" + i.getInjectPosition());
 			}
 		}
 		

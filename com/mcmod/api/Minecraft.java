@@ -27,4 +27,8 @@ public class Minecraft {
 		
 		return items;
 	}
+	
+	public Font getFont() {
+		return new Font(worm.get("Minecraft.font"));
+	}
 }

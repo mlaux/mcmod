@@ -5,14 +5,13 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
 import com.mcmod.api.Data;
+import com.mcmod.api.Font;
 import com.mcmod.api.Minecraft;
 import com.mcmod.api.StaticWorm;
 import com.mcmod.api.Worm;
@@ -25,11 +24,14 @@ import com.mcmod.api.Worm;
  * @author Nicholas Bailey
  */
 public class Loader extends JFrame {
-	private static URLClassLoader classLoader;
-	private static Minecraft minecraft;
+	private static McClassLoader classLoader;
+	private static Minecraft api;
 	
 	public static void main(String[] args) {
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+		
+		String user = JOptionPane.showInputDialog("Enter a Minecraft username.");
+		if(user == null) System.exit(1);
 		
 		File dir = Util.getWorkingDirectory("minecraft");
 		String binFolder = new File(dir, "bin").getAbsolutePath();
@@ -37,15 +39,13 @@ public class Loader extends JFrame {
 		System.setProperty("org.lwjgl.librarypath", binFolder + "/natives");
 		System.setProperty("net.java.games.input.librarypath", binFolder + "/natives");
 		
-		String user = JOptionPane.showInputDialog("Enter a Minecraft username.");
-		
 		Loader loader = new Loader(getDependentJars(binFolder), user);
 		loader.setVisible(true);
 	}
 	
-	public Loader(URL[] urls, String user) {
+	public Loader(File[] files, String user) {
 		super("Minecraft - McModded");
-		classLoader = new URLClassLoader(urls);
+		classLoader = new McClassLoader(files);
 		setLayout(new BorderLayout());
 
 		Canvas canvas = new Canvas();
@@ -69,7 +69,7 @@ public class Loader extends JFrame {
 		
 		thread.start();
 		
-		Loader.minecraft = new Minecraft(minecraft);
+		api = new Minecraft(minecraft);
 		
 		super.setJMenuBar(new McMenuBar());
 		
@@ -77,19 +77,19 @@ public class Loader extends JFrame {
 		setLocationRelativeTo(null);
 	}
 	
-	private static URL[] getDependentJars(String base) {
+	public static void onRender() {
+		Font font = api.getFont();
+		font.drawStringShadow("Hello McMod World!!", 30, 30, 0xffffffff);
+	}
+	
+	private static File[] getDependentJars(String base) {
 		String[] names = { "jinput.jar",  "lwjgl.jar",  "lwjgl_util.jar",  "minecraft.jar" };
-		URL[] urls = new URL[names.length];
+		File[] files = new File[names.length];
 		
-		for(int x = 0; x < names.length; x++) {
-			try {
-				urls[x] = new File(base, names[x]).toURI().toURL();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		for(int x = 0; x < names.length; x++)
+			files[x] = new File(base, names[x]);
 		
-		return urls;
+		return files;
 	}
 	
 	public static Class<?> getClass(String name) {
@@ -103,6 +103,6 @@ public class Loader extends JFrame {
 	}
 	
 	public static Minecraft getMinecraft() {
-		return minecraft;
+		return api;
 	}
 }
