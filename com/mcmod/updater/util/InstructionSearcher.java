@@ -30,6 +30,18 @@ public class InstructionSearcher {
 		
 		return null;
 	}
+	
+	public FieldInsnNode nextFieldInsnOfType(String desc) {
+		FieldInsnNode fin = null;
+		
+		while((fin = nextFieldInsn()) != null) {
+			if(fin.desc.equals(desc)) {
+				return fin;
+			}
+		}
+		
+		return null;
+	}
 
 	public LdcInsnNode nextLdcInsn() {
 		if(index >= nodes.length) return null;

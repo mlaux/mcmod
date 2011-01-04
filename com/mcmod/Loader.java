@@ -5,13 +5,14 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
+import org.lwjgl.opengl.GL11;
+
+import com.mcmod.api.Button;
 import com.mcmod.api.Data;
 import com.mcmod.api.Font;
 import com.mcmod.api.Minecraft;
@@ -41,13 +42,13 @@ public class Loader extends JFrame {
 		System.setProperty("org.lwjgl.librarypath", binFolder + "/natives");
 		System.setProperty("net.java.games.input.librarypath", binFolder + "/natives");
 		
-		Loader loader = new Loader(getDependentJars(binFolder), user);
+		Loader loader = new Loader(user);
 		loader.setVisible(true);
 	}
 	
-	public Loader(URL[] urls, String user) {
+	public Loader(String user) {
 		super("Minecraft - McModded");
-		classLoader = new McClassLoader2(urls);
+		classLoader = new McClassLoader2();
 		setLayout(new BorderLayout());
 
 		Canvas canvas = new Canvas();
@@ -78,24 +79,16 @@ public class Loader extends JFrame {
 		pack();
 		setLocationRelativeTo(null);
 	}
-	
+
 	public static void onRender() {
-		Font font = api.getFont();
-		font.drawStringShadow("Hello McMod World!!", 30, 30, 0xffffffff);
-	}
+		//Font font = api.getFont();
+		//font.drawStringShadow("Menu: " + api.getCurrentMenu().g, 30, 30, 0xffffffff);
 	
-	private static URL[] getDependentJars(String base) {
-		String[] names = { "jinput.jar",  "lwjgl.jar",  "lwjgl_util.jar"  };
-		URL[] files = new URL[names.length];
 		
-		for(int x = 0; x < names.length; x++)
-			try {
-				files[x] = new File(base, names[x]).toURI().toURL();
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-		
-		return files;
+		GL11.glColor3f(1.0f, 0.0f, 0.0f);
+		for(Button b : api.getCurrentMenu().getButtonList()) {
+			DrawingHelper.drawRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+		}
 	}
 	
 	public static Class<?> getClass(String name) {

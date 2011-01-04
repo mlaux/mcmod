@@ -3,7 +3,6 @@ package com.mcmod;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.jar.JarFile;
@@ -15,14 +14,12 @@ import org.objectweb.asm.tree.ClassNode;
 
 import com.mcmod.api.Data;
 
-public class McClassLoader2 extends URLClassLoader {
+public class McClassLoader2 extends ClassLoader {
 	private JarFile minecraft = null;
 	private String jarLocation = "";
 	private Map<String, Class<?>> loadedClasses = new HashMap<String, Class<?>>();
 	
-	public McClassLoader2(URL[] files) {
-		super(files);
-		
+	public McClassLoader2() {
 		try {
 			jarLocation = Util.getWorkingDirectory("minecraft") + "/bin/minecraft.jar";
 			minecraft = new JarFile(jarLocation);

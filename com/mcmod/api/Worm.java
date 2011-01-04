@@ -40,6 +40,16 @@ public class Worm {
 		return -1;
 	}
 	
+	public boolean getBoolean(String fieldName) {
+		try {
+			return getField(fieldName).getBoolean(object);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
 	public void set(String fieldName, Object value) {
 		try {
 			getField(fieldName).set(object, value);
@@ -56,12 +66,14 @@ public class Worm {
 		}
 	}
 	
-	public void invoke(String name, Object... args) {
+	public Object invoke(String name, Object... args) {
 		try {
-			getMethod(name).invoke(object, args);
+			return getMethod(name).invoke(object, args);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
  	
 	public Field getField(String name) {

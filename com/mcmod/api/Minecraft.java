@@ -31,4 +31,8 @@ public class Minecraft {
 	public Font getFont() {
 		return new Font(worm.get("Minecraft.font"));
 	}
+	
+	public Menu getCurrentMenu() {
+		return new Menu(worm.get("Minecraft.currentMenu"));
+	}
 }

@@ -23,6 +23,7 @@ import com.mcmod.updater.hooks.McHook;
 import com.mcmod.updater.hooks.McInventory;
 import com.mcmod.updater.hooks.McInventoryItem;
 import com.mcmod.updater.hooks.McItem;
+import com.mcmod.updater.hooks.McMainMenu;
 import com.mcmod.updater.hooks.McPlayer;
 import com.mcmod.updater.hooks.McPlayerInfo;
 import com.mcmod.updater.hooks.McWindowAdapter;
@@ -81,7 +82,8 @@ public class McUpdater {
 			new McPlayerInfo(),
 			new McInventory(), 
 			new McInventoryItem(), 
-			new McItem()
+			new McItem(),
+			new McMainMenu()
 		};
 	}
 	
