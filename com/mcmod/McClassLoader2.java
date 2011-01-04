@@ -1,8 +1,6 @@
 package com.mcmod;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -48,14 +46,14 @@ public class McClassLoader2 extends URLClassLoader {
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
 		Class<?> c = null;
 		
-		String pathName = name.replaceAll("\\.", File.separator);
+		String pathName = name.replace('.', '/');
 		
 		if(loadedClasses.containsKey(name)) {
 			return loadedClasses.get(name);
 		}
 		
 		try {
-			c = super.findSystemClass(name);
+			c = super.findClass(name);
 		} catch(Exception e) {
 			try {
 				ZipEntry entry = minecraft.getEntry(pathName + ".class");
@@ -65,8 +63,7 @@ public class McClassLoader2 extends URLClassLoader {
 					ClassReader reader = new ClassReader(minecraft.getInputStream(entry));
 					reader.accept(node, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
 					
-					if(Data.injections.containsKey(pathName))
-					{
+					if(Data.injections.containsKey(pathName)) {
 						System.out.println("Adding injection to: " + name);
 						Data.injections.get(pathName).process(node);
 					}
