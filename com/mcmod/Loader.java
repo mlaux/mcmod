@@ -3,19 +3,17 @@ package com.mcmod;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
-import org.lwjgl.opengl.GL11;
-
-import com.mcmod.api.Button;
 import com.mcmod.api.Data;
-import com.mcmod.api.Font;
-import com.mcmod.api.Minecraft;
 import com.mcmod.api.StaticWorm;
 import com.mcmod.api.Worm;
 
@@ -27,8 +25,7 @@ import com.mcmod.api.Worm;
  * @author Nicholas Bailey
  */
 public class Loader extends JFrame {
-	private static McClassLoader2 classLoader;
-	private static Minecraft api;
+	private static McClassLoader classLoader;
 	
 	public static void main(String[] args) {
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
@@ -48,7 +45,7 @@ public class Loader extends JFrame {
 	
 	public Loader(String user) {
 		super("Minecraft - McModded");
-		classLoader = new McClassLoader2();
+		classLoader = new McClassLoader();
 		setLayout(new BorderLayout());
 
 		Canvas canvas = new Canvas();
@@ -72,23 +69,13 @@ public class Loader extends JFrame {
 		
 		thread.start();
 		
-		api = new Minecraft(minecraft);
-		
 		super.setJMenuBar(new McMenuBar());
 		
 		pack();
 		setLocationRelativeTo(null);
 	}
-
-	public static void onRender() {
-		//Font font = api.getFont();
-		//font.drawStringShadow("Menu: " + api.getCurrentMenu().g, 30, 30, 0xffffffff);
 	
-		
-		GL11.glColor3f(1.0f, 0.0f, 0.0f);
-		for(Button b : api.getCurrentMenu().getButtonList()) {
-			DrawingHelper.drawRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-		}
+	public static void onRender() {
 	}
 	
 	public static Class<?> getClass(String name) {
@@ -99,9 +86,5 @@ public class Loader extends JFrame {
 		}
 		
 		return null;
-	}
-	
-	public static Minecraft getMinecraft() {
-		return api;
 	}
 }

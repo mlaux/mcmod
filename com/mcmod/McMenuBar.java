@@ -33,19 +33,19 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 			if(item.length() > 0) {
 				try {
 					int id = Integer.parseInt(item);
-					Loader.getMinecraft().getPlayer().getInventory().addItem(id, 64);
+			//		Loader.getMinecraft().getPlayer().getInventory().addItem(id, 64);
 				} catch(NumberFormatException ex) {
 					JOptionPane.showMessageDialog(null, "Enter an item ID.", "Item Spawn Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		} else if(cmd.equals("healthtest")) {
-			System.out.println(Loader.getMinecraft().getPlayer().getHealth());
+	//		System.out.println(Loader.getMinecraft().getPlayer().getHealth());
 		} else if(cmd.equals("hurttest")) {
-			System.out.println(Loader.getMinecraft().getPlayer().getHurtTime());
+	//		System.out.println(Loader.getMinecraft().getPlayer().getHurtTime());
 		} else if(cmd.equals("attacktest")) {
-			System.out.println(Loader.getMinecraft().getPlayer().getAttackTime());
+		//	System.out.println(Loader.getMinecraft().getPlayer().getAttackTime());
 		} else if(cmd.equals("deathtest")) {
-			System.out.println(Loader.getMinecraft().getPlayer().getDeathTime());
+		//	System.out.println(Loader.getMinecraft().getPlayer().getDeathTime());
 		}
 	}
 }
