@@ -1,5 +1,5 @@
 package com.mcmod.inter;
 
-public interface MinecraftExtension {
+public interface MinecraftExtension extends Minecraft {
 
 }

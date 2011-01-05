@@ -14,6 +14,7 @@ public class Data {
 	public static Map<String, String> classes = new HashMap<String, String>();
 	public static Map<String, Accessor> accessors = new HashMap<String, Accessor>();
 	public static Map<String, Inject> injections = new HashMap<String, Inject>();
+	public static Map<String, String> interfaces = new HashMap<String, String>();
 	
 	static {
 		BufferedReader br = new BufferedReader(new InputStreamReader(Loader.class.getResourceAsStream("hooks.dat")));
@@ -57,6 +58,8 @@ public class Data {
 						
 						classes.put(data[1], data[2]);
 						System.out.println("Loaded Class: " + data[1]);
+						
+						interfaces.put("L" + data[2] + ";", "Lcom/mcmod/inter/" + data[1] + ";");
 						break;
 					case 'i':
 						System.out.println("Loaded injection: " + data[3]);

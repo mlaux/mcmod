@@ -117,12 +117,22 @@ public class McClassLoader extends ClassLoader {
 					
 					System.out.println("Adding: " + node.name + " -> get" + methodName + "()");
 					
-					MethodNode getterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "get" + methodName, "()" + itemSignature, null, null);
+					String type = itemSignature;
+					String name = itemSignature.replaceAll("\\[", "");
+					System.out.println(name);
+					
+					if(Data.interfaces.containsKey(name)) {
+						type = type.replace(name, Data.interfaces.get(name));
+					}
+					
+					MethodNode getterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "get" + methodName, "()" + type, null, null);
 					
 					InsnList getterList = getterMethod.instructions;
 					getterList.add(new VarInsnNode(Opcodes.ALOAD, 0));
 					getterList.add(new FieldInsnNode(Opcodes.GETFIELD, className, itemName, itemSignature));
 					getterList.add(new InsnNode(Type.getType(itemSignature).getOpcode(Opcodes.IRETURN)));
+					
+					getterMethod.instructions = getterList;
 					
 					MethodNode setterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "set" + methodName, "(" + itemSignature + ")V", null, null);
 					
@@ -132,8 +142,21 @@ public class McClassLoader extends ClassLoader {
 					setterList.add(new FieldInsnNode(Opcodes.PUTFIELD, className, itemName, itemSignature));
 					setterList.add(new InsnNode(Opcodes.RETURN));
 					
+					setterMethod.instructions = setterList;
+					
 					node.methods.add(getterMethod);
 					node.methods.add(setterMethod);
+				}
+			}
+		}
+		
+		for(MethodNode method : (List<MethodNode>) node.methods) {
+			if(method.name.startsWith("get")) {
+				System.out.println(method.name + "(" + method.desc + ")");
+				InsnList list = method.instructions;
+				
+				for(AbstractInsnNode ain : list.toArray()) {
+					System.out.println(ain);
 				}
 			}
 		}
