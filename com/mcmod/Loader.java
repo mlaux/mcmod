@@ -1,18 +1,13 @@
 package com.mcmod;
 
-import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.WindowListener;
 import java.io.File;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
+import javax.swing.*;
 
-import com.mcmod.api.Data;
-import com.mcmod.api.StaticWorm;
-import com.mcmod.api.Worm;
+import com.mcmod.api.*;
+import com.mcmod.inter.Minecraft;
 
 /**
  * Currently, this just opens up offline mode. 
@@ -23,6 +18,7 @@ import com.mcmod.api.Worm;
  */
 public class Loader extends JFrame {
 	private static McClassLoader classLoader;
+	private static Minecraft api;
 	
 	public static void main(String[] args) {
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
@@ -70,9 +66,12 @@ public class Loader extends JFrame {
 		
 		pack();
 		setLocationRelativeTo(null);
+		
+		api = (Minecraft) minecraft;
 	}
 	
 	public static void onRender() {
+		
 	}
 	
 	public static Class<?> getClass(String name) {
@@ -83,5 +82,9 @@ public class Loader extends JFrame {
 		}
 		
 		return null;
+	}
+	
+	public static Minecraft getMinecraft() {
+		return api;
 	}
 }
