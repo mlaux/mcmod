@@ -32,7 +32,7 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 			String item = JOptionPane.showInputDialog("Item ID");	
 			if(item.length() > 0) {
 				try {
-					int id = Integer.parseInt(item);
+			//		int id = Integer.parseInt(item);
 			//		Loader.getMinecraft().getPlayer().getInventory().addItem(id, 64);
 				} catch(NumberFormatException ex) {
 					JOptionPane.showMessageDialog(null, "Enter an item ID.", "Item Spawn Error", JOptionPane.ERROR_MESSAGE);
