@@ -8,6 +8,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import com.mcmod.api.InventoryAPI;
+
 public class McMenuBar extends JMenuBar implements ActionListener {
 	public McMenuBar() {
 		JMenu menu = new JMenu("Cheats");
@@ -32,8 +34,8 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 			String item = JOptionPane.showInputDialog("Item ID");	
 			if(item.length() > 0) {
 				try {
-					//int id = Integer.parseInt(item);
-					//Loader.getMinecraft().getPlayer().getInventory().addItem(id, 64);
+					int id = Integer.parseInt(item);
+					InventoryAPI.addItem(Loader.getMinecraft().getPlayer().getInventory(), id, 64);
 				} catch(NumberFormatException ex) {
 					JOptionPane.showMessageDialog(null, "Enter an item ID.", "Item Spawn Error", JOptionPane.ERROR_MESSAGE);
 				}

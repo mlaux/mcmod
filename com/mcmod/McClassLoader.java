@@ -91,8 +91,8 @@ public class McClassLoader extends ClassLoader {
 	private void processInterfaceInjections(ClassNode node) {
 		for(String s : Data.classes.keySet()) {
 			String name = Data.classes.get(s);
-			
 			if(name.equals(node.name)) {
+				System.out.println("Adding " + s + " to " + node.name);
 				node.interfaces.add("com/mcmod/inter/" + s);
 			}
 		}
@@ -146,17 +146,6 @@ public class McClassLoader extends ClassLoader {
 					
 					node.methods.add(getterMethod);
 					node.methods.add(setterMethod);
-				}
-			}
-		}
-		
-		for(MethodNode method : (List<MethodNode>) node.methods) {
-			if(method.name.startsWith("get")) {
-				System.out.println(method.name + "(" + method.desc + ")");
-				InsnList list = method.instructions;
-				
-				for(AbstractInsnNode ain : list.toArray()) {
-					System.out.println(ain);
 				}
 			}
 		}
