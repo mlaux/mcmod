@@ -52,10 +52,10 @@ public class Loader extends JFrame {
 		thread.setPriority(Thread.MAX_PRIORITY);
 		
 		Worm worm = new Worm(minecraft);
-		worm.set("Minecraft.url", "www.minecraft.net");
+		worm.set("URL", "www.minecraft.net");
 		
 		Object playerInfo = StaticWorm.instantiate("PlayerInfo", user, "");
-		worm.set("Minecraft.playerInfo", playerInfo);
+		worm.set("playerInfo", playerInfo);
 		
 		Object listener = StaticWorm.instantiate("WindowAdapter", minecraft, thread);
 		addWindowListener((WindowListener) listener);

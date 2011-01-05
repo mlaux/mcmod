@@ -41,7 +41,7 @@ public class McClassLoader extends ClassLoader {
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
 		Class<?> c = null;
 		
-		String pathName = name.replaceAll("\\.", File.separator);
+		String pathName = name.replace('.', '/');
 		
 		if(loadedClasses.containsKey(name)) {
 			return loadedClasses.get(name);
@@ -113,8 +113,7 @@ public class McClassLoader extends ClassLoader {
 				
 			} else {
 				if(node.name.equals(className)) {
-					String fieldName = s.split("\\.")[1];
-					String methodName = Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
+					String methodName = Character.toUpperCase(s.charAt(0)) + s.substring(1);
 					
 					System.out.println("Adding: " + node.name + " -> get" + methodName + "()");
 					

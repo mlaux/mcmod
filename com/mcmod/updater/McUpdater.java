@@ -94,7 +94,7 @@ public class McUpdater {
 			System.out.println("[*] " + node.name + " identified as " + name);
 			
 			for(String s : node.identifiedItems.keySet()) {
-				System.out.println("->    " + s + "() is " + node.identifiedItems.get(s));
+				System.out.println("->    " + s + " is " + node.identifiedItems.get(s));
 			}
 			
 			for(Inject i : node.injections) {

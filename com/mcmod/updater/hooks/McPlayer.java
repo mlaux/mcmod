@@ -34,7 +34,7 @@ public class McPlayer extends McHook {
 		identifyClass(fin.desc.replaceAll("[L;]", ""), "Player");
 		identifyClass(node, "Minecraft");
 		
-		identifyField("getPlayer", fin);
+		identifyField("player", fin);
 		
 		method = node.constants.get("Respawning").get(0);
 		searcher = new InstructionSearcher(method);
@@ -42,7 +42,7 @@ public class McPlayer extends McHook {
 		searcher.nextLdcInsn("Respawning");
 		fin = searcher.nextFieldInsn();
 		
-		identifyField("getCurrentMenu", fin);
+		identifyField("currentMenu", fin);
 		
 		McClassNode offlinePlayer = McHook.classes.get("Player");
 		McClassNode humanoid = McUpdater.classes.get(offlinePlayer.superName);
@@ -56,7 +56,7 @@ public class McPlayer extends McHook {
 		fin = searcher.nextFieldInsn();
 		
 		identifyClass(humanoid, "Humanoid");
-		identifyField("getInventory", fin);
+		identifyField("inventory", fin);
 		
 		identifyClass(fin.desc.replaceAll("[L;]", ""), "Inventory");
 		
@@ -67,7 +67,7 @@ public class McPlayer extends McHook {
 		
 		fin = searcher.nextFieldInsn();
 	
-		identifyField("getURL", fin);
+		identifyField("URL", fin);
 		
 		McClassNode humanoidSuperClass = McUpdater.classes.get(humanoid.superName);
 		identifyClass(humanoidSuperClass, "PlayerEntity"); // This probably needs a better name.
@@ -79,7 +79,7 @@ public class McPlayer extends McHook {
 		searcher.nextLdcInsn("bubble");
 		fin = (FieldInsnNode) searcher.prevInsn(Opcodes.GETFIELD);
 		
-		identifyField("getInfoMap", fin);
+		identifyField("infoMap", fin);
 
 		for(MethodNode mn : humanoidSuperClass.constants.get("Health")) {
 			searcher = new InstructionSearcher(mn);
@@ -92,7 +92,7 @@ public class McPlayer extends McHook {
 		while((ldc = searcher.nextLdcInsn()) != null) {
 			fin = (FieldInsnNode) searcher.nextInsn(Opcodes.GETFIELD);
 			String name = (String) ldc.cst;
-			identifyField("get" + name, fin);
+			identifyField(Character.toLowerCase(name.charAt(0)) + name.substring(1), fin);
 		}
 	}
 }

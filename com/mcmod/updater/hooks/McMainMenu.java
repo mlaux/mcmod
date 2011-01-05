@@ -28,7 +28,7 @@ public class McMainMenu extends McHook {
 		
 		FieldInsnNode fin = searcher.nextFieldInsn();
 	
-		identifyField("getExtraString", fin);
+		identifyField("extraString", fin);
 		
 		TypeInsnNode tin = (TypeInsnNode) searcher.nextInsn(Opcodes.NEW);
 		
@@ -36,7 +36,7 @@ public class McMainMenu extends McHook {
 		
 		fin = searcher.nextFieldInsnOfType("Ljava/util/List;");
 		
-		identifyField("getButtonList", fin);
+		identifyField("buttonList", fin);
 		
 		McClassNode button = classes.get("Button");
 		
@@ -46,7 +46,7 @@ public class McMainMenu extends McHook {
 				
 				searcher = new InstructionSearcher(mn);
 				
-				String[] names = { "isEnabled", "getX", "getY", null, "getWidth", null, "getHeight" };
+				String[] names = { "enabled", "X", "Y", null, "width", null, "height" };
 				
 				for(String s : names) {
 					fin = searcher.nextFieldInsn();

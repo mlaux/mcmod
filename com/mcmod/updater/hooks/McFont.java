@@ -19,18 +19,18 @@ public class McFont extends McHook {
 		for(FieldNode fn : node.instanceFields) {
 			if(fn.desc.equals("I"))
 				if((fn.access & Opcodes.ACC_PUBLIC) != 0)
-					identifyField("getTextureID", node, fn);
+					identifyField("textureID", node, fn);
 				else
-					identifyField("getListBase", node, fn);
+					identifyField("listBase", node, fn);
 			else if(fn.desc.equals("[I"))
-				identifyField("getCharWidths", node, fn);
+				identifyField("charWidths", node, fn);
 			else if(fn.desc.equals("Ljava/nio/IntBuffer;"))
-				identifyField("getListIDBuffer", node, fn);
+				identifyField("listIDBuffer", node, fn);
 		}
 		
 		for(MethodNode mn : node.instanceMethods) {
 			if(mn.desc.equals("(Ljava/lang/String;)I"))
-				identifyMethod("getStringWidth", node, mn);
+				identifyMethod("stringWidth", node, mn);
 			else if(mn.desc.equals("(Ljava/lang/String;III)V")) {
 				InstructionSearcher is = new InstructionSearcher(mn);
 				is.nextInsn(Opcodes.INVOKEVIRTUAL);
