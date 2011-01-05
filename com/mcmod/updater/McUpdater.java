@@ -94,10 +94,10 @@ public class McUpdater {
 			System.out.println("[*] " + node.name + " identified as " + name);
 			
 			for(String s : node.identifiedItems.keySet()) {
-				System.out.println("->    " + s + " is " + node.identifiedItems.get(s));
+				System.out.println("->    " + s + "() is " + node.identifiedItems.get(s));
 			}
 			
-			for(Inject i : node.injections.values()) {
+			for(Inject i : node.injections) {
 				System.out.println("++    Callback to " + i.getCallClass()
 						+ "." + i.getCallMethod() + " inserted into "
 						+ i.getInjectClass() + "." + i.getInjectMethod()
@@ -125,7 +125,7 @@ public class McUpdater {
 						+ ":" + field.getItemName() + ":" + field.getItemSignature());
 			}
 			
-			for(Inject i : node.injections.values()) {
+			for(Inject i : node.injections) {
 				writer.println("i:" + i.getCallClass() + ":" + i.getCallMethod() 
 						+ ":" + i.getInjectClass() + ":" + i.getInjectMethod() 
 						+ ":" + i.getInjectMethodSignature()

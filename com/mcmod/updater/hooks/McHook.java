@@ -20,7 +20,7 @@ public abstract class McHook {
 	public abstract void process(McClassNode node);
 	
 	public void identifyInject(String cc, String cm, McClassNode cn, MethodNode mn, int ip) {
-		cn.injections.put(cc + "." + cm, new Inject(cc, cm, cn.name, mn.name, mn.desc, ip));
+		cn.injections.add(new Inject(cc, cm, cn.name, mn.name, mn.desc, ip));
 	}
 	
 	public void identifyFieldOrMethod(String name, McClassNode cn, String fname, String fdesc) {

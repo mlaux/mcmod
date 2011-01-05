@@ -35,7 +35,8 @@ public class McInventoryItem extends McHook {
 		
 		while((ldc = searcher.nextLdcInsn()) != null) {
 			FieldInsnNode field = searcher.nextFieldInsn();
-			identifyField("InventoryItem." + ((String) ldc.cst).toLowerCase(), field);
+			String s = ((String) ldc.cst).toLowerCase();
+			identifyField("get" + Character.toUpperCase(s.charAt(0)) + s.substring(1), field);
 		}
 	}
 }

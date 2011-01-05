@@ -19,25 +19,25 @@ public class McFont extends McHook {
 		for(FieldNode fn : node.instanceFields) {
 			if(fn.desc.equals("I"))
 				if((fn.access & Opcodes.ACC_PUBLIC) != 0)
-					identifyField("Font.textureID", node, fn);
+					identifyField("getTextureID", node, fn);
 				else
-					identifyField("Font.listBase", node, fn);
+					identifyField("getListBase", node, fn);
 			else if(fn.desc.equals("[I"))
-				identifyField("Font.charWidths", node, fn);
+				identifyField("getCharWidths", node, fn);
 			else if(fn.desc.equals("Ljava/nio/IntBuffer;"))
-				identifyField("Font.listIDBuffer", node, fn);
+				identifyField("getListIDBuffer", node, fn);
 		}
 		
 		for(MethodNode mn : node.instanceMethods) {
 			if(mn.desc.equals("(Ljava/lang/String;)I"))
-				identifyMethod("Font.getStringWidth()", node, mn);
+				identifyMethod("getStringWidth", node, mn);
 			else if(mn.desc.equals("(Ljava/lang/String;III)V")) {
 				InstructionSearcher is = new InstructionSearcher(mn);
 				is.nextInsn(Opcodes.INVOKEVIRTUAL);
 				if(is.nextInsn(Opcodes.INVOKEVIRTUAL) != null)
-					identifyMethod("Font.drawStringShadow()", node, mn);
+					identifyMethod("drawStringShadow", node, mn);
 				else
-					identifyMethod("Font.drawStringPlain()", node, mn);
+					identifyMethod("drawStringPlain", node, mn);
 			}
 		}
 	}

@@ -18,15 +18,15 @@ public class McItem extends McHook {
 		
 		InstructionSearcher searcher = new InstructionSearcher(node.constants.get("item.").get(0));
 		FieldInsnNode fin = searcher.nextFieldInsn();
-		identifyField("Item.name", fin);
+		identifyField("getName", fin);
 		
 		searcher = new InstructionSearcher(node.constants.get("CONFLICT @ ").get(0));
 		searcher.nextLdcInsn("CONFLICT @ ");
 		fin = (FieldInsnNode) searcher.prevInsn(Opcodes.PUTFIELD);
 	
-		identifyField("Item.id", fin);
+		identifyField("getID", fin);
 		
 		fin = (FieldInsnNode) searcher.nextInsn(Opcodes.GETSTATIC);
-		identifyField("Item.itemCache", fin);
+		identifyField("getItemCache", fin);
 	}
 }

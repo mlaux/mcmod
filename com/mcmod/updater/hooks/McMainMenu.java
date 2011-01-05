@@ -28,7 +28,7 @@ public class McMainMenu extends McHook {
 		
 		FieldInsnNode fin = searcher.nextFieldInsn();
 	
-		identifyField("MainMenu.extraString", fin);
+		identifyField("getExtraString", fin);
 		
 		TypeInsnNode tin = (TypeInsnNode) searcher.nextInsn(Opcodes.NEW);
 		
@@ -36,23 +36,23 @@ public class McMainMenu extends McHook {
 		
 		fin = searcher.nextFieldInsnOfType("Ljava/util/List;");
 		
-		identifyFieldOrMethod("Menu.buttonList", classes.get("Menu"), fin.name, fin.desc);
+		identifyField("getButtonList", fin);
 		
 		McClassNode button = classes.get("Button");
 		
 		for(MethodNode mn : button.instanceMethods) {
 			if(mn.desc.endsWith("Z")) {
-				identifyMethod("Button.containsPoint()", button, mn);
+				identifyMethod("containsPoint", button, mn);
 				
 				searcher = new InstructionSearcher(mn);
 				
-				String[] names = { "enabled", "x", "y", null, "width", null, "height" };
+				String[] names = { "isEnabled", "getX", "getY", null, "getWidth", null, "getHeight" };
 				
 				for(String s : names) {
 					fin = searcher.nextFieldInsn();
 				
 					if(s != null) {
-						identifyField("Button." + s, fin);
+						identifyField(s, fin);
 					}
 				}
 			}

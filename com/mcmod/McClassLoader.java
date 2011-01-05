@@ -61,8 +61,7 @@ public class McClassLoader extends ClassLoader {
 					ClassReader reader = new ClassReader(minecraft.getInputStream(entry));
 					reader.accept(node, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
 					
-					if(Data.injections.containsKey(pathName))
-					{
+					if(Data.injections.containsKey(pathName)) {
 						System.out.println("Adding injection to: " + name);
 						Data.injections.get(pathName).process(node);
 					}

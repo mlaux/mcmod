@@ -24,7 +24,7 @@ public class McClassNode extends ClassNode {
 	public List<MethodNode> instanceMethods = new ArrayList<MethodNode>();
 	
 	public Map<String, Accessor> identifiedItems = new HashMap<String, Accessor>();
-	public Map<String, Inject> injections = new HashMap<String, Inject>();
+	public List<Inject> injections = new ArrayList<Inject>();
 	
 	public Map<Object, List<McMethodNode>> constants = new HashMap<Object, List<McMethodNode>>();
 	

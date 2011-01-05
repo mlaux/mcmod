@@ -34,7 +34,7 @@ public class McPlayerInfo extends McHook {
 		McClassNode mc = classes.get("Minecraft");
 		for(FieldNode fn : mc.instanceFields) {
 			if(fn.desc.equals("L" + classes.get("Font").name + ";"))
-				identifyField("Minecraft.font", mc, fn);
+				identifyField("getFont", mc, fn);
 		}
 		
 		for(MethodNode mn : mc.instanceMethods) {
@@ -44,21 +44,21 @@ public class McPlayerInfo extends McHook {
 			identifyInject("com/mcmod/Loader", "onRender", mc, mn, is.position());
 		}
 		
-		identifyField("Minecraft.playerInfo", field);
+		identifyField("getPlayerInfo", field);
 		
 		field = searcher.nextFieldInsn();
 		
 		identifyClass(field.owner, "PlayerInfo");
-		identifyField("PlayerInfo.username", field);
+		identifyField("getUsername", field);
 		
 		for(int x = 0; x < 3; x++)
 			field = searcher.nextFieldInsn();
 		
-		identifyField("PlayerInfo.sessionId", field);
+		identifyField("getSessionID", field);
 		
 		for(int x = 0; x < 3; x++)
 			field = searcher.nextFieldInsn();
 		
-		identifyField("PlayerInfo.password", field);
+		identifyField("getPassword", field);
 	}
 }
