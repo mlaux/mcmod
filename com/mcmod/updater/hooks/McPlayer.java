@@ -34,6 +34,8 @@ public class McPlayer extends McHook {
 		identifyClass(fin.desc.replaceAll("[L;]", ""), "Player");
 		identifyClass(node, "Minecraft");
 		
+		identifyField("getPlayer", fin);
+		
 		method = node.constants.get("Respawning").get(0);
 		searcher = new InstructionSearcher(method);
 		
@@ -41,8 +43,6 @@ public class McPlayer extends McHook {
 		fin = searcher.nextFieldInsn();
 		
 		identifyField("getCurrentMenu", fin);
-		
-		identifyField("getPlayer", fin);
 		
 		McClassNode offlinePlayer = McHook.classes.get("Player");
 		McClassNode humanoid = McUpdater.classes.get(offlinePlayer.superName);
