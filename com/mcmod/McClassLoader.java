@@ -110,16 +110,31 @@ public class McClassLoader extends ClassLoader {
 			String itemSignature = accessor.getItemSignature();
 			
 			if(itemSignature.charAt(0) == '(') {
+				if(node.name.equals(className)) {
+					System.out.println("Method [" + s + "] " + className + "." + itemName + " (" + itemSignature + ")");
 				
+					MethodNode method = new MethodNode(Opcodes.ACC_PUBLIC, s, itemSignature, null, null);
+					InsnList list = method.instructions;
+					
+					Type[] types = Type.getArgumentTypes(itemSignature);
+					
+					list.add(new VarInsnNode(Opcodes.ALOAD, 0));
+					
+					for(int x = 0; x < types.length; x++) {
+						list.add(new VarInsnNode(types[x].getOpcode(Opcodes.ILOAD), x + 1));
+					}
+					
+					list.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, className, itemName, itemSignature));
+					list.add(new InsnNode(Type.getReturnType(itemSignature).getOpcode(Opcodes.IRETURN)));
+					
+					node.methods.add(method);
+				}
 			} else {
 				if(node.name.equals(className)) {
 					String methodName = Character.toUpperCase(s.charAt(0)) + s.substring(1);
 					
-					System.out.println("Adding: " + node.name + " -> get" + methodName + "()");
-					
 					String type = itemSignature;
 					String name = itemSignature.replaceAll("\\[", "");
-					System.out.println(name);
 					
 					if(Data.interfaces.containsKey(name)) {
 						type = type.replace(name, Data.interfaces.get(name));
@@ -132,8 +147,6 @@ public class McClassLoader extends ClassLoader {
 					getterList.add(new FieldInsnNode(Opcodes.GETFIELD, className, itemName, itemSignature));
 					getterList.add(new InsnNode(Type.getType(itemSignature).getOpcode(Opcodes.IRETURN)));
 					
-					getterMethod.instructions = getterList;
-					
 					MethodNode setterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "set" + methodName, "(" + itemSignature + ")V", null, null);
 					
 					InsnList setterList = setterMethod.instructions;
@@ -141,8 +154,6 @@ public class McClassLoader extends ClassLoader {
 					setterList.add(new VarInsnNode(Type.getType(itemSignature).getOpcode(Opcodes.ILOAD), 1));
 					setterList.add(new FieldInsnNode(Opcodes.PUTFIELD, className, itemName, itemSignature));
 					setterList.add(new InsnNode(Opcodes.RETURN));
-					
-					setterMethod.instructions = setterList;
 					
 					node.methods.add(getterMethod);
 					node.methods.add(setterMethod);

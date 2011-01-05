@@ -4,7 +4,5 @@ import java.util.List;
 
 public interface MainMenu extends Menu {
 	public String getExtraString();
-	
-	@SuppressWarnings("rawtypes")
-	public List getButtonList();
+	public void setExtraString(String s);
 }

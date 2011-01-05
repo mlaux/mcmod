@@ -1,12 +1,23 @@
 package com.mcmod;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Canvas;
+import java.awt.Dimension;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 
-import com.mcmod.api.*;
+import com.mcmod.api.Data;
+import com.mcmod.api.StaticWorm;
+import com.mcmod.api.Worm;
+import com.mcmod.inter.Button;
+import com.mcmod.inter.Font;
+import com.mcmod.inter.MainMenu;
+import com.mcmod.inter.Menu;
 import com.mcmod.inter.Minecraft;
 
 /**
@@ -70,8 +81,18 @@ public class Loader extends JFrame {
 		api = (Minecraft) minecraft;
 	}
 	
+	private static boolean changed = false;
+	
 	public static void onRender() {
+		Font f = api.getFont();
+		f.drawStringShadow("Testing Injection", 30, 30, 0xFFFFFFFF);
 		
+		if(!changed) {
+			MainMenu menu = (MainMenu) api.getCurrentMenu();
+			
+			menu.setExtraString("Happy Birthday, Tekk!");
+			changed = true;
+		}
 	}
 	
 	public static Class<?> getClass(String name) {

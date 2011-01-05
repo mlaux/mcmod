@@ -1,5 +1,8 @@
 package com.mcmod.inter;
 
-public interface Menu {
+import java.util.List;
 
+public interface Menu {
+	@SuppressWarnings("rawtypes")
+	public List getButtonList();
 }
