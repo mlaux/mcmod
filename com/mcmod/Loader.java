@@ -36,8 +36,10 @@ public class Loader extends JFrame {
 	public static void main(String[] args) {
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		
-		String user = JOptionPane.showInputDialog("Enter a Minecraft username.");
-		if(user == null) System.exit(1);
+		LoginDialog ld = new LoginDialog();
+		ld.setVisible(true);
+		String[] info = ld.getInfo();
+		if(info[0] == null) System.exit(0);
 		
 		File dir = Util.getWorkingDirectory("minecraft");
 		String binFolder = new File(dir, "bin").getAbsolutePath();
@@ -45,11 +47,11 @@ public class Loader extends JFrame {
 		System.setProperty("org.lwjgl.librarypath", binFolder + "/natives");
 		System.setProperty("net.java.games.input.librarypath", binFolder + "/natives");
 		
-		Loader loader = new Loader(user);
+		Loader loader = new Loader(info[0], info[1]);
 		loader.setVisible(true);
 	}
 	
-	public Loader(String user) {
+	public Loader(String user, String sid) {
 		super("Minecraft - McModded");
 		classLoader = new McClassLoader();
 		setLayout(new BorderLayout());
@@ -67,7 +69,7 @@ public class Loader extends JFrame {
 		Worm worm = new Worm(minecraft);
 		worm.set("URL", "www.minecraft.net");
 		
-		Object playerInfo = StaticWorm.instantiate("PlayerInfo", user, "");
+		Object playerInfo = StaticWorm.instantiate("PlayerInfo", user, sid);
 		worm.set("playerInfo", playerInfo);
 		
 		Object listener = StaticWorm.instantiate("WindowAdapter", minecraft, thread);
