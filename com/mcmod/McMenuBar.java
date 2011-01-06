@@ -2,7 +2,6 @@ package com.mcmod;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -10,6 +9,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import com.mcmod.api.InventoryAPI;
+import com.mcmod.inter.Item;
 
 public class McMenuBar extends JMenuBar implements ActionListener {
 	public McMenuBar() {
@@ -34,12 +34,28 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 		if(cmd.equals("spawner")) {
 			String item = JOptionPane.showInputDialog("Item ID");	
 			if(item.length() > 0) {
+				Item[] cache = Loader.getMinecraft().getItemCache();
+				Item i = null;
 				try {
 					int id = Integer.parseInt(item);
-					InventoryAPI.addItem(Loader.getMinecraft().getPlayer().getInventory(), id, 64);
+					i = cache[id];
 				} catch(NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "Enter an item ID.", "Item Spawn Error", JOptionPane.ERROR_MESSAGE);
+					for(int x = 0; x < cache.length; x++) {
+						if(cache[x] != null) {
+							String name = cache[x].getName();
+							
+							if(name != null) {
+								if(name.toLowerCase().contains(item.toLowerCase())) {
+									i = cache[x];
+									break;
+								}
+							}
+						}
+					}
 				}
+				
+
+				InventoryAPI.addItem(Loader.getMinecraft().getPlayer().getInventory(), i.getID(), 64);
 			}
 		} else if(cmd.equals("healthtest")) {
 			System.out.println(Loader.getMinecraft().getPlayer().getHealth());

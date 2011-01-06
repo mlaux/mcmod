@@ -18,9 +18,9 @@ import com.mcmod.api.Data;
 import com.mcmod.api.StaticWorm;
 import com.mcmod.api.Worm;
 import com.mcmod.inter.Font;
+import com.mcmod.inter.Item;
 import com.mcmod.inter.MainMenu;
 import com.mcmod.inter.Minecraft;
-import com.mcmod.inter.Player;
 
 /**
  * Currently, this just opens up offline mode. 
@@ -98,20 +98,6 @@ public class Loader extends JFrame {
 			MainMenu menu = (MainMenu) api.getCurrentMenu();
 			menu.setExtraString("Happy Birthday, Tekk!");
 			changed = true;
-		}
-		
-		Player p = api.getPlayer();
-		
-		if(p != null) {
-			f.drawStringShadow("x: " + p.getX(), 40, 40, 0xFFFFFFFF);
-			f.drawStringShadow("y: " + p.getY(), 40, 55, 0xFFFFFFFF);
-			f.drawStringShadow("z: " + p.getZ(), 40, 70, 0xFFFFFFFF);
-			
-			if(Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-				p.setX(15.0f);
-				p.setY(32.0f);
-				p.setZ(52.0f);
-			}
 		}
 	}
 	
