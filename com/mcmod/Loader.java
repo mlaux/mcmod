@@ -1,11 +1,12 @@
 package com.mcmod;
 
+import static org.lwjgl.opengl.GL11.*;
+
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -14,10 +15,8 @@ import javax.swing.JPopupMenu;
 import com.mcmod.api.Data;
 import com.mcmod.api.StaticWorm;
 import com.mcmod.api.Worm;
-import com.mcmod.inter.Button;
 import com.mcmod.inter.Font;
 import com.mcmod.inter.MainMenu;
-import com.mcmod.inter.Menu;
 import com.mcmod.inter.Minecraft;
 
 /**
@@ -87,9 +86,14 @@ public class Loader extends JFrame {
 		Font f = api.getFont();
 		f.drawStringShadow("Testing Injection", 30, 30, 0xFFFFFFFF);
 		
+		glDisable(GL_TEXTURE_2D);
+			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			glLineWidth(5.0f);
+			DrawingHelper.drawRect(60, 60, 50, 50);
+		glEnable(GL_TEXTURE_2D);
+
 		if(!changed) {
 			MainMenu menu = (MainMenu) api.getCurrentMenu();
-			
 			menu.setExtraString("Happy Birthday, Tekk!");
 			changed = true;
 		}
