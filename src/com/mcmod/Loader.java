@@ -9,31 +9,22 @@ import java.awt.event.WindowListener;
 import java.io.File;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-
-import org.lwjgl.input.Keyboard;
+import javax.swing.UIManager;
 
 import com.mcmod.api.Data;
 import com.mcmod.api.StaticWorm;
 import com.mcmod.api.Worm;
 import com.mcmod.inter.Font;
-import com.mcmod.inter.Item;
 import com.mcmod.inter.MainMenu;
 import com.mcmod.inter.Minecraft;
 
-/**
- * Currently, this just opens up offline mode. 
- * We can add a login form and stuff later, but I decided
- * for the time being to just skip it.
- * 
- * @author Nicholas Bailey
- */
 public class Loader extends JFrame {
 	private static McClassLoader classLoader;
 	private static Minecraft api;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		
 		LoginDialog ld = new LoginDialog();
@@ -77,7 +68,7 @@ public class Loader extends JFrame {
 		
 		thread.start();
 		
-		super.setJMenuBar(new McMenuBar());
+		setJMenuBar(new McMenuBar());
 		
 		pack();
 		setLocationRelativeTo(null);

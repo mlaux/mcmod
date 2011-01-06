@@ -33,28 +33,17 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 		String cmd = e.getActionCommand();
 		if(cmd.equals("spawner")) {
 			String item = JOptionPane.showInputDialog("Item ID");	
-			if(item.length() > 0) {
+			if(item != null && item.length() > 0) {
 				Item[] cache = Loader.getMinecraft().getItemCache();
 				Item i = null;
 				try {
 					int id = Integer.parseInt(item);
 					i = cache[id];
 				} catch(NumberFormatException ex) {
-					for(int x = 0; x < cache.length; x++) {
-						if(cache[x] != null) {
-							String name = cache[x].getName();
-							
-							if(name != null) {
-								if(name.toLowerCase().contains(item.toLowerCase())) {
-									i = cache[x];
-									break;
-								}
-							}
-						}
-					}
+					i = InventoryAPI.itemFromName(cache, item);
 				}
 				
-
+				if(i == null) return;
 				InventoryAPI.addItem(Loader.getMinecraft().getPlayer().getInventory(), i.getID(), 64);
 			}
 		} else if(cmd.equals("healthtest")) {
