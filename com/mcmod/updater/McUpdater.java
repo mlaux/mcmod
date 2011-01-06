@@ -123,8 +123,10 @@ public class McUpdater {
 			
 			for(String s : node.identifiedItems.keySet()) {
 				Accessor field = node.identifiedItems.get(s);
-				writer.println("f:" + s + ":" + field.getClassName() 
-						+ ":" + field.getItemName() + ":" + field.getItemSignature());
+				boolean isMth = field.getItemSignature().startsWith("(");
+				writer.println((isMth ? "m" : "f") + ":" + s + ":" + field.getClassName() 
+						+ ":" + field.getItemName() + ":" + field.getItemSignature() 
+						+ ":" + (field.isStatic() ? "s" : "i"));
 			}
 			
 			for(Inject i : node.injections) {

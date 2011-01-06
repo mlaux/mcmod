@@ -58,9 +58,12 @@ public class McClassLoader extends ClassLoader {
 					ClassReader reader = new ClassReader(minecraft.getInputStream(entry));
 					reader.accept(node, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
 					
+					if(pathName.equals("net/minecraft/client/Minecraft"))
+						processStaticInjections(node);
+					
 					processDataInjections(pathName, node);
 					processInterfaceInjections(node);
-					processFieldAndMethodInjections(node);
+					processInstanceInjections(node);
 					
 					ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 					node.accept(writer);
@@ -82,6 +85,19 @@ public class McClassLoader extends ClassLoader {
 		return super.loadClass(name);
 	}
 	
+	private void processStaticInjections(ClassNode node) {
+		for(String s : Data.accessors.keySet()) {
+			Accessor acc = Data.accessors.get(s);
+			if(!acc.isStatic()) continue;
+			
+			String itemSignature = acc.getItemSignature();
+			
+			if(itemSignature.charAt(0) == '(')
+				hookMethod(node, s, acc);
+			else hookField(node, s, acc);
+		}
+	}
+
 	private void processDataInjections(String pathName, ClassNode node) {
 		if(Data.injections.containsKey(pathName)) {
 			Data.injections.get(pathName).process(node);
@@ -98,67 +114,85 @@ public class McClassLoader extends ClassLoader {
 		}
 	}
 	
-	private void processFieldAndMethodInjections(ClassNode node) {
+	private void processInstanceInjections(ClassNode node) {
 		for(String s : Data.accessors.keySet()) {
-			/* currently doesn't handle methods, because I need to think
-			 *  of a good way to implement etc */
-			
 			Accessor accessor = Data.accessors.get(s);
 			
 			String className = accessor.getClassName();
-			String itemName = accessor.getItemName();
 			String itemSignature = accessor.getItemSignature();
 			
-			if(itemSignature.charAt(0) == '(') {
-				if(node.name.equals(className)) {
-					System.out.println("Method [" + s + "] " + className + "." + itemName + " (" + itemSignature + ")");
-				
-					MethodNode method = new MethodNode(Opcodes.ACC_PUBLIC, s, itemSignature, null, null);
-					InsnList list = method.instructions;
-					
-					Type[] types = Type.getArgumentTypes(itemSignature);
-					
-					list.add(new VarInsnNode(Opcodes.ALOAD, 0));
-					
-					for(int x = 0; x < types.length; x++) {
-						list.add(new VarInsnNode(types[x].getOpcode(Opcodes.ILOAD), x + 1));
-					}
-					
-					list.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, className, itemName, itemSignature));
-					list.add(new InsnNode(Type.getReturnType(itemSignature).getOpcode(Opcodes.IRETURN)));
-					
-					node.methods.add(method);
-				}
-			} else {
-				if(node.name.equals(className)) {
-					String methodName = Character.toUpperCase(s.charAt(0)) + s.substring(1);
-					
-					String type = itemSignature;
-					String name = itemSignature.replaceAll("\\[", "");
-					
-					if(Data.interfaces.containsKey(name)) {
-						type = type.replace(name, Data.interfaces.get(name));
-					}
-					
-					MethodNode getterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "get" + methodName, "()" + type, null, null);
-					
-					InsnList getterList = getterMethod.instructions;
-					getterList.add(new VarInsnNode(Opcodes.ALOAD, 0));
-					getterList.add(new FieldInsnNode(Opcodes.GETFIELD, className, itemName, itemSignature));
-					getterList.add(new InsnNode(Type.getType(itemSignature).getOpcode(Opcodes.IRETURN)));
-					
-					MethodNode setterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "set" + methodName, "(" + itemSignature + ")V", null, null);
-					
-					InsnList setterList = setterMethod.instructions;
-					setterList.add(new VarInsnNode(Opcodes.ALOAD, 0));
-					setterList.add(new VarInsnNode(Type.getType(itemSignature).getOpcode(Opcodes.ILOAD), 1));
-					setterList.add(new FieldInsnNode(Opcodes.PUTFIELD, className, itemName, itemSignature));
-					setterList.add(new InsnNode(Opcodes.RETURN));
-					
-					node.methods.add(getterMethod);
-					node.methods.add(setterMethod);
-				}
+			if(node.name.equals(className)) {
+				if(itemSignature.charAt(0) == '(')
+					hookMethod(node, s, accessor);
+				else hookField(node, s, accessor);
 			}
 		}
+	}
+	
+	private void hookMethod(ClassNode cn, String s, Accessor acc) {
+		String className = acc.getClassName();
+		String itemName = acc.getItemName();
+		String itemSignature = acc.getItemSignature();
+		
+		System.out.println("Method [" + s + "] " + className + "." + itemName + " (" + itemSignature + ")");
+		
+		MethodNode method = new MethodNode(Opcodes.ACC_PUBLIC, s, itemSignature, null, null);
+		InsnList list = method.instructions;
+		
+		Type[] types = Type.getArgumentTypes(itemSignature);
+		if(!acc.isStatic())
+			list.add(new VarInsnNode(Opcodes.ALOAD, 0));
+		
+		for(int x = 0; x < types.length; x++) {
+			list.add(new VarInsnNode(types[x].getOpcode(Opcodes.ILOAD), x + 1));
+		}
+		
+		int op = acc.isStatic() ? Opcodes.INVOKESTATIC : Opcodes.INVOKEVIRTUAL;
+		list.add(new MethodInsnNode(op, className, itemName, itemSignature));
+		list.add(new InsnNode(Type.getReturnType(itemSignature).getOpcode(Opcodes.IRETURN)));
+		
+		cn.methods.add(method);
+	}
+	
+	private void hookField(ClassNode cn, String s, Accessor acc) {
+		String className = acc.getClassName();
+		String itemName = acc.getItemName();
+		String itemSignature = acc.getItemSignature();
+		
+		System.out.println("Field [" + s + "] " + className + "." + itemName + " (" + itemSignature + ")");
+		
+		String methodName = Character.toUpperCase(s.charAt(0)) + s.substring(1);
+		
+		String type = itemSignature;
+		String name = itemSignature.replaceAll("\\[", "");
+		
+		if(Data.interfaces.containsKey(name)) {
+			type = type.replace(name, Data.interfaces.get(name));
+		}
+		
+		MethodNode getterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "get" + methodName, "()" + type, null, null);
+		
+		InsnList getterList = getterMethod.instructions;
+		if(!acc.isStatic())
+			getterList.add(new VarInsnNode(Opcodes.ALOAD, 0));
+		
+		int op = acc.isStatic() ? Opcodes.GETSTATIC : Opcodes.GETFIELD;
+		getterList.add(new FieldInsnNode(op, className, itemName, itemSignature));
+		getterList.add(new InsnNode(Type.getType(itemSignature).getOpcode(Opcodes.IRETURN)));
+		
+		MethodNode setterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "set" + methodName, "(" + itemSignature + ")V", null, null);
+		
+		InsnList setterList = setterMethod.instructions;
+		
+		if(!acc.isStatic())
+			setterList.add(new VarInsnNode(Opcodes.ALOAD, 0));
+		setterList.add(new VarInsnNode(Type.getType(itemSignature).getOpcode(Opcodes.ILOAD), 1));
+		
+		op = acc.isStatic() ? Opcodes.PUTSTATIC : Opcodes.PUTFIELD;
+		setterList.add(new FieldInsnNode(op, className, itemName, itemSignature));
+		setterList.add(new InsnNode(Opcodes.RETURN));
+		
+		cn.methods.add(getterMethod);
+		cn.methods.add(setterMethod);
 	}
 }

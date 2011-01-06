@@ -12,4 +12,8 @@ public interface Minecraft {
 	public URL getURL();
 	
 	public Player getPlayer();
+
+	public Item[] getItemCache();
+	
+	public void setItemCache(Item[] it); // wat use lol
 }

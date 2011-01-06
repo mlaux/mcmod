@@ -3,6 +3,7 @@ package com.mcmod.updater.hooks;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
@@ -23,27 +24,27 @@ public abstract class McHook {
 		cn.injections.add(new Inject(cc, cm, cn.name, mn.name, mn.desc, ip));
 	}
 	
-	public void identifyFieldOrMethod(String name, McClassNode cn, String fname, String fdesc) {
+	public void identifyFieldOrMethod(String name, McClassNode cn, String fname, String fdesc, boolean is) {
 		if(cn.identifiedItems.containsKey(name)) {
 			System.out.println("[WARNING][" + cn.name + "] Duplicate hook: " + name);
 		}
 		
-		cn.identifiedItems.put(name, new Accessor(cn.name, fname, fdesc));
+		cn.identifiedItems.put(name, new Accessor(cn.name, fname, fdesc, is));
 	
 		identifiedFields++;
 	}
 	
 	public void identifyMethod(String name, McClassNode cn, MethodNode mn) {
-		identifyFieldOrMethod(name, cn, mn.name, mn.desc);
+		identifyFieldOrMethod(name, cn, mn.name, mn.desc, (mn.access & Opcodes.ACC_STATIC) != 0);
 	}
 	
 	public void identifyField(String name, McClassNode cn, FieldNode field) {
-		identifyFieldOrMethod(name, cn, field.name, field.desc);
+		identifyFieldOrMethod(name, cn, field.name, field.desc, (field.access & Opcodes.ACC_STATIC) != 0);
 	}
 	
 	public void identifyField(String name, FieldInsnNode field) {
 		McClassNode cn = McUpdater.classes.get(field.owner);
-		identifyFieldOrMethod(name, cn, field.name, field.desc);
+		identifyFieldOrMethod(name, cn, field.name, field.desc, field.getOpcode() == Opcodes.GETSTATIC);
 	}
 	
 	public void identifyClass(McClassNode node, String name) {

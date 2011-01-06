@@ -45,10 +45,10 @@ public class Data {
 				switch(c) {
 					case 'f':
 					case 'm':
-						if(data.length != 5)
+						if(data.length != 6)
 							throw new RuntimeException("Invalid hooks.dat");
 						
-						accessors.put(data[1], new Accessor(data[2], data[3], data[4]));
+						accessors.put(data[1], new Accessor(data[2], data[3], data[4], data[5].equals("s")));
 						
 						System.out.println("Loaded Accessor: " + data[1]);
 						break;

@@ -8,10 +8,13 @@ public class Accessor {
 	private String itemName;
 	private String itemSignature;
 	
-	public Accessor(String c, String i, String s) {
+	private boolean isStatic;
+	
+	public Accessor(String c, String i, String s, boolean is) {
 		className = c;
 		itemName = i;
 		itemSignature = s;
+		isStatic = is;
 	}
 	
 	public String getClassName() {
@@ -24,6 +27,10 @@ public class Accessor {
 	
 	public String getItemSignature() {
 		return itemSignature;
+	}
+	
+	public boolean isStatic() {
+		return isStatic;
 	}
 	
 	public String toString() {
