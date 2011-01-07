@@ -11,20 +11,47 @@ import javax.swing.JOptionPane;
 import com.mcmod.api.InventoryAPI;
 import com.mcmod.debug.LocationDebug;
 import com.mcmod.debug.McDebug;
+import com.mcmod.debug.WorldDebug;
 import com.mcmod.inter.Item;
+import com.mcmod.inter.World;
 
 public class McMenuBar extends JMenuBar implements ActionListener {
+	private boolean manageTime = false;
+	
+	private Thread timeThread = new Thread() {
+		@Override
+		public void run() {
+			while(manageTime) {
+				// I can't wait to get Mod thing working lmfao.
+				
+				World world = Loader.getMinecraft().getWorld();
+				
+				if(world != null) {
+					long time = world.getTime();
+					
+					if((time % 24000) > 11000) {
+						world.setTime(time + 14000);
+					}
+				}
+				
+				try {
+					Thread.sleep(5000);
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	};
+	
 	public McMenuBar() {
 		JMenu menu = new JMenu("Cheats");
 		menu.add(createItem("Item Spawner...", "spawner"));
-		menu.add(createItem("Test Health", "healthtest"));
-		menu.add(createItem("Hurt Test", "hurttest"));
-		menu.add(createItem("Attack Time", "attacktest"));
-		menu.add(createItem("Death Time", "deathtest"));
+		menu.add(createItem("Time Manager", "time"));
 		add(menu);
 		
 		JMenu debug = new JMenu("Debug");
 		debug.add(createItem("Location", "location"));
+		debug.add(createItem("World", "world"));
 		add(debug);
 	}
 	
@@ -63,16 +90,27 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 
 				InventoryAPI.addItem(Loader.getMinecraft().getPlayer().getInventory(), i.getID(), 64);
 			}
-		} else if(cmd.equals("healthtest")) {
-			System.out.println(Loader.getMinecraft().getPlayer().getHealth());
-		} else if(cmd.equals("hurttest")) {
-	//		System.out.println(Loader.getMinecraft().getPlayer().getHurtTime());
-		} else if(cmd.equals("attacktest")) {
-		//	System.out.println(Loader.getMinecraft().getPlayer().getAttackTime());
-		} else if(cmd.equals("deathtest")) {
-		//	System.out.println(Loader.getMinecraft().getPlayer().getDeathTime());
+		} else if(cmd.equals("time")) {
+			if(!manageTime) {
+				manageTime = true;
+				timeThread.start();
+			} else {
+				manageTime = false;
+				try {
+					timeThread.join();
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+			}
 		} else if(cmd.equals("location")) {
 			McDebug debug = new LocationDebug();
+			if(Loader.containsDebug(debug)) {
+				Loader.removeDebug(debug);
+			} else {
+				Loader.addDebug(debug);
+			}
+		} else if(cmd.equals("world")) {
+			McDebug debug = new WorldDebug();
 			if(Loader.containsDebug(debug)) {
 				Loader.removeDebug(debug);
 			} else {

@@ -15,7 +15,7 @@ public interface Minecraft {
 
 	public Item[] getItemCache();
 	
-	public void setItemCache(Item[] it); // wat use lol
+	public void setItemCache(Item[] it); // wat use lol 
 	
 	public World getWorld();
 }
