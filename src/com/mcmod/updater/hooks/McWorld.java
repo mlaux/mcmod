@@ -46,5 +46,16 @@ public class McWorld extends McHook {
 				identifyField("world", minecraft, field);
 			}
 		}
+		
+		method = node.constants.get("Player count: ").get(0);
+		searcher = new InstructionSearcher(method);
+		searcher.nextLdcInsn("Player count: ");
+		
+		String[] names = { "playerList", "entityList" };
+		
+		for(String s : names) {
+			fin = searcher.nextFieldInsn();
+			identifyField(s, fin);
+		}
 	}
 }

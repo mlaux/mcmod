@@ -1,22 +1,31 @@
 package com.mcmod;
 
+import java.awt.AWTException;
+import java.awt.AWTKeyStroke;
+import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.List;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import org.lwjgl.input.Keyboard;
+
 import com.mcmod.api.InventoryAPI;
 import com.mcmod.debug.LocationDebug;
 import com.mcmod.debug.McDebug;
 import com.mcmod.debug.WorldDebug;
+import com.mcmod.inter.Humanoid;
 import com.mcmod.inter.Item;
 import com.mcmod.inter.World;
 
 public class McMenuBar extends JMenuBar implements ActionListener {
 	private boolean manageTime = false;
+	private Robot r = null; // LOLOLOLOL
 	
 	private Thread timeThread = new Thread() {
 		@Override
@@ -44,6 +53,12 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 	};
 	
 	public McMenuBar() {
+		try {
+			r = new Robot();
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // LOLOLOLOL
 		JMenu menu = new JMenu("Cheats");
 		menu.add(createItem("Item Spawner...", "spawner"));
 		menu.add(createItem("Time Manager", "time"));
@@ -52,6 +67,7 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 		JMenu debug = new JMenu("Debug");
 		debug.add(createItem("Location", "location"));
 		debug.add(createItem("World", "world"));
+		debug.add(createItem("Player", "player"));
 		add(debug);
 	}
 	
@@ -116,6 +132,58 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 			} else {
 				Loader.addDebug(debug);
 			}
+		} else if(cmd.equals("player")) {
+			String name = JOptionPane.showInputDialog("Name");
+			
+			if(name != null) {
+				World w = Loader.getMinecraft().getWorld();
+				
+				if(w != null) {
+					List<Humanoid> playerList = (List<Humanoid>) w.getPlayerList();
+					
+					if(playerList != null) {
+						for(Humanoid h : playerList) {
+							System.out.println("Player: " + h.getName());
+							if(h.getName().equalsIgnoreCase(name)) {
+								try {Thread.sleep(3000); } catch(Exception e1) {}
+								System.out.println("Sending");
+								r.keyPress(KeyEvent.VK_ESCAPE);
+								try {Thread.sleep(100); } catch(Exception e1) {}
+								r.keyRelease(KeyEvent.VK_ESCAPE);
+
+								try {Thread.sleep(1000); } catch(Exception e1) {}
+								
+								sendString("Sup, " + h.getName() + ".  I see you're chillin at (" + ((int) h.getX()) + ", " + ((int) h.getY()) + ", " + ((int) h.getZ()));
+								sendString("Camera Rotation: [" + h.getRotationX() + ", " + h.getRotationY() + "]");
+								break;
+							}
+						}
+					}
+				}
+			}
 		}
+	}
+	
+	private void sendKey(char c) {
+		AWTKeyStroke stroke = AWTKeyStroke.getAWTKeyStroke(c);
+		
+		r.keyPress((int)c);
+		try { Thread.sleep(100); } catch(Exception e) {}
+		r.keyRelease((int)c);
+	}
+	
+	private void sendString(String s) {
+		r.keyPress(KeyEvent.VK_ENTER);
+		try { Thread.sleep(100); } catch(Exception e) {}
+		r.keyRelease(KeyEvent.VK_ENTER);
+		
+		for(char c : s.toCharArray()) {
+			sendKey(c);
+		}
+		
+
+		r.keyPress(KeyEvent.VK_ENTER);
+		try { Thread.sleep(100); } catch(Exception e) {}
+		r.keyRelease(KeyEvent.VK_ENTER);
 	}
 }
