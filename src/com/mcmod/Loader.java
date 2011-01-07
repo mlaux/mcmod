@@ -1,8 +1,6 @@
 package com.mcmod;
 
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.*;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -16,12 +14,10 @@ import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 
 import com.mcmod.api.Data;
-import com.mcmod.api.Mod;
 import com.mcmod.api.StaticWorm;
 import com.mcmod.api.Worm;
 import com.mcmod.debug.McDebug;
 import com.mcmod.inter.Font;
-import com.mcmod.inter.MainMenu;
 import com.mcmod.inter.Minecraft;
 import com.mcmod.util.ReflectionExplorer;
 
@@ -39,7 +35,7 @@ public class Loader extends JFrame {
 	private static ReflectionExplorer explorer = null;
 	private static List<McDebug> debugs = new ArrayList<McDebug>();
 	
-	private static List<Mod> mods = new ArrayList<Mod>();
+	private static McMenuBar menuBar;
 	
 	public static void main(String[] args) {
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
@@ -85,7 +81,8 @@ public class Loader extends JFrame {
 		
 		thread.start();
 		
-		super.setJMenuBar(new McMenuBar());
+		menuBar = new McMenuBar();
+		super.setJMenuBar(menuBar);
 		
 		pack();
 		setLocationRelativeTo(null);
@@ -95,8 +92,6 @@ public class Loader extends JFrame {
 //		explorer.setVisible(true);
 	}
 	
-	private static boolean changed = false;
-	
 	public static void onRender() {
 		if(explorer != null) explorer.tick();
 		
@@ -104,13 +99,11 @@ public class Loader extends JFrame {
 		
 		glDisable(GL_TEXTURE_2D);
 		{
-			for(Mod m : mods)
-				m.render();
+			for(TogglableModMenuItem item : menuBar.getActiveMods()) {
+				item.getMod().render();
+			}
 		}
 		glEnable(GL_TEXTURE_2D);
-
-		for(McDebug debug : debugs)
-			debug.render();
 	}
 	
 	public static Class<?> getClass(String name) {

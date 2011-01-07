@@ -18,7 +18,6 @@ import com.mcmod.shared.Accessor;
 import com.mcmod.shared.Inject;
 import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.hooks.McExtension;
-import com.mcmod.updater.hooks.McFinder;
 import com.mcmod.updater.hooks.McFont;
 import com.mcmod.updater.hooks.McHook;
 import com.mcmod.updater.hooks.McInventory;

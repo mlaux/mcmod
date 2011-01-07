@@ -1,7 +1,10 @@
 import com.mcmod.api.Mod;
-import com.mcmod.inter.Minecraft;
 
 public class ItemSpawner implements Mod {
+	public boolean isTogglable() {
+		return false;
+	}
+	
 	public String getName() {
 		return "Item Spawner...";
 	}
@@ -9,18 +12,10 @@ public class ItemSpawner implements Mod {
 	public String getDescription() {
 		return "Adds items by name or ID to your inventory.";
 	}
-
-	public void enable(Minecraft mc) {
-		
-	}
-
-	public void disable() {
-		
-	}
+	
+	public void enable() {}
+	public void disable() {}
 
 	public void render() {
-		// TODO Auto-generated method stub
-		
 	}
-
 }

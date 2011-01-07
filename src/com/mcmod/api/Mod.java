@@ -1,15 +1,16 @@
 package com.mcmod.api;
 
-import com.mcmod.inter.Minecraft;
 
 public interface Mod {
+	public boolean isTogglable();
+	
 	public String getName();
 	
 	public String getDescription();
-	
-	public void enable(Minecraft mc);
+
+	public void enable();
 	
 	public void disable();
-
+	
 	public void render();
 }
