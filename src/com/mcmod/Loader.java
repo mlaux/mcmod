@@ -15,12 +15,15 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 
+import org.lwjgl.input.Keyboard;
+
 import com.mcmod.api.Data;
 import com.mcmod.api.Mod;
 import com.mcmod.api.StaticWorm;
 import com.mcmod.api.Worm;
 import com.mcmod.debug.McDebug;
 import com.mcmod.inter.Font;
+import com.mcmod.inter.Humanoid;
 import com.mcmod.inter.MainMenu;
 import com.mcmod.inter.Minecraft;
 import com.mcmod.util.ReflectionExplorer;
@@ -115,6 +118,15 @@ public class Loader extends JFrame {
 		
 		for(McDebug debug : debugs) {
 			debug.render();
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD0)) {
+			Humanoid h = (Humanoid) api.getWorld().getPlayerList().get(1);
+		
+			Output.sendString(h.getName() + " POS[" + ((int) h.getX()) + ", " + ((int) h.getY()) + ", " + ((int) h.getZ()) + "]");
+			Output.sendString("Rotation: (" + h.getRotationX() + ", " + h.getRotationY() + ")");
+			
+			try { Thread.sleep(300); } catch(Exception e) {}
 		}
 	}
 	
