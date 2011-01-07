@@ -1,7 +1,5 @@
 package com.mcmod.util;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,42 +21,19 @@ public class ReflectionExplorer extends JFrame {
 		this.clazz = o.getClass();
 		
 		list = new JList();
-		list.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()) return;
 				Object z = list.getSelectedValue();
-				
-				new ReflectionExplorer(z).show();
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+				if(z != null)
+					new ReflectionExplorer(z).setVisible(true);
 			}
 		});
 		
-		super.add(new JScrollPane(list));
+		add(new JScrollPane(list));
 		
 		populateList();
+		setSize(400, 400);
 	}
 	
 	public void populateList() {
@@ -68,17 +43,13 @@ public class ReflectionExplorer extends JFrame {
 			try {
 				f.setAccessible(true);
 				objects.add(f.get(o));
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		
 		list.setListData(objects.toArray());
-		pack();
+		list.validate();
 	}
 	
 	public void tick() {

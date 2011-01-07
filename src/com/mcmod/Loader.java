@@ -1,6 +1,8 @@
 package com.mcmod;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -14,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 
 import com.mcmod.api.Data;
+import com.mcmod.api.Mod;
 import com.mcmod.api.StaticWorm;
 import com.mcmod.api.Worm;
 import com.mcmod.debug.McDebug;
@@ -34,6 +37,8 @@ public class Loader extends JFrame {
 	private static Minecraft api;
 	private static ReflectionExplorer explorer = null;
 	private static List<McDebug> debugs = new ArrayList<McDebug>();
+	
+	private static List<Mod> mods = new ArrayList<Mod>();
 	
 	public static void main(String[] args) {
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
@@ -85,8 +90,8 @@ public class Loader extends JFrame {
 		setLocationRelativeTo(null);
 		
 		api = (Minecraft) minecraft;
-		//explorer = new ReflectionExplorer(minecraft);
-		//explorer.setVisible(true);
+		explorer = new ReflectionExplorer(minecraft);
+		explorer.setVisible(true);
 	}
 	
 	private static boolean changed = false;
