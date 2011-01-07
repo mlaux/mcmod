@@ -144,7 +144,10 @@ public class McClassLoader extends ClassLoader {
 			list.add(new VarInsnNode(Opcodes.ALOAD, 0));
 		
 		for(int x = 0; x < types.length; x++) {
-			list.add(new VarInsnNode(types[x].getOpcode(Opcodes.ILOAD), x + 1));
+			if(types[x].getSize() == 2)
+				list.add(new VarInsnNode(types[x].getOpcode(Opcodes.ILOAD), (2 * x) + 1));
+			else
+				list.add(new VarInsnNode(types[x].getOpcode(Opcodes.ILOAD), x + 1));
 		}
 		
 		int op = acc.isStatic() ? Opcodes.INVOKESTATIC : Opcodes.INVOKEVIRTUAL;

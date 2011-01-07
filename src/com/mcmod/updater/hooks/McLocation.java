@@ -2,6 +2,7 @@ package com.mcmod.updater.hooks;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldInsnNode;
+import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.mcmod.updater.asm.McClassNode;
@@ -21,6 +22,16 @@ public class McLocation extends McHook {
 		MethodNode method = null;
 		InstructionSearcher searcher = null;
 		
+		for(MethodNode mn : node.instanceMethods) {
+			if(!mn.desc.equals("(DDDFF)V"))
+				continue;
+			InstructionSearcher is = new InstructionSearcher(mn);
+			MethodInsnNode min = (MethodInsnNode) is.nextInsn(Opcodes.INVOKEVIRTUAL);
+			if(is.nextInsn(Opcodes.INVOKEVIRTUAL) == null)
+				continue;
+			
+			identifyFieldOrMethod("setPosition", node, min.name, min.desc, false);
+		}
 		
 		for(MethodNode mn : node.constants.get("Pos")) {
 			searcher = new InstructionSearcher(mn);

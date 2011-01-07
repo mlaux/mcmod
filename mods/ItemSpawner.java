@@ -18,4 +18,9 @@ public class ItemSpawner implements Mod {
 		
 	}
 
+	public void render() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -1,41 +1,29 @@
 package com.mcmod;
 
-import java.awt.Robot;
+import java.awt.Component;
 import java.awt.event.KeyEvent;
 
 public class Output {
-	private static Robot robot;
-	
-	static {
-		try {
-			robot = new Robot();
-		} catch(Exception e) {}
-	}
-	
 	public static void sendString(String s) {
-		sendChar(KeyEvent.VK_ENTER);
-		delay(1000);
-		for(char c : s.toCharArray()) {
-			sendChar(c);
-		}
+		sendKey(Loader.getCanvas(), (char) KeyEvent.VK_ENTER);
+		for(char ch : s.toCharArray())
+			sendKey(Loader.getCanvas(), ch);
+		sendKey(Loader.getCanvas(), (char) KeyEvent.VK_ENTER);
+	}
+
+	public static void sendKey(Component comp, char ch) {
+		int code = ch;
+		if(ch >= 'a' && ch <= 'z')
+			code -= 32;
 		
-		delay(1000);
-		sendChar(KeyEvent.VK_ENTER);
-	}
-	
-	public static void sendChar(char c) {
-		sendChar((int) c);
-	}
-	
-	public static void sendChar(int code) {
-		delay(200);
-		robot.keyPress(code);
-		delay(200);
-		robot.keyRelease(code);
-		delay(200);
-	}
-	
-	private static void delay(int time) {
-		try { Thread.sleep(time); } catch(Exception e) {}
+		KeyEvent e;
+		e = new KeyEvent(comp, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, code, ch);
+		comp.dispatchEvent(e);
+		e = new KeyEvent(comp, KeyEvent.KEY_TYPED, System.currentTimeMillis(),
+				0, 0, ch, 0);
+		comp.dispatchEvent(e);
+		e = new KeyEvent(comp, KeyEvent.KEY_RELEASED,
+				System.currentTimeMillis(), 0, code, ch);
+		comp.dispatchEvent(e);
 	}
 }

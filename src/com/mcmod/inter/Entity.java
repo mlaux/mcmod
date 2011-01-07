@@ -11,4 +11,6 @@ public interface Entity {
 	
 	public float getRotationX();
 	public float getRotationY();
+	
+	public void setPosition(double x, double y, double z);
 }

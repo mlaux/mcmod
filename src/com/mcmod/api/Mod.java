@@ -10,4 +10,6 @@ public interface Mod {
 	public void enable(Minecraft mc);
 	
 	public void disable();
+
+	public void render();
 }

@@ -84,20 +84,16 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 					i = cache[id];
 				} catch(NumberFormatException ex) {
 					for(int x = 0; x < cache.length; x++) {
-						if(cache[x] != null) {
-							String name = cache[x].getName();
-							
-							if(name != null) {
-								if(name.toLowerCase().contains(item.toLowerCase())) {
-									i = cache[x];
-									break;
-								}
-							}
+						if(cache[x] == null)
+							continue;
+						String name = cache[x].getName();
+						
+						if(name != null && name.toLowerCase().contains(item.toLowerCase())) {
+							i = cache[x];
+							break;
 						}
 					}
 				}
-				
-
 				InventoryAPI.addItem(Loader.getMinecraft().getPlayer().getInventory(), i.getID(), 64);
 			}
 		} else if(cmd.equals("time")) {
@@ -127,7 +123,7 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 				Loader.addDebug(debug);
 			}
 		} else if(cmd.equals("player")) {
-
+			Loader.getMinecraft().getPlayer().setPosition(31, 65, -137);
 		}
 	}
 }

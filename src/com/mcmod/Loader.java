@@ -15,15 +15,12 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 
-import org.lwjgl.input.Keyboard;
-
 import com.mcmod.api.Data;
 import com.mcmod.api.Mod;
 import com.mcmod.api.StaticWorm;
 import com.mcmod.api.Worm;
 import com.mcmod.debug.McDebug;
 import com.mcmod.inter.Font;
-import com.mcmod.inter.Humanoid;
 import com.mcmod.inter.MainMenu;
 import com.mcmod.inter.Minecraft;
 import com.mcmod.util.ReflectionExplorer;
@@ -38,6 +35,7 @@ import com.mcmod.util.ReflectionExplorer;
 public class Loader extends JFrame {
 	private static McClassLoader classLoader;
 	private static Minecraft api;
+	private static Canvas canvas;
 	private static ReflectionExplorer explorer = null;
 	private static List<McDebug> debugs = new ArrayList<McDebug>();
 	
@@ -66,7 +64,7 @@ public class Loader extends JFrame {
 		classLoader = new McClassLoader();
 		setLayout(new BorderLayout());
 
-		Canvas canvas = new Canvas();
+		canvas = new Canvas();
 		canvas.setPreferredSize(new Dimension(854, 480));
 		
 		getContentPane().add(canvas, BorderLayout.CENTER);
@@ -93,8 +91,8 @@ public class Loader extends JFrame {
 		setLocationRelativeTo(null);
 		
 		api = (Minecraft) minecraft;
-		explorer = new ReflectionExplorer(minecraft);
-		explorer.setVisible(true);
+//		explorer = new ReflectionExplorer(minecraft);
+//		explorer.setVisible(true);
 	}
 	
 	private static boolean changed = false;
@@ -106,28 +104,13 @@ public class Loader extends JFrame {
 		
 		glDisable(GL_TEXTURE_2D);
 		{
-			
+			for(Mod m : mods)
+				m.render();
 		}
 		glEnable(GL_TEXTURE_2D);
 
-		if(!changed) {
-			MainMenu menu = (MainMenu) api.getCurrentMenu();
-			menu.setExtraString("Happy Birthday, Tekk!");
-			changed = true;
-		}
-		
-		for(McDebug debug : debugs) {
+		for(McDebug debug : debugs)
 			debug.render();
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD0)) {
-			Humanoid h = (Humanoid) api.getWorld().getPlayerList().get(1);
-		
-			Output.sendString(h.getName() + " POS[" + ((int) h.getX()) + ", " + ((int) h.getY()) + ", " + ((int) h.getZ()) + "]");
-			Output.sendString("Rotation: (" + h.getRotationX() + ", " + h.getRotationY() + ")");
-			
-			try { Thread.sleep(300); } catch(Exception e) {}
-		}
 	}
 	
 	public static Class<?> getClass(String name) {
@@ -142,6 +125,10 @@ public class Loader extends JFrame {
 	
 	public static Minecraft getMinecraft() {
 		return api;
+	}
+	
+	public static Canvas getCanvas() {
+		return canvas;
 	}
 	
 	public static void addDebug(McDebug debug) {

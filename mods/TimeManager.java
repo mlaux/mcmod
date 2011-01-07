@@ -17,4 +17,9 @@ public class TimeManager implements Mod {
 	public void disable() {
 		
 	}
+
+	public void render() {
+		// TODO Auto-generated method stub
+		
+	}
 }
