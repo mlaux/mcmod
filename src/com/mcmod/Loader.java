@@ -7,24 +7,35 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
-import javax.swing.UIManager;
 
 import com.mcmod.api.Data;
 import com.mcmod.api.StaticWorm;
 import com.mcmod.api.Worm;
+import com.mcmod.debug.McDebug;
 import com.mcmod.inter.Font;
 import com.mcmod.inter.MainMenu;
 import com.mcmod.inter.Minecraft;
+import com.mcmod.util.ReflectionExplorer;
 
+/**
+ * Currently, this just opens up offline mode. 
+ * We can add a login form and stuff later, but I decided
+ * for the time being to just skip it.
+ * 
+ * @author Nicholas Bailey
+ */
 public class Loader extends JFrame {
 	private static McClassLoader classLoader;
 	private static Minecraft api;
+	private static ReflectionExplorer explorer = null;
+	private static List<McDebug> debugs = new ArrayList<McDebug>();
 	
-	public static void main(String[] args) throws Exception {
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	public static void main(String[] args) {
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		
 		LoginDialog ld = new LoginDialog();
@@ -68,17 +79,21 @@ public class Loader extends JFrame {
 		
 		thread.start();
 		
-		setJMenuBar(new McMenuBar());
+		super.setJMenuBar(new McMenuBar());
 		
 		pack();
 		setLocationRelativeTo(null);
 		
 		api = (Minecraft) minecraft;
+		//explorer = new ReflectionExplorer(minecraft);
+		//explorer.setVisible(true);
 	}
 	
 	private static boolean changed = false;
 	
 	public static void onRender() {
+		if(explorer != null) explorer.tick();
+		
 		Font f = api.getFont();
 		
 		glDisable(GL_TEXTURE_2D);
@@ -91,6 +106,10 @@ public class Loader extends JFrame {
 			MainMenu menu = (MainMenu) api.getCurrentMenu();
 			menu.setExtraString("Happy Birthday, Tekk!");
 			changed = true;
+		}
+		
+		for(McDebug debug : debugs) {
+			debug.render();
 		}
 	}
 	
@@ -106,5 +125,19 @@ public class Loader extends JFrame {
 	
 	public static Minecraft getMinecraft() {
 		return api;
+	}
+	
+	public static void addDebug(McDebug debug) {
+		if(!debugs.contains(debug)) {
+			debugs.add(debug);
+		}
+	}
+	
+	public static void removeDebug(McDebug debug) {
+		debugs.remove(debug);
+	}
+	
+	public static boolean containsDebug(McDebug debug) {
+		return debugs.contains(debug);
 	}
 }

@@ -9,6 +9,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import com.mcmod.api.InventoryAPI;
+import com.mcmod.debug.LocationDebug;
+import com.mcmod.debug.McDebug;
 import com.mcmod.inter.Item;
 
 public class McMenuBar extends JMenuBar implements ActionListener {
@@ -20,6 +22,10 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 		menu.add(createItem("Attack Time", "attacktest"));
 		menu.add(createItem("Death Time", "deathtest"));
 		add(menu);
+		
+		JMenu debug = new JMenu("Debug");
+		debug.add(createItem("Location", "location"));
+		add(debug);
 	}
 	
 	private JMenuItem createItem(String text, String cmd) {
@@ -33,17 +39,28 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 		String cmd = e.getActionCommand();
 		if(cmd.equals("spawner")) {
 			String item = JOptionPane.showInputDialog("Item ID");	
-			if(item != null && item.length() > 0) {
+			if(item.length() > 0) {
 				Item[] cache = Loader.getMinecraft().getItemCache();
 				Item i = null;
 				try {
 					int id = Integer.parseInt(item);
 					i = cache[id];
 				} catch(NumberFormatException ex) {
-					i = InventoryAPI.itemFromName(cache, item);
+					for(int x = 0; x < cache.length; x++) {
+						if(cache[x] != null) {
+							String name = cache[x].getName();
+							
+							if(name != null) {
+								if(name.toLowerCase().contains(item.toLowerCase())) {
+									i = cache[x];
+									break;
+								}
+							}
+						}
+					}
 				}
 				
-				if(i == null) return;
+
 				InventoryAPI.addItem(Loader.getMinecraft().getPlayer().getInventory(), i.getID(), 64);
 			}
 		} else if(cmd.equals("healthtest")) {
@@ -54,6 +71,13 @@ public class McMenuBar extends JMenuBar implements ActionListener {
 		//	System.out.println(Loader.getMinecraft().getPlayer().getAttackTime());
 		} else if(cmd.equals("deathtest")) {
 		//	System.out.println(Loader.getMinecraft().getPlayer().getDeathTime());
+		} else if(cmd.equals("location")) {
+			McDebug debug = new LocationDebug();
+			if(Loader.containsDebug(debug)) {
+				Loader.removeDebug(debug);
+			} else {
+				Loader.addDebug(debug);
+			}
 		}
 	}
 }
