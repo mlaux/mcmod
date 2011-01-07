@@ -1,6 +1,6 @@
 package com.mcmod.inter;
 
-public interface PlayerEntity {
+public interface PlayerEntity extends Entity {
 	public int getHealth();
 	
 	public InfoMap getInfoMap();

@@ -1,5 +1,6 @@
 package com.mcmod.updater.hooks;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
@@ -7,29 +8,37 @@ import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.util.InstructionSearcher;
 
 public class McLocation extends McHook {
-	private String[] ldcs = { "x: ", "y: ", "z: " };
+	private String[] names = { "x", "y", "z", "speedX", "speedY", "speedZ", "rotationX", "rotationY"};
 	
 	@Override
 	public boolean canProcess(McClassNode node) {
-		return node.constants.get("x: ") != null;
+		return node.constants.get("Pos") != null;
 	}
 
 	@Override
 	public void process(McClassNode node) {
-		MethodNode method = node.constants.get("x: ").get(0);
+		identifyClass(node, "Entity");
+		MethodNode method = null;
+		InstructionSearcher searcher = null;
 		
-		InstructionSearcher searcher = new InstructionSearcher(method);
-	
-		for(String s : ldcs) {
-			searcher.nextLdcInsn(s);
+		
+		for(MethodNode mn : node.constants.get("Pos")) {
+			searcher = new InstructionSearcher(mn);
 			
-			FieldInsnNode fin = null;
-			
-			for(int x = 0; x < 3; x++) {
-				fin = searcher.nextFieldInsn();
+			if(searcher.nextInsn(Opcodes.PUTFIELD) == null) {
+				method = mn;
+				break;
 			}
-			
-			identifyField(s.charAt(0) + "", fin);
+		}
+		
+		searcher = new InstructionSearcher(method);
+		searcher.nextLdcInsn("Pos");
+		
+		FieldInsnNode fin;
+		
+		for(String s : names) {
+			fin = searcher.nextFieldInsn();
+			identifyField(s, fin);
 		}
 	}
 }
