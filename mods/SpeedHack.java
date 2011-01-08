@@ -1,3 +1,5 @@
+import org.lwjgl.input.Keyboard;
+
 import com.mcmod.Loader;
 import com.mcmod.api.Mod;
 import com.mcmod.inter.Player;
@@ -27,8 +29,17 @@ public class SpeedHack implements Mod {
 		if(player != null) {
 			double speedX = player.getSpeedX();
 			double speedZ = player.getSpeedZ();
-			player.setSpeedX(speedX + (speedX < 0 ? -0.1 : 0.1));
-			player.setSpeedZ(speedZ + (speedZ < 0 ? -0.1 : 0.1));
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_S) ||
+					Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_W)) {
+				if(Math.abs(speedX) > 0.01) {
+					player.setSpeedX(speedX + (speedX < 0 ? -0.1 : 0.1));
+				} 
+				
+				if(Math.abs(speedZ) > 0.01) {
+					player.setSpeedZ(speedZ + (speedZ < 0 ? -0.1 : 0.1));
+				}
+			}
 		}
 	}
 	
