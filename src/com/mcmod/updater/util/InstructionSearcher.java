@@ -18,6 +18,17 @@ public class InstructionSearcher {
 		nodes = list.toArray();
 	}
 	
+	public int count(int opcode) {
+		int count = 0;
+		for(int x = 0; x < nodes.length; x++) {
+			if(nodes[x].getOpcode() == opcode) {
+				count++;
+			}
+		}
+		
+		return count;
+	}
+	
 	public FieldInsnNode nextFieldInsn() {
 		if(index >= nodes.length) return null;
 		
@@ -110,5 +121,9 @@ public class InstructionSearcher {
 
 	public int position() {
 		return index;
+	}
+	
+	public int size() {
+		return nodes.length;
 	}
 }

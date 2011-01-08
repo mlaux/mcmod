@@ -18,4 +18,6 @@ public interface Minecraft {
 	public void setItemCache(Item[] it); // wat use lol 
 	
 	public World getWorld();
+	
+	public CraftingManager getCraftingManager();
 }

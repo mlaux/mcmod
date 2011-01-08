@@ -6,6 +6,7 @@ import org.objectweb.asm.tree.MethodNode;
 
 import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.util.InstructionSearcher;
+import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
 
 public class McWorld extends McHook {
 	@Override
@@ -56,5 +57,24 @@ public class McWorld extends McHook {
 			fin = searcher.nextFieldInsn();
 			identifyField(s, fin);
 		}
+		
+		int lowest = Integer.MAX_VALUE;
+		
+		for(MethodNode mn : node.instanceMethods) {
+			if(mn.desc.equals("(IIII)Z")) {
+				searcher = new InstructionSearcher(mn);
+				if(searcher.count(Opcodes.INVOKEVIRTUAL) == 2) {
+					int size = searcher.size();
+					
+					if(size < lowest) {
+						/* Hackish, but works =/ */
+						lowest = size;
+						method = mn;
+					}
+				}
+			}
+		}
+		
+		identifyMethod("setBlock", node, method);
 	}
 }

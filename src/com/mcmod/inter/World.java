@@ -18,4 +18,6 @@ public interface World {
 	
 	@SuppressWarnings("rawtypes")
 	public List getEntityList();
+	
+	public boolean setBlock(int x, int y, int z, int id);
 }
