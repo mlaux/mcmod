@@ -61,6 +61,10 @@ public interface Entity {
 	 */
 	public int getAirTimer();
 	
+	public void setSpeedX(double x);
+	public void setSpeedY(double y);
+	public void setSpeedZ(double z);
+	
 	/**
 	 * Sets the Entity's air timer.
 	 * 
