@@ -33,7 +33,6 @@ public class Loader extends JFrame {
 	private static Minecraft api;
 	private static Canvas canvas;
 	private static ReflectionExplorer explorer = null;
-	private static List<McDebug> debugs = new ArrayList<McDebug>();
 	
 	private static McMenuBar menuBar;
 	
@@ -100,6 +99,10 @@ public class Loader extends JFrame {
 			for(TogglableModMenuItem item : menuBar.getActiveMods()) {
 				item.getMod().render();
 			}
+			
+			for(McDebug debug : menuBar.getActiveDebugs()) {
+				debug.render();
+			}
 		}
 		glEnable(GL_TEXTURE_2D);
 	}
@@ -120,19 +123,5 @@ public class Loader extends JFrame {
 	
 	public static Canvas getCanvas() {
 		return canvas;
-	}
-	
-	public static void addDebug(McDebug debug) {
-		if(!debugs.contains(debug)) {
-			debugs.add(debug);
-		}
-	}
-	
-	public static void removeDebug(McDebug debug) {
-		debugs.remove(debug);
-	}
-	
-	public static boolean containsDebug(McDebug debug) {
-		return debugs.contains(debug);
 	}
 }

@@ -38,7 +38,7 @@ public class Flyer implements Mod {
 		
 		if(p != null) {
 			if(Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-				p.setPosition(p.getX(), p.getY() + 1, p.getZ());
+				p.setPosition(p.getX(), p.getY() + 2, p.getZ());
 			}
 			
 			p.setFallDistance(0.0f);

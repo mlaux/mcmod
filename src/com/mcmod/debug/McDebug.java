@@ -1,5 +1,6 @@
 package com.mcmod.debug;
 
+
 public abstract class McDebug {
 	public abstract String getName();
 	public abstract void render();
@@ -11,5 +12,9 @@ public abstract class McDebug {
 		}
 		
 		return false;
+	}
+	
+	public static McDebug[] getDebugs() {
+		return new McDebug[] { new LocationDebug(), new WorldDebug() };
 	}
 }

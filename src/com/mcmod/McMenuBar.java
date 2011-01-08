@@ -5,18 +5,23 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JSeparator;
 
 import com.mcmod.api.Mod;
+import com.mcmod.debug.McDebug;
 
 @SuppressWarnings("serial")
 public class McMenuBar extends JMenuBar {
 	private List<TogglableModMenuItem> togglableMods = new ArrayList<TogglableModMenuItem>();
 	private List<ModMenuItem> mods = new ArrayList<ModMenuItem>();
+	private Map<JCheckBoxMenuItem, McDebug> debugs = new HashMap<JCheckBoxMenuItem, McDebug>();
 	
 	public McMenuBar() {
 		JMenu menu = new JMenu("Mods");
@@ -33,6 +38,20 @@ public class McMenuBar extends JMenuBar {
 		}
 		
 		super.add(menu);
+		
+		JMenu debugs = new JMenu("Debug");
+		
+		for(McDebug debug : McDebug.getDebugs()) {
+			debugs.add(createDebugMenu(debug));
+		}
+	}
+	
+	public JCheckBoxMenuItem createDebugMenu(McDebug debug) {
+		JCheckBoxMenuItem item = new JCheckBoxMenuItem(debug.getName());
+		
+		debugs.put(item, debug);
+		
+		return item;
 	}
 	
 	public void loadMods() {
@@ -78,5 +97,17 @@ public class McMenuBar extends JMenuBar {
 		}
 		
 		return items;
+	}
+	
+	public List<McDebug> getActiveDebugs() {
+		List<McDebug> debugs = new ArrayList<McDebug>();
+		
+		for(JCheckBoxMenuItem item : this.debugs.keySet()) {
+			if(item.isSelected()) {
+				debugs.add(this.debugs.get(item));
+			}
+		}
+		
+		return debugs;
 	}
 }
