@@ -25,4 +25,12 @@ public class InventoryAPI {
 		it[spot] = (InventoryItem) ii;
 		return true;
 	}
+	
+	public static void clearInventory() {
+		Inventory in = Loader.getMinecraft().getPlayer().getInventory();
+		InventoryItem[] it = in.getInventoryItems();
+		
+		for(int k = 0; k < it.length; k++)
+			it[k] = null;
+	}
 }

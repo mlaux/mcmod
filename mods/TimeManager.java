@@ -1,7 +1,7 @@
 import java.awt.Color;
 
-import com.mcmod.DrawingHelper;
 import com.mcmod.Loader;
+import com.mcmod.api.DrawingHelper;
 import com.mcmod.api.Mod;
 import com.mcmod.inter.World;
 

@@ -23,7 +23,6 @@ public class ModMenuItem extends JMenuItem implements ModMenu, ActionListener {
 		return mod;
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		mod.render();
 	}
