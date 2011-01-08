@@ -26,6 +26,9 @@ f:currentIndex:fy:c:I:i
 f:equippableItems:fy:b:[Lfz;:i
 f:inventoryItems:fy:a:[Lfz;:i
 c:Menu:br
+c:CraftingManager:eu
+f:recipeList:eu:b:Ljava/util/List;:i
+f:craftingManager:eu:a:Leu;:s
 c:Button:gs
 f:enabled:gs:g:Z:i
 f:height:gs:b:I:i
@@ -45,6 +48,9 @@ m:stringWidth:mj:a:(Ljava/lang/String;)I:i
 m:drawStringPlain:mj:b:(Ljava/lang/String;III)V:i
 f:listIDBuffer:mj:d:Ljava/nio/IntBuffer;:i
 f:textureID:mj:a:I:i
+c:Sign:qr
+f:currentLine:qr:b:I:i
+f:lines:qr:a:[Ljava/lang/String;:i
 c:MinecraftExtension:gu
 c:Pig:au
 f:saddled:au:a:Z:i
@@ -55,6 +61,7 @@ f:health:hq:T:I:i
 f:attackTime:hq:Z:I:i
 f:infoMap:hq:aC:Ldd;:i
 c:World:dd
+m:setBlock:dd:d:(IIII)Z:i
 f:time:dd:e:J:i
 f:entityList:dd:b:Ljava/util/List;:i
 f:spawnX:dd:m:I:i
