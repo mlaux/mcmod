@@ -44,6 +44,8 @@ public class McMenuBar extends JMenuBar {
 		for(McDebug debug : McDebug.getDebugs()) {
 			debugs.add(createDebugMenu(debug));
 		}
+		
+		super.add(debugs);
 	}
 	
 	public JCheckBoxMenuItem createDebugMenu(McDebug debug) {
