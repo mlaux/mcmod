@@ -15,6 +15,7 @@ public class McFinder extends McHook {
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void process(McClassNode node) {
 		for(MethodNode mn : (List<MethodNode>) node.methods) {

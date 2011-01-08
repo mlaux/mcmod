@@ -7,6 +7,7 @@ import javax.swing.JCheckBoxMenuItem;
 
 import com.mcmod.api.Mod;
 
+@SuppressWarnings("serial")
 public class TogglableModMenuItem extends JCheckBoxMenuItem implements ModMenu, ActionListener {
 	private Mod mod;
 	

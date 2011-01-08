@@ -17,7 +17,6 @@ import com.mcmod.api.Data;
 import com.mcmod.api.StaticWorm;
 import com.mcmod.api.Worm;
 import com.mcmod.debug.McDebug;
-import com.mcmod.inter.Font;
 import com.mcmod.inter.Minecraft;
 import com.mcmod.util.ReflectionExplorer;
 
@@ -28,6 +27,7 @@ import com.mcmod.util.ReflectionExplorer;
  * 
  * @author Nicholas Bailey
  */
+@SuppressWarnings("serial")
 public class Loader extends JFrame {
 	private static McClassLoader classLoader;
 	private static Minecraft api;
@@ -94,8 +94,6 @@ public class Loader extends JFrame {
 	
 	public static void onRender() {
 		if(explorer != null) explorer.tick();
-		
-		Font f = api.getFont();
 		
 		glDisable(GL_TEXTURE_2D);
 		{

@@ -9,7 +9,7 @@ import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.util.InstructionSearcher;
 
 public class McLocation extends McHook {
-	private String[] names = { "x", "y", "z", "speedX", "speedY", "speedZ", "rotationX", "rotationY"};
+	private String[] names = { "x", "y", "z", "speedX", "speedY", "speedZ", "rotationX", "rotationY", "fallDistance", "fireTimer", "airTimer", "onGround" };
 	
 	@Override
 	public boolean canProcess(McClassNode node) {

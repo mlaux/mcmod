@@ -104,11 +104,13 @@ public class McClassLoader extends ClassLoader {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void processInterfaceInjections(ClassNode node) {
 		for(String s : Data.classes.keySet()) {
 			String name = Data.classes.get(s);
 			if(name.equals(node.name)) {
 				System.out.println("Adding " + s + " to " + node.name);
+				
 				node.interfaces.add("com/mcmod/inter/" + s);
 			}
 		}
@@ -129,6 +131,7 @@ public class McClassLoader extends ClassLoader {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void hookMethod(ClassNode cn, String s, Accessor acc) {
 		String className = acc.getClassName();
 		String itemName = acc.getItemName();
@@ -157,6 +160,7 @@ public class McClassLoader extends ClassLoader {
 		cn.methods.add(method);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void hookField(ClassNode cn, String s, Accessor acc) {
 		String className = acc.getClassName();
 		String itemName = acc.getItemName();

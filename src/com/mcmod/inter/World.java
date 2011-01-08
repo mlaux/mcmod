@@ -13,6 +13,9 @@ public interface World {
 	public void setSpawnY(int y);
 	public void setSpawnZ(int z);
 	
+	@SuppressWarnings("rawtypes")
 	public List getPlayerList();
+	
+	@SuppressWarnings("rawtypes")
 	public List getEntityList();
 }

@@ -3,7 +3,6 @@ import java.util.List;
 import com.mcmod.Loader;
 import com.mcmod.api.Mod;
 import com.mcmod.inter.Animable;
-import com.mcmod.inter.Entity;
 import com.mcmod.inter.Humanoid;
 import com.mcmod.inter.Player;
 import com.mcmod.inter.World;
@@ -41,6 +40,7 @@ public class SuperFarmer implements Mod {
 		Player player = Loader.getMinecraft().getPlayer();
 		
 		if(world != null) {
+			@SuppressWarnings("rawtypes")
 			List entities = world.getEntityList();
 			
 			for(Object o : entities) {

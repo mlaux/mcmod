@@ -13,6 +13,7 @@ import javax.swing.JSeparator;
 
 import com.mcmod.api.Mod;
 
+@SuppressWarnings("serial")
 public class McMenuBar extends JMenuBar {
 	private List<TogglableModMenuItem> togglableMods = new ArrayList<TogglableModMenuItem>();
 	private List<ModMenuItem> mods = new ArrayList<ModMenuItem>();

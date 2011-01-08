@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+@SuppressWarnings("serial")
 public class ReflectionExplorer extends JFrame {
 	private Object o;
 	private Class<?> clazz;

@@ -7,6 +7,7 @@ import javax.swing.JMenuItem;
 
 import com.mcmod.api.Mod;
 
+@SuppressWarnings("serial")
 public class ModMenuItem extends JMenuItem implements ModMenu, ActionListener {
 	private Mod mod;
 	

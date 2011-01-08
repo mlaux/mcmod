@@ -33,12 +33,15 @@ public class Flyer implements Mod {
 
 	@Override
 	public void render() {
-		if(Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-			Player p = Loader.getMinecraft().getPlayer();
-			
-			if(p != null) {
-				p.setPosition(p.getX(), p.getY() + 3, p.getZ());
+		Keyboard.enableRepeatEvents(true);
+		Player p = Loader.getMinecraft().getPlayer();
+		
+		if(p != null) {
+			if(Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+				p.setPosition(p.getX(), p.getY() + 1, p.getZ());
 			}
+			
+			p.setFallDistance(0.0f);
 		}
 	}
 

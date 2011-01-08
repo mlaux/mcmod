@@ -17,6 +17,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+@SuppressWarnings("serial")
 public class LoginDialog extends JDialog implements ActionListener {
 	private JTextField usernameField = new JTextField(12);
 	private JTextField sidField = new JTextField(12);

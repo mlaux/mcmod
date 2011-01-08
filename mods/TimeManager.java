@@ -3,7 +3,6 @@ import java.awt.Color;
 import com.mcmod.DrawingHelper;
 import com.mcmod.Loader;
 import com.mcmod.api.Mod;
-import com.mcmod.inter.Font;
 import com.mcmod.inter.World;
 
 public class TimeManager implements Mod {
@@ -27,7 +26,6 @@ public class TimeManager implements Mod {
 	
 	public void render() {
 		World w = Loader.getMinecraft().getWorld();
-		Font f = Loader.getMinecraft().getFont();
 		
 		if(w != null) {
 			long time = w.getTime();

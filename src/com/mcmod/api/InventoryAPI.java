@@ -1,5 +1,6 @@
 package com.mcmod.api;
 
+import com.mcmod.Loader;
 import com.mcmod.inter.Inventory;
 import com.mcmod.inter.InventoryItem;
 
@@ -8,7 +9,8 @@ public class InventoryAPI {
 		
 	}
 	
-	public static boolean addItem(Inventory in, int id, int count) {
+	public static boolean addItem(int id, int count) {
+		Inventory in = Loader.getMinecraft().getPlayer().getInventory();
 		int spot = -1;
 		
 		InventoryItem[] it = in.getInventoryItems();

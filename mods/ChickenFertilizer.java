@@ -39,6 +39,7 @@ public class ChickenFertilizer implements Mod {
 		Player me = Loader.getMinecraft().getPlayer();
 		
 		if(world != null) {
+			@SuppressWarnings("rawtypes")
 			List entities = world.getEntityList();
 			
 			for(Object o : entities) {
