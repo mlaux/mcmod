@@ -1,14 +1,14 @@
 package com.mcmod;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
@@ -18,6 +18,7 @@ import com.mcmod.api.StaticWorm;
 import com.mcmod.api.Worm;
 import com.mcmod.debug.McDebug;
 import com.mcmod.inter.Minecraft;
+import com.mcmod.util.ExceptionHandler;
 import com.mcmod.util.ReflectionExplorer;
 
 /**
@@ -69,6 +70,10 @@ public class Loader extends JFrame {
 		Thread thread = new Thread((Runnable) minecraft, "Minecraft main thread");
 		thread.setPriority(Thread.MAX_PRIORITY);
 		
+		ExceptionHandler eh = new ExceptionHandler();
+		Thread.setDefaultUncaughtExceptionHandler(eh); // For main thread
+		thread.setUncaughtExceptionHandler(eh); // For minecraft thread
+		
 		Worm worm = new Worm(minecraft);
 		worm.set("URL", "www.minecraft.net");
 		
@@ -92,17 +97,15 @@ public class Loader extends JFrame {
 	}
 	
 	public static void onRender() {
-		if(explorer != null) explorer.tick();
+		if(explorer != null)
+			explorer.tick();
 		
 		glDisable(GL_TEXTURE_2D);
 		{
-			for(TogglableModMenuItem item : menuBar.getActiveMods()) {
-				item.getMod().render();
-			}
-			
-			for(McDebug debug : menuBar.getActiveDebugs()) {
+			for(TogglableModMenuItem item : menuBar.getActiveMods())
+				item.getMod().process();
+			for(McDebug debug : menuBar.getActiveDebugs())
 				debug.render();
-			}
 		}
 		glEnable(GL_TEXTURE_2D);
 	}

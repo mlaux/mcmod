@@ -24,6 +24,6 @@ public class ModMenuItem extends JMenuItem implements ModMenu, ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		mod.render();
+		mod.process();
 	}
 }

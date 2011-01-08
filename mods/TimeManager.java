@@ -18,13 +18,7 @@ public class TimeManager implements Mod {
 		return "Makes it so it's never night.";
 	}
 	
-	public void enable() {
-	}
-	
-	public void disable() {
-	}
-	
-	public void render() {
+	public void process() {
 		World w = Loader.getMinecraft().getWorld();
 		
 		if(w != null) {

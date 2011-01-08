@@ -23,19 +23,9 @@ public class SuperFarmer implements Mod {
 	public String getDescription() {
 		return "Teleports all the entities in the area in front of you and sets their health to 1";
 	}
-
+	
 	@Override
-	public void enable() {
-
-	}
-
-	@Override
-	public void disable() {
-
-	}
-
-	@Override
-	public void render() {
+	public void process() {
 		World world = Loader.getMinecraft().getWorld();
 		Player player = Loader.getMinecraft().getPlayer();
 		

@@ -18,10 +18,7 @@ public class ItemSpawner implements Mod {
 		return "Adds items by name or ID to your inventory.";
 	}
 	
-	public void enable() {}
-	public void disable() {}
-
-	public void render() {
+	public void process() {
 		Player p = Loader.getMinecraft().getPlayer();
 		
 		if(p != null) {

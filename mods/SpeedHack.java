@@ -21,17 +21,7 @@ public class SpeedHack implements Mod {
 	}
 
 	@Override
-	public void enable() {
-		
-	}
-
-	@Override
-	public void disable() {
-	
-	}
-
-	@Override
-	public void render() {
+	public void process() {
 		Player player = Loader.getMinecraft().getPlayer();
 		
 		if(player != null) {

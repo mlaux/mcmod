@@ -22,17 +22,7 @@ public class Flyer implements Mod {
 	}
 
 	@Override
-	public void enable() {
-
-	}
-
-	@Override
-	public void disable() {
-
-	}
-
-	@Override
-	public void render() {
+	public void process() {
 		Keyboard.enableRepeatEvents(true);
 		Player p = Loader.getMinecraft().getPlayer();
 		

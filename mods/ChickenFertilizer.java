@@ -24,17 +24,7 @@ public class ChickenFertilizer implements Mod {
 	}
 
 	@Override
-	public void enable() {
-		
-	}
-
-	@Override
-	public void disable() {
-		
-	}
-
-	@Override
-	public void render() {
+	public void process() {
 		World world = Loader.getMinecraft().getWorld();
 		Player me = Loader.getMinecraft().getPlayer();
 		

@@ -20,15 +20,7 @@ public class Invincible implements Mod {
 	}
 
 	@Override
-	public void enable() {
-	}
-
-	@Override
-	public void disable() {
-	}
-
-	@Override
-	public void render() {
+	public void process() {
 		Player p = Loader.getMinecraft().getPlayer();
 		
 		if(p != null) {

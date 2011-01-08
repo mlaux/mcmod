@@ -8,9 +8,5 @@ public interface Mod {
 	
 	public String getDescription();
 
-	public void enable();
-	
-	public void disable();
-	
-	public void render();
+	public void process();
 }

@@ -1,7 +1,6 @@
 import com.mcmod.api.InventoryAPI;
 import com.mcmod.api.Mod;
 
-
 public class ClearInventory implements Mod {
 	public boolean isTogglable() {
 		return false;
@@ -15,15 +14,7 @@ public class ClearInventory implements Mod {
 		return "Removes all items from your inventory.";
 	}
 
-	public void enable() {
-		
-	}
-
-	public void disable() {
-		
-	}
-
-	public void render() {
+	public void process() {
 		InventoryAPI.clearInventory();
 	}
 

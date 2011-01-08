@@ -24,10 +24,6 @@ public class TogglableModMenuItem extends JCheckBoxMenuItem implements ModMenu, 
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if(super.isSelected()) {
-			mod.enable();
-		} else {
-			mod.disable();
-		}
+		
 	}
 }
