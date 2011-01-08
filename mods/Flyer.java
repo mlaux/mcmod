@@ -18,7 +18,7 @@ public class Flyer implements Mod {
 
 	@Override
 	public String getDescription() {
-		return "Allows you to hold \"UP\" and fly.";
+		return "Allows you to hold \"SPACE\" and fly.";
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class Flyer implements Mod {
 		Player p = Loader.getMinecraft().getPlayer();
 		
 		if(p != null) {
-			if(Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
 				p.setSpeedY(0.5f);
 			} 
 			
