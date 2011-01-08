@@ -1,5 +1,6 @@
 import java.awt.Color;
 
+import com.mcmod.DrawingHelper;
 import com.mcmod.Loader;
 import com.mcmod.api.Mod;
 import com.mcmod.inter.Font;
@@ -31,7 +32,7 @@ public class TimeManager implements Mod {
 		if(w != null) {
 			long time = w.getTime();
 			
-			f.drawStringShadow("[" + (time % 24000) + "]", 30, 30, Color.WHITE.getRGB());
+			DrawingHelper.drawShadowString("[" + (time % 24000) + "]", 30, 30, Color.WHITE.getRGB());
 		
 			if((time % 24000) >= 10000) {
 				w.setTime(time + 16000);

@@ -10,4 +10,6 @@ public interface Animable extends Entity {
 	public int getHurtTime();
 	
 	public int getAttackTime();
+	
+	public void setHealth(int i);
 }
