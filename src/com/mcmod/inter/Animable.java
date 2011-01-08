@@ -1,6 +1,6 @@
 package com.mcmod.inter;
 
-public interface PlayerEntity extends Entity {
+public interface Animable extends Entity {
 	public int getHealth();
 	
 	public InfoMap getInfoMap();

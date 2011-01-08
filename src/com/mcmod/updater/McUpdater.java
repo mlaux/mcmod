@@ -17,6 +17,7 @@ import com.mcmod.Util;
 import com.mcmod.shared.Accessor;
 import com.mcmod.shared.Inject;
 import com.mcmod.updater.asm.McClassNode;
+import com.mcmod.updater.hooks.McChicken;
 import com.mcmod.updater.hooks.McExtension;
 import com.mcmod.updater.hooks.McFont;
 import com.mcmod.updater.hooks.McHook;
@@ -25,6 +26,7 @@ import com.mcmod.updater.hooks.McInventoryItem;
 import com.mcmod.updater.hooks.McItem;
 import com.mcmod.updater.hooks.McLocation;
 import com.mcmod.updater.hooks.McMainMenu;
+import com.mcmod.updater.hooks.McPig;
 import com.mcmod.updater.hooks.McPlayer;
 import com.mcmod.updater.hooks.McPlayerInfo;
 import com.mcmod.updater.hooks.McWindowAdapter;
@@ -87,7 +89,9 @@ public class McUpdater {
 			new McItem(),
 			new McMainMenu(),
 			new McLocation(),
-			new McWorld()
+			new McWorld(),
+			new McChicken(),
+			new McPig()
 		};
 	}
 	

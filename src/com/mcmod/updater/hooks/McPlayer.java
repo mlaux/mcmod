@@ -77,7 +77,7 @@ public class McPlayer extends McHook {
 		identifyField("URL", fin);
 		
 		McClassNode humanoidSuperClass = McUpdater.classes.get(humanoid.superName);
-		identifyClass(humanoidSuperClass, "PlayerEntity"); // This probably needs a better name.
+		identifyClass(humanoidSuperClass, "Animable"); 
 		
 		method = humanoidSuperClass.constants.get("bubble").get(0);
 		
