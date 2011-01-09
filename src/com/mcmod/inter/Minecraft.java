@@ -20,4 +20,8 @@ public interface Minecraft {
 	public World getWorld();
 	
 	public CraftingManager getCraftingManager();
+	
+	public float sin(float f);
+	
+	public float cos(float f);
 }

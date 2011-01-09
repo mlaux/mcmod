@@ -2,6 +2,9 @@ c:InventoryItem:fz
 f:id:fz:c:I:i
 f:count:fz:a:I:i
 f:damage:fz:d:I:i
+c:MathUtil:fr
+m:cos:fr:b:(F)F:s
+m:sin:fr:a:(F)F:s
 c:Minecraft:net/minecraft/client/Minecraft
 f:player:net/minecraft/client/Minecraft:g:Lbs;:i
 f:font:net/minecraft/client/Minecraft:o:Lmj;:i
