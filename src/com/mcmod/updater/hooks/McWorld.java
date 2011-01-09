@@ -1,20 +1,20 @@
 package com.mcmod.updater.hooks;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.util.InstructionSearcher;
-import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
 
 public class McWorld extends McHook {
-	@Override
+	
 	public boolean canProcess(McClassNode node) {
 		return node.constants.get("Time") != null;
 	}
 
-	@Override
+	
 	public void process(McClassNode node) {
 		identifyClass(node, "World");
 		

@@ -10,6 +10,7 @@ import java.util.zip.ZipEntry;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -21,7 +22,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 
 import com.mcmod.api.Data;
 import com.mcmod.shared.Accessor;
-import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
+import com.mcmod.util.Util;
 
 public class McClassLoader extends ClassLoader {
 	private JarFile minecraft = null;
@@ -37,7 +38,7 @@ public class McClassLoader extends ClassLoader {
 		}
 	}
 	
-	@Override
+	
 	public URL getResource(String name) {
 		try {
 			return new URL("jar:file:" + jarLocation + "!/" + name);
@@ -48,7 +49,7 @@ public class McClassLoader extends ClassLoader {
 		return null;
     }
 	
-	@Override
+	
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
 		Class<?> c = null;
 		
@@ -115,7 +116,6 @@ public class McClassLoader extends ClassLoader {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void processInterfaceInjections(ClassNode node) {
 		for(String s : Data.classes.keySet()) {
 			String name = Data.classes.get(s);
@@ -142,7 +142,6 @@ public class McClassLoader extends ClassLoader {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void hookMethod(ClassNode cn, String s, Accessor acc) {
 		String className = acc.getClassName();
 		String itemName = acc.getItemName();
@@ -174,7 +173,6 @@ public class McClassLoader extends ClassLoader {
 		cn.methods.add(method);
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void hookField(ClassNode cn, String s, Accessor acc) {
 		String className = acc.getClassName();
 		String itemName = acc.getItemName();

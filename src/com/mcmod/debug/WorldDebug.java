@@ -1,16 +1,16 @@
 package com.mcmod.debug;
 
-import com.mcmod.DrawingHelper;
 import com.mcmod.Loader;
+import com.mcmod.api.DrawingHelper;
 import com.mcmod.inter.World;
 
 public class WorldDebug extends McDebug {
-	@Override
+	
 	public String getName() {
 		return "Spawn";
 	}
 
-	@Override
+	
 	public void render() {
 		World w = Loader.getMinecraft().getWorld();
 		

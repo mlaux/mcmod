@@ -20,18 +20,16 @@ import com.mcmod.debug.McDebug;
 import com.mcmod.inter.Minecraft;
 import com.mcmod.util.ExceptionHandler;
 import com.mcmod.util.ReflectionExplorer;
+import com.mcmod.util.Util;
 
 /**
- * Currently, this just opens up offline mode. 
- * We can add a login form and stuff later, but I decided
- * for the time being to just skip it.
- * 
- * @author Nicholas Bailey
+ * Loader for the Minecraft game.
  */
-@SuppressWarnings("serial")
 public class Loader extends JFrame {
+	private static final long serialVersionUID = 1L;
+	
 	private static McClassLoader classLoader;
-	private static Minecraft api;
+	private static Minecraft minecraft;
 	private static Canvas canvas;
 	private static ReflectionExplorer explorer = null;
 	
@@ -65,33 +63,33 @@ public class Loader extends JFrame {
 		
 		getContentPane().add(canvas, BorderLayout.CENTER);
 		
-		Object minecraft = StaticWorm.instantiate("MinecraftExtension", this, canvas, null, 854, 480, false, this);
+		Object app = StaticWorm.instantiate("MinecraftExtension", this, canvas, null, 854, 480, false, this);
 		
-		Thread thread = new Thread((Runnable) minecraft, "Minecraft main thread");
+		Thread thread = new Thread((Runnable) app, "Minecraft main thread");
 		thread.setPriority(Thread.MAX_PRIORITY);
 		
 		ExceptionHandler eh = new ExceptionHandler();
 		Thread.setDefaultUncaughtExceptionHandler(eh); // For main thread
 		thread.setUncaughtExceptionHandler(eh); // For minecraft thread
 		
-		Worm worm = new Worm(minecraft);
+		Worm worm = new Worm(app);
 		worm.set("URL", "www.minecraft.net");
 		
 		Object playerInfo = StaticWorm.instantiate("PlayerInfo", user, sid);
 		worm.set("playerInfo", playerInfo);
 		
-		Object listener = StaticWorm.instantiate("WindowAdapter", minecraft, thread);
+		Object listener = StaticWorm.instantiate("WindowAdapter", app, thread);
 		addWindowListener((WindowListener) listener);
 		
 		thread.start();
 		
 		menuBar = new McMenuBar();
-		super.setJMenuBar(menuBar);
+		setJMenuBar(menuBar);
 		
 		pack();
 		setLocationRelativeTo(null);
 		
-		api = (Minecraft) minecraft;
+		minecraft = (Minecraft) app;
 //		explorer = new ReflectionExplorer(minecraft);
 //		explorer.setVisible(true);
 	}
@@ -121,7 +119,7 @@ public class Loader extends JFrame {
 	}
 	
 	public static Minecraft getMinecraft() {
-		return api;
+		return minecraft;
 	}
 	
 	public static Canvas getCanvas() {

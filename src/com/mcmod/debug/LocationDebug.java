@@ -1,16 +1,16 @@
 package com.mcmod.debug;
 
-import com.mcmod.DrawingHelper;
 import com.mcmod.Loader;
+import com.mcmod.api.DrawingHelper;
 import com.mcmod.inter.Player;
 
 public class LocationDebug extends McDebug {
-	@Override
+	
 	public String getName() {
 		return "Location";
 	}
 	
-	@Override
+	
 	public void render() {
 		Player p = Loader.getMinecraft().getPlayer();
 		

@@ -7,12 +7,12 @@ import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.util.InstructionSearcher;
 
 public class McItem extends McHook {
-	@Override
+	
 	public boolean canProcess(McClassNode node) {
 		return node.constants.get("item.") != null;
 	}
 
-	@Override
+	
 	public void process(McClassNode node) {
 		identifyClass(node, "Item");
 		

@@ -6,12 +6,12 @@ import com.mcmod.updater.asm.McClassNode;
 
 public class McPig extends McHook {
 
-	@Override
+	
 	public boolean canProcess(McClassNode node) {
 		return node.constants.get("/mob/cow.png") != null;
 	}
 
-	@Override
+	
 	public void process(McClassNode node) {
 		identifyClass(node, "Pig");
 		

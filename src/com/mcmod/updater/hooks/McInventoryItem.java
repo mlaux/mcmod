@@ -10,14 +10,14 @@ import com.mcmod.updater.util.InstructionSearcher;
 
 public class McInventoryItem extends McHook {
 
-	@Override
+	
 	public boolean canProcess(McClassNode node) {
 		McClassNode inventoryItem = classes.get("InventoryItem");
 		
 		return inventoryItem != null && node.name.equals(inventoryItem.name);
 	}
 
-	@Override
+	
 	public void process(McClassNode node) {
 		MethodNode method = null;
 		

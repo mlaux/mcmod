@@ -8,13 +8,13 @@ import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.asm.McMethodNode;
 
 public class McCrafting extends McHook {
-	@Override
+	
 	public boolean canProcess(McClassNode node) {
 		List<McMethodNode> methods = node.constants.get("###");
 		return methods != null && methods.size() > 3 && node.methods.size() > 2;
 	}
 
-	@Override
+	
 	public void process(McClassNode node) {
 		identifyClass(node, "CraftingManager");
 		

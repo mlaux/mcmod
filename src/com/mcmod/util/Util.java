@@ -1,4 +1,4 @@
-package com.mcmod;
+package com.mcmod.util;
 
 import java.io.File;
 
