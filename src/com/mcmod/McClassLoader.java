@@ -1,16 +1,30 @@
 package com.mcmod;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.IOException;
+import java.lang.reflect.Modifier;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
-import org.objectweb.asm.*;
-import org.objectweb.asm.tree.*;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldInsnNode;
+import org.objectweb.asm.tree.InsnList;
+import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.MethodInsnNode;
+import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.VarInsnNode;
 
 import com.mcmod.api.Data;
 import com.mcmod.shared.Accessor;
+import com.mcmod.updater.util.InstructionSearcher;
+import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
 
 public class McClassLoader extends ClassLoader {
 	private JarFile minecraft = null;
