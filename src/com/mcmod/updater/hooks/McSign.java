@@ -3,7 +3,6 @@ package com.mcmod.updater.hooks;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.mcmod.shared.Inject;
 import com.mcmod.updater.McUpdater;
 import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.util.InstructionSearcher;
