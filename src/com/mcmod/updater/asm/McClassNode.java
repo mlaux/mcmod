@@ -15,7 +15,6 @@ import org.objectweb.asm.tree.MethodNode;
 import com.mcmod.shared.Accessor;
 import com.mcmod.shared.Inject;
 
-@SuppressWarnings("unchecked")
 public class McClassNode extends ClassNode {
 	public List<FieldNode> staticFields = new ArrayList<FieldNode>();
 	public List<FieldNode> instanceFields = new ArrayList<FieldNode>();

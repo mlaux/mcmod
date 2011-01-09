@@ -11,12 +11,12 @@ import com.mcmod.updater.util.InstructionSearcher;
 
 public class McMainMenu extends McHook {
 
-	@Override
+	
 	public boolean canProcess(McClassNode node) {
 		return node.constants.get("Happy new year!") != null;
 	}
 
-	@Override
+	
 	public void process(McClassNode node) {
 		identifyClass(node, "MainMenu");
 		identifyClass(node.superName, "Menu");

@@ -13,12 +13,27 @@ import java.util.jar.JarFile;
 
 import org.objectweb.asm.ClassReader;
 
-import com.mcmod.Util;
 import com.mcmod.shared.Accessor;
 import com.mcmod.shared.Inject;
 import com.mcmod.updater.asm.McClassNode;
-
-import com.mcmod.updater.hooks.*;
+import com.mcmod.updater.hooks.McChicken;
+import com.mcmod.updater.hooks.McCrafting;
+import com.mcmod.updater.hooks.McExtension;
+import com.mcmod.updater.hooks.McFont;
+import com.mcmod.updater.hooks.McHook;
+import com.mcmod.updater.hooks.McInventory;
+import com.mcmod.updater.hooks.McInventoryItem;
+import com.mcmod.updater.hooks.McItem;
+import com.mcmod.updater.hooks.McLocation;
+import com.mcmod.updater.hooks.McMainMenu;
+import com.mcmod.updater.hooks.McMathUtil;
+import com.mcmod.updater.hooks.McPig;
+import com.mcmod.updater.hooks.McPlayer;
+import com.mcmod.updater.hooks.McPlayerInfo;
+import com.mcmod.updater.hooks.McSign;
+import com.mcmod.updater.hooks.McWindowAdapter;
+import com.mcmod.updater.hooks.McWorld;
+import com.mcmod.util.Util;
 
 /****************************************************
  * 

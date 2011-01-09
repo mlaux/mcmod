@@ -2,6 +2,7 @@ package com.mcmod.updater.hooks;
 
 import java.util.List;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodNode;
@@ -10,19 +11,18 @@ import com.mcmod.updater.McUpdater;
 import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.asm.McMethodNode;
 import com.mcmod.updater.util.InstructionSearcher;
-import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
 
 public class McPlayer extends McHook {
 	private static final String cst = "Player is now ";
 	
-	@Override
+	
 	public boolean canProcess(McClassNode node) {
 		List<McMethodNode> nodes = node.constants.get(cst);
 		
 		return nodes != null && nodes.size() == 1;
 	}
 
-	@Override
+	
 	public void process(McClassNode node) {
 		McMethodNode method = node.constants.get(cst).get(0);
 		

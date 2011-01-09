@@ -11,12 +11,12 @@ import com.mcmod.updater.util.InstructionSearcher;
 public class McLocation extends McHook {
 	private String[] names = { "x", "y", "z", "speedX", "speedY", "speedZ", "rotationY", "rotationX", "fallDistance", "fireTimer", "airTimer", "onGround" };
 	
-	@Override
+	
 	public boolean canProcess(McClassNode node) {
 		return node.constants.get("Pos") != null;
 	}
 
-	@Override
+	
 	public void process(McClassNode node) {
 		identifyClass(node, "Entity");
 		MethodNode method = null;

@@ -1,11 +1,11 @@
 package com.mcmod.updater.hooks;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.util.InstructionSearcher;
-import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
 
 public class McChicken extends McHook {
 	public boolean canProcess(McClassNode node) {
