@@ -50,6 +50,7 @@ public class LoginDialog extends JDialog implements ActionListener {
 		
 		JPanel bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
 		JButton button = new JButton("Login");
+		getRootPane().setDefaultButton(button);
 		button.addActionListener(this);
 		bottom.add(button);
 		button = new JButton("Quit");
