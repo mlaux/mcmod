@@ -15,6 +15,6 @@ public abstract class McDebug {
 	}
 	
 	public static McDebug[] getDebugs() {
-		return new McDebug[] { new LocationDebug(), new WorldDebug() };
+		return new McDebug[] { new LocationDebug(), new WorldDebug(), new PlayerDebug() };
 	}
 }

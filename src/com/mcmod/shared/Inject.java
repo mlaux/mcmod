@@ -61,13 +61,11 @@ public class Inject {
 		}
 		
 		if(mn == null) {
-			System.out.println("Unable to find method for injecting callback in " + cn);
+			System.err.println("Unable to find method for injecting callback in " + cn);
 			return;
 		}
 		
 		MethodInsnNode min = new MethodInsnNode(Opcodes.INVOKESTATIC, callClass, callMethod, "()V");
 		mn.instructions.insert(mn.instructions.get(injectPosition), min);
-		
-		System.out.println("Seems like a good injection.");
 	}
 }

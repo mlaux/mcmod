@@ -1,13 +1,17 @@
 package com.mcmod;
 
 import java.io.File;
-import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.CodeSource;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
@@ -17,35 +21,36 @@ import javax.swing.JSeparator;
 import com.mcmod.api.Mod;
 import com.mcmod.debug.McDebug;
 
-@SuppressWarnings("serial")
 public class McMenuBar extends JMenuBar {
+	private static final long serialVersionUID = 1L;
+	
 	private List<TogglableModMenuItem> togglableMods = new ArrayList<TogglableModMenuItem>();
 	private List<ModMenuItem> mods = new ArrayList<ModMenuItem>();
 	private Map<JCheckBoxMenuItem, McDebug> debugs = new HashMap<JCheckBoxMenuItem, McDebug>();
 	
 	public McMenuBar() {
 		JMenu menu = new JMenu("Mods");
-		loadMods();
 		
-		for(ModMenuItem mod : mods) {
-			menu.add(mod);
+		try {
+			loadMods();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
+		for(ModMenuItem mod : mods)
+			menu.add(mod);
 		menu.add(new JSeparator());
 		
-		for(TogglableModMenuItem mod : togglableMods) {
+		for(TogglableModMenuItem mod : togglableMods)
 			menu.add(mod);
-		}
 		
-		super.add(menu);
+		add(menu);
 		
 		JMenu debugs = new JMenu("Debug");
-		
-		for(McDebug debug : McDebug.getDebugs()) {
+		for(McDebug debug : McDebug.getDebugs())
 			debugs.add(createDebugMenu(debug));
-		}
 		
-		super.add(debugs);
+		add(debugs);
 	}
 	
 	public JCheckBoxMenuItem createDebugMenu(McDebug debug) {
@@ -56,36 +61,55 @@ public class McMenuBar extends JMenuBar {
 		return item;
 	}
 	
-	public void loadMods() {
-		try {
-			File dir = new File("./bin");
-			URLClassLoader classLoader = new URLClassLoader(new URL[] { dir.toURI().toURL() });
-			
-			for(String name : dir.list()) {
-				if(name.endsWith(".class")) {
-					try {
-						Class<?> c = classLoader.loadClass(name.replace(".class", ""));
-						
-						if(Mod.class.isAssignableFrom(c)) {
-							try {
-								Mod m = (Mod) c.newInstance();
-								
-								if(m.isTogglable()) {
-									togglableMods.add(new TogglableModMenuItem(m));
-								} else {
-									mods.add(new ModMenuItem(m));
-								}
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
+	public void loadMods() throws Exception {
+		CodeSource cs = getClass().getProtectionDomain().getCodeSource();
+		if (cs == null)
+			throw new RuntimeException("CodeSource for JAR == null");
+		URL url = cs.getLocation();
+		URLClassLoader classLoader = new URLClassLoader(new URL[] { url });
+
+		for (String name : getModNames(url)) {
+			if (name.endsWith(".class")) {
+				Class<?> c = classLoader.loadClass(name.replace(".class", ""));
+
+				if (Mod.class.isAssignableFrom(c)) {
+					Mod m = (Mod) c.newInstance();
+
+					if (m.isTogglable()) {
+						togglableMods.add(new TogglableModMenuItem(m));
+					} else {
+						mods.add(new ModMenuItem(m));
 					}
 				}
 			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+		}
+	}
+	
+	private String[] getModNames(URL url) throws Exception {
+		// Stupid workaround for weird pathnames; see also:
+		// http://weblogs.java.net/blog/2007/04/25/how-convert-javaneturl-javaiofile
+		File f;
+		try {
+			f = new File(url.toURI());
+		} catch (URISyntaxException e) {
+			f = new File(url.getPath());
+		}
+		
+		if(url.toString().endsWith("/")) {
+			// Not running from JAR.
+			return f.list();
+		} else {
+			// Running from JAR.
+			JarFile jf = new JarFile(f);
+			Enumeration<JarEntry> entries = jf.entries();
+			List<String> files = new ArrayList<String>();
+			while(entries.hasMoreElements()) {
+				JarEntry je = entries.nextElement();
+				String name = je.getName();
+				if(!je.isDirectory() && name.split("/").length == 1)
+					files.add(name);
+			}
+			return files.toArray(new String[files.size()]);
 		}
 	}
 	
