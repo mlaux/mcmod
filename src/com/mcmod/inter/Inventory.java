@@ -9,5 +9,8 @@ public interface Inventory {
 	
 	public InventoryItem[] getEquippableItems();
 	
+	/**
+	 * @return The items in the inventory
+	 */
 	public InventoryItem[] getInventoryItems();
 }

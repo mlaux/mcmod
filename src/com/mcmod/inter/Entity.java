@@ -16,8 +16,19 @@ public interface Entity {
 	 */
 	public double getZ();
 	
+	/**
+	 * @return the X speed of the Entity.
+	 */
 	public double getSpeedX();
+	
+	/**
+	 * @return the Y speed of the Entity.
+	 */
 	public double getSpeedY();
+	
+	/**
+	 * @return the Z speed of the Entity.
+	 */
 	public double getSpeedZ();
 	
 	/**

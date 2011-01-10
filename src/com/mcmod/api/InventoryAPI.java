@@ -9,6 +9,14 @@ public class InventoryAPI {
 		
 	}
 	
+	/**
+	 * Adds 'count' amount of the specified item ID to the inventory
+	 * of the local player.
+	 * @param id Item ID to add
+	 * @param count How many of the item to add
+	 * @return 'true' if the items were added, 'false' if the inventory
+	 * was full.
+	 */
 	public static boolean addItem(int id, int count) {
 		Inventory in = Loader.getMinecraft().getPlayer().getInventory();
 		int spot = -1;
@@ -26,6 +34,9 @@ public class InventoryAPI {
 		return true;
 	}
 	
+	/**
+	 * Removes all items from the local player's inventory.
+	 */
 	public static void clearInventory() {
 		Inventory in = Loader.getMinecraft().getPlayer().getInventory();
 		InventoryItem[] it = in.getInventoryItems();

@@ -9,6 +9,13 @@ public interface Animable extends Entity {
 	 * @return the Animable object's health.
 	 */
 	public int getHealth();
+
+	/**
+	 * Set's the Animable object's health.
+	 * @param i the new health.
+	 * @see getHealth();
+	 */
+	public void setHealth(int i);
 	
 	public InfoMap getInfoMap();
 	
@@ -26,11 +33,4 @@ public interface Animable extends Entity {
 	 * @return NFI.
 	 */
 	public int getAttackTime();
-	
-	/**
-	 * Set's the Animable object's health.
-	 * @param i the new health.
-	 * @see getHealth();
-	 */
-	public void setHealth(int i);
 }

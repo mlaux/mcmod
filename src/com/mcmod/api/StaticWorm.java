@@ -6,7 +6,20 @@ import java.lang.reflect.Field;
 import com.mcmod.Loader;
 import com.mcmod.shared.Accessor;
 
+/**
+ * Utility class for instantiation and field modification using 
+ * reflection.
+ * <br><br>
+ * In this class, <i>renamed format</i> refers to the names given to classes
+ * according to the McMod updater. For example, 'Player' is in renamed format
+ * but 'aq' is not.
+ */
 public class StaticWorm {
+	/**
+	 * Gets the value of the field <i>name</i> as an Object.
+	 * @param name Name of the field in renamed format
+	 * @return Value of the field
+	 */
 	public static Object get(String name) {
 		try {
 			Accessor acc = lookupField(name);
@@ -18,6 +31,11 @@ public class StaticWorm {
 		return null;
 	}
 	
+	/**
+	 * Gets the value of the field <i>name</i> as an int.
+	 * @param name Name of the field in renamed format
+	 * @return Value of the field
+	 */
 	public static int getInt(String name) {
 		try {
 			Accessor acc = lookupField(name);
@@ -29,6 +47,13 @@ public class StaticWorm {
 		return -1;
 	}
 
+	/**
+	 * Sets the value of fieldName on the specified object <i>on</i> to the
+	 * value <i>data</i>.
+	 * @param on Instance of the object to set the field on
+	 * @param fieldName Name of the field to set, in renamed format.
+	 * @param data Value to set the field to.
+	 */
 	public static void setField(Object on, String fieldName, Object data) {
 		try {
 			Class<?> clazz = on.getClass();
@@ -48,6 +73,15 @@ public class StaticWorm {
 		}
 	}
 	
+	/**
+	 * Creates an instance of the named class, using the constructor with
+	 * <i>types</i> argument types and <i>args</i> argument values.
+	 * @param name Name of the class to instantiate, in renamed format.
+	 * Not the obfuscated class name from the Minecraft client.
+	 * @param types Parameter types to the constructor
+	 * @param args Values to pass to the constructor
+	 * @return A new instance of the class.
+	 */
 	public static Object instantiate(String name, Class<?>[] types, Object... args) {
 		try {
 			Constructor<?> cns = Loader.getClass(name).getConstructor(types);
@@ -59,6 +93,14 @@ public class StaticWorm {
 		return null;
 	}
 	
+	/**
+	 * Creates an instance of the named class, using the first constructor
+	 * in the object's .class file definition.
+	 * @param name Name of the class to instantiate, in renamed format.
+	 * Not the obfuscated class name from the Minecraft client.
+	 * @param args Values to pass to the constructor
+	 * @return A new instance of the class.
+	 */
 	public static Object instantiate(String name, Object... args) {
 		try {
 		//	Class<?>[] types = new Class<?>[args.length];
