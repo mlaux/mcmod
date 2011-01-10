@@ -119,11 +119,8 @@ public class McClassLoader extends ClassLoader {
 	private void processInterfaceInjections(ClassNode node) {
 		for(String s : Data.classes.keySet()) {
 			String name = Data.classes.get(s);
-			if(name.equals(node.name)) {
-				System.out.println("Adding " + s + " to " + node.name);
-				
+			if(name.equals(node.name))
 				node.interfaces.add("com/mcmod/inter/" + s);
-			}
 		}
 	}
 	
@@ -147,8 +144,6 @@ public class McClassLoader extends ClassLoader {
 		String itemName = acc.getItemName();
 		String itemSignature = acc.getItemSignature();
 		
-		System.out.println("Method [" + s + "] " + className + "." + itemName + " (" + itemSignature + ")");
-		
 		MethodNode method = new MethodNode(Opcodes.ACC_PUBLIC, s, itemSignature, null, null);
 		InsnList list = method.instructions;
 		
@@ -157,13 +152,10 @@ public class McClassLoader extends ClassLoader {
 			list.add(new VarInsnNode(Opcodes.ALOAD, 0));
 		
 		for(int x = 0; x < types.length; x++) {
-			if(types[x].getSize() == 2) {
-				System.out.println("DLOAD: " + ((2 * x) + 1));
+			if(types[x].getSize() == 2)
 				list.add(new VarInsnNode(types[x].getOpcode(Opcodes.ILOAD), (2 * x) + 1));
-			} else {
+			else
 				list.add(new VarInsnNode(types[x].getOpcode(Opcodes.ILOAD), x + 1));
-				System.out.println(x + 1);
-			}
 		}
 		
 		int op = acc.isStatic() ? Opcodes.INVOKESTATIC : Opcodes.INVOKEVIRTUAL;
@@ -177,8 +169,6 @@ public class McClassLoader extends ClassLoader {
 		String className = acc.getClassName();
 		String itemName = acc.getItemName();
 		String itemSignature = acc.getItemSignature();
-		
-		System.out.println("Field [" + s + "] " + className + "." + itemName + " (" + itemSignature + ")");
 		
 		String methodName = Character.toUpperCase(s.charAt(0)) + s.substring(1);
 		

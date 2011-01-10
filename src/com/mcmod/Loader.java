@@ -90,8 +90,6 @@ public class Loader extends JFrame {
 		setLocationRelativeTo(null);
 		
 		minecraft = (Minecraft) app;
-//		explorer = new ReflectionExplorer(minecraft);
-//		explorer.setVisible(true);
 	}
 	
 	public static void onRender() {
