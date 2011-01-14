@@ -54,7 +54,7 @@ public class Loader extends JFrame {
 	}
 	
 	public Loader(String user, String sid) {
-		super("Minecraft - McModded");
+		super("McMod revision 62");
 		classLoader = new McClassLoader();
 		setLayout(new BorderLayout());
 
