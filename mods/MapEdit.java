@@ -33,7 +33,7 @@ public class MapEdit implements Mod {
 				for(int x = -2; x < 2; x++) {
 					for(int z = -2; z < 2; z++) {
 						try {
-							Loader.getMinecraft().getWorld().setBlock(myX + x, myY + y, myZ + z, 46);
+							Loader.getMinecraft().getWorld().setBlock(myX + x, myY + y, myZ + z, 1);
 						} catch(Exception e) {
 							e.printStackTrace();
 						}

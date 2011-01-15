@@ -54,7 +54,7 @@ public class Loader extends JFrame {
 	}
 	
 	public Loader(String user, String sid) {
-		super("McMod revision 62");
+		super("McMod revision 63");
 		classLoader = new McClassLoader();
 		setLayout(new BorderLayout());
 

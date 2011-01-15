@@ -12,7 +12,7 @@ f:currentMenu:net/minecraft/client/Minecraft:p:Lby;:i
 f:playerInfo:net/minecraft/client/Minecraft:i:Les;:i
 f:URL:net/minecraft/client/Minecraft:j:Ljava/lang/String;:i
 f:world:net/minecraft/client/Minecraft:e:Ldn;:i
-i:com/mcmod/Loader:onRender:net/minecraft/client/Minecraft:run:()V:266
+i:com/mcmod/Loader:onRender:net/minecraft/client/Minecraft:run:()V:264
 c:PlayerInfo:es
 f:username:es:b:Ljava/lang/String;:i
 f:sessionID:es:c:Ljava/lang/String;:i
