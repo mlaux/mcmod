@@ -26,10 +26,9 @@ public class McPlayerInfo extends McHook {
 		searcher.nextLdcInsn(cst);
 		
 		FieldInsnNode field = searcher.nextFieldInsn();
+		FieldInsnNode mcfield = searcher.nextFieldInsn();
 		
-		field = searcher.nextFieldInsn();
-		
-		identifyClass(field.owner, "Minecraft");
+		identifyClass(mcfield.owner, "Minecraft");
 		
 		McClassNode mc = classes.get("Minecraft");
 		for(FieldNode fn : mc.instanceFields) {
@@ -44,12 +43,12 @@ public class McPlayerInfo extends McHook {
 			identifyInject("com/mcmod/Loader", "onRender", mn, is.position());
 		}
 		
-		identifyField("playerInfo", field);
-		
 		field = searcher.nextFieldInsn();
 		
 		identifyClass(field.owner, "PlayerInfo");
 		identifyField("username", field);
+
+		identifyField("playerInfo", mcfield);
 		
 		for(int x = 0; x < 3; x++)
 			field = searcher.nextFieldInsn();
