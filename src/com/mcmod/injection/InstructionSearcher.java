@@ -1,4 +1,4 @@
-package com.mcmod.updater.util;
+package com.mcmod.injection;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;

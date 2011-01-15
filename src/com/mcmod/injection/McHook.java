@@ -1,4 +1,4 @@
-package com.mcmod.updater.hooks;
+package com.mcmod.injection;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,8 +15,6 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-import com.mcmod.McClassLoader;
-import com.mcmod.updater.asm.McClassNode;
 
 public abstract class McHook {
 	private static Map<String, String> interfaces = new HashMap<String, String>();
@@ -103,16 +101,19 @@ public abstract class McHook {
 		boolean isStatic = (fn.access & Opcodes.ACC_STATIC) != 0;
 		String methodName = Character.toUpperCase(s.charAt(0)) + s.substring(1);
 		
-		String type = fn.desc;
-		String name = type.replace("[", "");
-		if(name.startsWith("L")) {
-			name = name.substring(1, name.length() - 1);
+		String sigType = fn.desc;
+		String check = sigType.replace("[", "");
+		String classType = null;
+		if(check.startsWith("L")) {
+			String name = check.substring(1, check.length() - 1);
+			System.out.println(check + " " + name);
 			if(interfaces.containsKey(name)) {
-				type = type.replace(name, interfaces.get(name));
+				sigType = sigType.replace(name, interfaces.get(name));
+				classType = name;
 			}
 		}
 		
-		MethodNode getterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "get" + methodName, "()" + type, null, null);
+		MethodNode getterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "get" + methodName, "()" + sigType, null, null);
 		
 		InsnList getterList = getterMethod.instructions;
 		if(!isStatic)
@@ -120,24 +121,28 @@ public abstract class McHook {
 		
 		int op = isStatic ? Opcodes.GETSTATIC : Opcodes.GETFIELD;
 		getterList.add(new FieldInsnNode(op, cn.name, fn.name, fn.desc));
-		getterList.add(new InsnNode(Type.getType(type).getOpcode(Opcodes.IRETURN)));
+		getterList.add(new InsnNode(Type.getType(sigType).getOpcode(Opcodes.IRETURN)));
+
+		cn.methods.add(getterMethod);
 		
-		MethodNode setterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "set" + methodName, "(" + type + ")V", null, null);
+		if(fn.desc.startsWith("["))
+			return; // Can't do setters on array because of casting
+		
+		MethodNode setterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "set" + methodName, "(" + sigType + ")V", null, null);
 		
 		InsnList setterList = setterMethod.instructions;
 		
 		if(!isStatic)
 			setterList.add(new VarInsnNode(Opcodes.ALOAD, 0));
-		setterList.add(new VarInsnNode(Type.getType(type).getOpcode(Opcodes.ILOAD), 1));
+		setterList.add(new VarInsnNode(Type.getType(sigType).getOpcode(Opcodes.ILOAD), 1));
 		
-		if(interfaces.get(name) != null)
-			setterList.add(new TypeInsnNode(Opcodes.CHECKCAST, interfaces.get(name)));
+		if(classType != null)
+			setterList.add(new TypeInsnNode(Opcodes.CHECKCAST, classType));
 		
 		op = isStatic ? Opcodes.PUTSTATIC : Opcodes.PUTFIELD;
-		setterList.add(new FieldInsnNode(op, cn.name, fn.name, type));
+		setterList.add(new FieldInsnNode(op, cn.name, fn.name, fn.desc));
 		setterList.add(new InsnNode(Opcodes.RETURN));
 		
-		cn.methods.add(getterMethod);
 		cn.methods.add(setterMethod);
 	}
 	

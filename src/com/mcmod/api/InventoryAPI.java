@@ -29,7 +29,7 @@ public class InventoryAPI {
 		if(spot == -1)
 			return false;
 		
-		Object ii = StaticWorm.instantiate("InventoryItem", new Class<?>[] { int.class, int.class, int.class }, id, count, 0);
+		Object ii = Loader.instantiate("InventoryItem", new Class<?>[] { int.class, int.class, int.class }, id, count, 0);
 		it[spot] = (InventoryItem) ii;
 		return true;
 	}

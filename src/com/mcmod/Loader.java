@@ -9,15 +9,17 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.lang.reflect.Constructor;
 
 import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 
-import com.mcmod.api.StaticWorm;
 import com.mcmod.debug.McDebug;
+import com.mcmod.injection.McClassLoader;
+import com.mcmod.injection.McHook;
 import com.mcmod.inter.Minecraft;
 import com.mcmod.inter.PlayerInfo;
-import com.mcmod.updater.hooks.McHook;
+import com.mcmod.inter.WindowAdapter;
 import com.mcmod.util.ExceptionHandler;
 import com.mcmod.util.ReflectionExplorer;
 import com.mcmod.util.Util;
@@ -25,6 +27,7 @@ import com.mcmod.util.Util;
 /**
  * Loader for the Minecraft game.
  */
+@SuppressWarnings("unchecked")
 public class Loader extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
@@ -68,17 +71,17 @@ public class Loader extends JFrame {
 		
 		getContentPane().add(canvas, BorderLayout.CENTER);
 		
-		Object app = StaticWorm.instantiate("MinecraftExtension", this, canvas, null, 854, 480, false, this);
+		Object app = instantiate("MinecraftExtension", this, canvas, null, 854, 480, false, this);
 		minecraft = (Minecraft) app;
 		
 		Thread thread = new Thread((Runnable) app, "Minecraft main thread");
 		
 		minecraft.setURL("www.minecraft.net");
 		
-		Object playerInfo = StaticWorm.instantiate("PlayerInfo", user, sid);
-		minecraft.setPlayerInfo((PlayerInfo) playerInfo);
+		PlayerInfo playerInfo = instantiate("PlayerInfo", user, sid);
+		minecraft.setPlayerInfo(playerInfo);
 		
-		Object listener = StaticWorm.instantiate("WindowAdapter", app, thread);
+		WindowAdapter listener = instantiate("WindowAdapter", app, thread);
 		addWindowListener((WindowListener) listener);
 
 		thread.setPriority(Thread.MAX_PRIORITY);
@@ -112,6 +115,28 @@ public class Loader extends JFrame {
 		try {
 			return classLoader.loadClass(McHook.getClassName(name));
 		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public static <T> T instantiate(String name, Class<?>[] types, Object... args) {
+		try {
+			Constructor<?> cns = getClass(name).getConstructor(types);
+			return (T) cns.newInstance(args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public static <T> T instantiate(String name, Object... args) {
+		try {
+			Constructor<?> cns = getClass(name).getConstructors()[0];
+			return (T) cns.newInstance(args);
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		

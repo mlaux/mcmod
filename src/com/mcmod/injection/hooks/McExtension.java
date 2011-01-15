@@ -1,8 +1,10 @@
-package com.mcmod.updater.hooks;
+package com.mcmod.injection.hooks;
 
 import java.lang.reflect.Modifier;
 
-import com.mcmod.updater.asm.McClassNode;
+import com.mcmod.injection.McClassNode;
+import com.mcmod.injection.McHook;
+
 
 public class McExtension extends McHook {
 	
