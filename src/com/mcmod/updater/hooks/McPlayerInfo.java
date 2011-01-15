@@ -41,7 +41,7 @@ public class McPlayerInfo extends McHook {
 			if(!mn.name.equals("run")) continue;
 			InstructionSearcher is = new InstructionSearcher(mn);
 			is.nextLdcInsn("Post render");
-			identifyInject("com/mcmod/Loader", "onRender", mc, mn, is.position());
+			identifyInject("com/mcmod/Loader", "onRender", mn, is.position());
 		}
 		
 		identifyField("playerInfo", field);

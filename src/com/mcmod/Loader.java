@@ -13,11 +13,11 @@ import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 
-import com.mcmod.api.Data;
 import com.mcmod.api.StaticWorm;
-import com.mcmod.api.Worm;
 import com.mcmod.debug.McDebug;
 import com.mcmod.inter.Minecraft;
+import com.mcmod.inter.PlayerInfo;
+import com.mcmod.updater.hooks.McHook;
 import com.mcmod.util.ExceptionHandler;
 import com.mcmod.util.ReflectionExplorer;
 import com.mcmod.util.Util;
@@ -55,7 +55,12 @@ public class Loader extends JFrame {
 	
 	public Loader(String user, String sid) {
 		super("McMod revision 63");
-		classLoader = new McClassLoader();
+		try {
+			classLoader = new McClassLoader();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 		setLayout(new BorderLayout());
 
 		canvas = new Canvas();
@@ -64,32 +69,29 @@ public class Loader extends JFrame {
 		getContentPane().add(canvas, BorderLayout.CENTER);
 		
 		Object app = StaticWorm.instantiate("MinecraftExtension", this, canvas, null, 854, 480, false, this);
+		minecraft = (Minecraft) app;
 		
 		Thread thread = new Thread((Runnable) app, "Minecraft main thread");
-		thread.setPriority(Thread.MAX_PRIORITY);
 		
-		ExceptionHandler eh = new ExceptionHandler();
-		Thread.setDefaultUncaughtExceptionHandler(eh); // For main thread
-		thread.setUncaughtExceptionHandler(eh); // For minecraft thread
-		
-		Worm worm = new Worm(app);
-		worm.set("URL", "www.minecraft.net");
+		minecraft.setURL("www.minecraft.net");
 		
 		Object playerInfo = StaticWorm.instantiate("PlayerInfo", user, sid);
-		worm.set("playerInfo", playerInfo);
+		minecraft.setPlayerInfo((PlayerInfo) playerInfo);
 		
 		Object listener = StaticWorm.instantiate("WindowAdapter", app, thread);
 		addWindowListener((WindowListener) listener);
-		
+
+		thread.setPriority(Thread.MAX_PRIORITY);
 		thread.start();
+		ExceptionHandler eh = new ExceptionHandler();
+		Thread.setDefaultUncaughtExceptionHandler(eh); // For main thread
+		thread.setUncaughtExceptionHandler(eh); // For minecraft thread
 		
 		menuBar = new McMenuBar();
 		setJMenuBar(menuBar);
 		
 		pack();
 		setLocationRelativeTo(null);
-		
-		minecraft = (Minecraft) app;
 	}
 	
 	public static void onRender() {
@@ -108,7 +110,7 @@ public class Loader extends JFrame {
 	
 	public static Class<?> getClass(String name) {
 		try {
-			return classLoader.loadClass(Data.classes.get(name));
+			return classLoader.loadClass(McHook.getClassName(name));
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}

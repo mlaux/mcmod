@@ -1,6 +1,5 @@
 package com.mcmod.inter;
 
-import java.net.URL;
 
 public interface Minecraft {
 	/**
@@ -22,7 +21,11 @@ public interface Minecraft {
 	 */
 	public PlayerInfo getPlayerInfo();
 	
-	public URL getURL();
+	public void setPlayerInfo(PlayerInfo pl);
+	
+	public String getURL();
+	
+	public void setURL(String url);
 	
 	/**
 	 * @return {@link Player} instance of the current player
