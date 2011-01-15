@@ -12,6 +12,7 @@ import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 import com.mcmod.McClassLoader;
@@ -81,10 +82,12 @@ public abstract class McHook {
 	}
 	
 	public void identifyClass(McClassNode node, String name) {
-		System.out.println(name + " is " + node.name);
-		node.interfaces.add("com/mcmod/inter/" + name);
-		classes.put(name, node);
-		interfaces.put(node.name, name);
+		String binName = "com/mcmod/inter/" + name;
+		if(!node.interfaces.contains(binName)) {
+			node.interfaces.add(binName);
+			classes.put(name, node);
+			interfaces.put(node.name, binName);
+		}
 	}
 	
 	public void identifyClass(String className, String name) {
@@ -101,10 +104,13 @@ public abstract class McHook {
 		String methodName = Character.toUpperCase(s.charAt(0)) + s.substring(1);
 		
 		String type = fn.desc;
-		String name = type.replaceAll("\\[", "");
-		
-		if(interfaces.containsKey(name))
-			type = type.replace(name, interfaces.get(name));
+		String name = type.replace("[", "");
+		if(name.startsWith("L")) {
+			name = name.substring(1, name.length() - 1);
+			if(interfaces.containsKey(name)) {
+				type = type.replace(name, interfaces.get(name));
+			}
+		}
 		
 		MethodNode getterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "get" + methodName, "()" + type, null, null);
 		
@@ -114,18 +120,21 @@ public abstract class McHook {
 		
 		int op = isStatic ? Opcodes.GETSTATIC : Opcodes.GETFIELD;
 		getterList.add(new FieldInsnNode(op, cn.name, fn.name, fn.desc));
-		getterList.add(new InsnNode(Type.getType(fn.desc).getOpcode(Opcodes.IRETURN)));
+		getterList.add(new InsnNode(Type.getType(type).getOpcode(Opcodes.IRETURN)));
 		
-		MethodNode setterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "set" + methodName, "(" + fn.desc + ")V", null, null);
+		MethodNode setterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "set" + methodName, "(" + type + ")V", null, null);
 		
 		InsnList setterList = setterMethod.instructions;
 		
 		if(!isStatic)
 			setterList.add(new VarInsnNode(Opcodes.ALOAD, 0));
-		setterList.add(new VarInsnNode(Type.getType(fn.desc).getOpcode(Opcodes.ILOAD), 1));
+		setterList.add(new VarInsnNode(Type.getType(type).getOpcode(Opcodes.ILOAD), 1));
+		
+		if(interfaces.get(name) != null)
+			setterList.add(new TypeInsnNode(Opcodes.CHECKCAST, interfaces.get(name)));
 		
 		op = isStatic ? Opcodes.PUTSTATIC : Opcodes.PUTFIELD;
-		setterList.add(new FieldInsnNode(op, cn.name, fn.name, fn.desc));
+		setterList.add(new FieldInsnNode(op, cn.name, fn.name, type));
 		setterList.add(new InsnNode(Opcodes.RETURN));
 		
 		cn.methods.add(getterMethod);
