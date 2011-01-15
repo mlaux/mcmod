@@ -3,41 +3,72 @@ package com.mcmod;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.tree.VarInsnNode;
 
-import com.mcmod.api.Data;
-import com.mcmod.shared.Accessor;
+import com.mcmod.updater.asm.McClassNode;
+import com.mcmod.updater.hooks.McChicken;
+import com.mcmod.updater.hooks.McCrafting;
+import com.mcmod.updater.hooks.McExtension;
+import com.mcmod.updater.hooks.McFont;
+import com.mcmod.updater.hooks.McHook;
+import com.mcmod.updater.hooks.McInventory;
+import com.mcmod.updater.hooks.McInventoryItem;
+import com.mcmod.updater.hooks.McItem;
+import com.mcmod.updater.hooks.McLocation;
+import com.mcmod.updater.hooks.McMainMenu;
+import com.mcmod.updater.hooks.McMathUtil;
+import com.mcmod.updater.hooks.McPig;
+import com.mcmod.updater.hooks.McPlayer;
+import com.mcmod.updater.hooks.McPlayerInfo;
+import com.mcmod.updater.hooks.McSign;
+import com.mcmod.updater.hooks.McWindowAdapter;
+import com.mcmod.updater.hooks.McWorld;
 import com.mcmod.util.Util;
 
 public class McClassLoader extends ClassLoader {
+	public static Map<String, McClassNode> classCache = new HashMap<String, McClassNode>();
+	
 	private JarFile minecraft = null;
 	private String jarLocation = "";
 	private Map<String, Class<?>> loadedClasses = new HashMap<String, Class<?>>();
 	
-	public McClassLoader() {
-		try {
-			jarLocation = Util.getWorkingDirectory("minecraft") + "/bin/minecraft.jar";
-			minecraft = new JarFile(jarLocation);
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
+	private McHook[] hooks = getHooks();
 	
+	public McClassLoader() throws IOException {
+		jarLocation = Util.getWorkingDirectory("minecraft") + "/bin/minecraft.jar";
+		minecraft = new JarFile(jarLocation);
+		
+		Enumeration<JarEntry> entries = minecraft.entries();
+		while(entries.hasMoreElements()) {
+			JarEntry entry = entries.nextElement();
+			
+			String name = entry.getName();
+			
+			if(name.endsWith(".class")) {
+				McClassNode node = new McClassNode();
+				ClassReader reader = new ClassReader(minecraft.getInputStream(entry));
+				reader.accept(node, ClassReader.SKIP_FRAMES | ClassReader.SKIP_DEBUG);
+				
+				classCache.put(node.name, node);
+			}
+		}
+		
+		System.out.println("Loaded " + classCache.size() + " classes.");
+
+		
+		for(McHook hook : hooks)
+			for(McClassNode node : classCache.values())
+				if(hook.canProcess(node))
+					hook.process(node);
+	}
 	
 	public URL getResource(String name) {
 		try {
@@ -51,157 +82,46 @@ public class McClassLoader extends ClassLoader {
 	
 	
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
-		Class<?> c = null;
-		
-		String pathName = name.replace('.', '/');
-		
-		if(loadedClasses.containsKey(name)) {
+		if(loadedClasses.containsKey(name))
 			return loadedClasses.get(name);
-		}
 		
 		try {
-			c = super.findSystemClass(name);
+			return super.findSystemClass(name);
 		} catch(Exception e) {
-			try {
-				ZipEntry entry = minecraft.getEntry(pathName + ".class");
+			ClassNode node = classCache.get(name.replace('.', '/'));
+			
+			if(node != null) {
+				ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+				node.accept(writer);
 				
-				if(entry != null) {
-					ClassNode node = new ClassNode();
-					ClassReader reader = new ClassReader(minecraft.getInputStream(entry));
-					reader.accept(node, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
-					
-					if(pathName.equals("net/minecraft/client/Minecraft"))
-						processStaticInjections(node);
-					
-					processDataInjections(pathName, node);
-					processInterfaceInjections(node);
-					processInstanceInjections(node);
-					
-					ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-					node.accept(writer);
-					
-					byte[] buffer = writer.toByteArray();
-					
-					c = super.defineClass(name, buffer, 0, buffer.length);
-					loadedClasses.put(name, c);
-				}
-			} catch(Exception ex) {
-				ex.printStackTrace();
+				byte[] buffer = writer.toByteArray();
+				Class<?> cl = super.defineClass(name, buffer, 0, buffer.length);
+				loadedClasses.put(name, cl);
+				return cl;
 			}
 		}
 	
-		if(c != null) {
-			return c;
-		}
-	
-		return super.loadClass(name);
+		throw new ClassNotFoundException();
 	}
 	
-	private void processStaticInjections(ClassNode node) {
-		for(String s : Data.accessors.keySet()) {
-			Accessor acc = Data.accessors.get(s);
-			if(!acc.isStatic()) continue;
-			
-			String itemSignature = acc.getItemSignature();
-			
-			if(itemSignature.charAt(0) == '(')
-				hookMethod(node, s, acc);
-			else hookField(node, s, acc);
-		}
-	}
-
-	private void processDataInjections(String pathName, ClassNode node) {
-		if(Data.injections.containsKey(pathName)) {
-			Data.injections.get(pathName).process(node);
-		}
-	}
-	
-	private void processInterfaceInjections(ClassNode node) {
-		for(String s : Data.classes.keySet()) {
-			String name = Data.classes.get(s);
-			if(name.equals(node.name))
-				node.interfaces.add("com/mcmod/inter/" + s);
-		}
-	}
-	
-	private void processInstanceInjections(ClassNode node) {
-		for(String s : Data.accessors.keySet()) {
-			Accessor accessor = Data.accessors.get(s);
-			
-			String className = accessor.getClassName();
-			String itemSignature = accessor.getItemSignature();
-			
-			if(node.name.equals(className)) {
-				if(itemSignature.charAt(0) == '(')
-					hookMethod(node, s, accessor);
-				else hookField(node, s, accessor);
-			}
-		}
-	}
-	
-	private void hookMethod(ClassNode cn, String s, Accessor acc) {
-		String className = acc.getClassName();
-		String itemName = acc.getItemName();
-		String itemSignature = acc.getItemSignature();
-		
-		MethodNode method = new MethodNode(Opcodes.ACC_PUBLIC, s, itemSignature, null, null);
-		InsnList list = method.instructions;
-		
-		Type[] types = Type.getArgumentTypes(itemSignature);
-		if(!acc.isStatic())
-			list.add(new VarInsnNode(Opcodes.ALOAD, 0));
-		
-		for(int x = 0; x < types.length; x++) {
-			if(types[x].getSize() == 2)
-				list.add(new VarInsnNode(types[x].getOpcode(Opcodes.ILOAD), (2 * x) + 1));
-			else
-				list.add(new VarInsnNode(types[x].getOpcode(Opcodes.ILOAD), x + 1));
-		}
-		
-		int op = acc.isStatic() ? Opcodes.INVOKESTATIC : Opcodes.INVOKEVIRTUAL;
-		list.add(new MethodInsnNode(op, className, itemName, itemSignature));
-		list.add(new InsnNode(Type.getReturnType(itemSignature).getOpcode(Opcodes.IRETURN)));
-		
-		cn.methods.add(method);
-	}
-	
-	private void hookField(ClassNode cn, String s, Accessor acc) {
-		String className = acc.getClassName();
-		String itemName = acc.getItemName();
-		String itemSignature = acc.getItemSignature();
-		
-		String methodName = Character.toUpperCase(s.charAt(0)) + s.substring(1);
-		
-		String type = itemSignature;
-		String name = itemSignature.replaceAll("\\[", "");
-		
-		if(Data.interfaces.containsKey(name)) {
-			type = type.replace(name, Data.interfaces.get(name));
-		}
-		
-		MethodNode getterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "get" + methodName, "()" + type, null, null);
-		
-		InsnList getterList = getterMethod.instructions;
-		if(!acc.isStatic())
-			getterList.add(new VarInsnNode(Opcodes.ALOAD, 0));
-		
-		int op = acc.isStatic() ? Opcodes.GETSTATIC : Opcodes.GETFIELD;
-		getterList.add(new FieldInsnNode(op, className, itemName, itemSignature));
-		getterList.add(new InsnNode(Type.getType(itemSignature).getOpcode(Opcodes.IRETURN)));
-		
-		MethodNode setterMethod = new MethodNode(Opcodes.ACC_PUBLIC, "set" + methodName, "(" + itemSignature + ")V", null, null);
-		
-		InsnList setterList = setterMethod.instructions;
-		
-		if(!acc.isStatic())
-			setterList.add(new VarInsnNode(Opcodes.ALOAD, 0));
-		setterList.add(new VarInsnNode(Type.getType(itemSignature).getOpcode(Opcodes.ILOAD), 1));
-		
-		op = acc.isStatic() ? Opcodes.PUTSTATIC : Opcodes.PUTFIELD;
-		setterList.add(new FieldInsnNode(op, className, itemName, itemSignature));
-		setterList.add(new InsnNode(Opcodes.RETURN));
-		
-		cn.methods.add(getterMethod);
-		cn.methods.add(setterMethod);
+	private static McHook[] getHooks() {
+		return new McHook[] {
+			new McExtension(), 
+			new McWindowAdapter(), 
+			new McFont(),
+			new McPlayer(), 
+			new McPlayerInfo(),
+			new McInventory(), 
+			new McInventoryItem(), 
+			new McItem(),
+			new McMainMenu(),
+			new McLocation(),
+			new McWorld(),
+			new McChicken(),
+			new McPig(),
+			new McCrafting(),
+			new McSign(),
+			new McMathUtil()
+		};
 	}
 }

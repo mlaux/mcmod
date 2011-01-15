@@ -7,7 +7,6 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.mcmod.updater.McUpdater;
 import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.asm.McMethodNode;
 import com.mcmod.updater.util.InstructionSearcher;
@@ -45,7 +44,7 @@ public class McPlayer extends McHook {
 		identifyField("currentMenu", fin);
 		
 		McClassNode offlinePlayer = McHook.classes.get("Player");
-		McClassNode humanoid = McUpdater.classes.get(offlinePlayer.superName);
+		McClassNode humanoid = getClass(offlinePlayer.superName);
 		
 		MethodNode inventoryMethod = humanoid.constants.get("Inventory").get(0);
 		
@@ -76,7 +75,7 @@ public class McPlayer extends McHook {
 	
 		identifyField("URL", fin);
 		
-		McClassNode humanoidSuperClass = McUpdater.classes.get(humanoid.superName);
+		McClassNode humanoidSuperClass = getClass(humanoid.superName);
 		identifyClass(humanoidSuperClass, "Animable"); 
 		
 		method = humanoidSuperClass.constants.get("bubble").get(0);

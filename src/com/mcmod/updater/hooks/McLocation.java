@@ -30,7 +30,7 @@ public class McLocation extends McHook {
 			if(is.nextInsn(Opcodes.INVOKEVIRTUAL) == null)
 				continue;
 			
-			identifyFieldOrMethod("setPosition", node, min.name, min.desc, false);
+			identifyMethod("setPosition", min);
 		}
 		
 		for(MethodNode mn : node.constants.get("Pos")) {

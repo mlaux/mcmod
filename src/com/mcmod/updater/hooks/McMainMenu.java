@@ -5,7 +5,6 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
-import com.mcmod.updater.McUpdater;
 import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.util.InstructionSearcher;
 
@@ -32,7 +31,7 @@ public class McMainMenu extends McHook {
 		
 		TypeInsnNode tin = (TypeInsnNode) searcher.nextInsn(Opcodes.NEW);
 		
-		identifyClass(McUpdater.classes.get(tin.desc), "Button");
+		identifyClass(getClass(tin.desc), "Button");
 		
 		fin = searcher.nextFieldInsnOfType("Ljava/util/List;");
 		

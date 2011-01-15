@@ -4,7 +4,6 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.mcmod.updater.McUpdater;
 import com.mcmod.updater.asm.McClassNode;
 import com.mcmod.updater.util.InstructionSearcher;
 
@@ -22,7 +21,7 @@ public class McSign extends McHook {
 		searcher.nextLdcInsn("> ");
 		
 		FieldInsnNode fin = (FieldInsnNode) searcher.prevInsn(Opcodes.GETFIELD);
-		McClassNode sign = McUpdater.classes.get(fin.owner);
+		McClassNode sign = getClass(fin.owner);
 		identifyClass(sign, "Sign");
 		identifyField("currentLine", fin);
 		
