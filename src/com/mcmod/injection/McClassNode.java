@@ -1,4 +1,4 @@
-package com.mcmod.updater.asm;
+package com.mcmod.injection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +11,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
+
 
 public class McClassNode extends ClassNode {
 	public List<FieldNode> staticFields = new ArrayList<FieldNode>();

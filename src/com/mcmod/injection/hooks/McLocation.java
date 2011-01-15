@@ -1,12 +1,14 @@
-package com.mcmod.updater.hooks;
+package com.mcmod.injection.hooks;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.mcmod.updater.asm.McClassNode;
-import com.mcmod.updater.util.InstructionSearcher;
+import com.mcmod.injection.InstructionSearcher;
+import com.mcmod.injection.McClassNode;
+import com.mcmod.injection.McHook;
+
 
 public class McLocation extends McHook {
 	private String[] names = { "x", "y", "z", "speedX", "speedY", "speedZ", "rotationY", "rotationX", "fallDistance", "fireTimer", "airTimer", "onGround" };

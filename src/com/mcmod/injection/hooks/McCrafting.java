@@ -1,11 +1,13 @@
-package com.mcmod.updater.hooks;
+package com.mcmod.injection.hooks;
 
 import java.util.List;
 
 import org.objectweb.asm.tree.FieldNode;
 
-import com.mcmod.updater.asm.McClassNode;
-import com.mcmod.updater.asm.McMethodNode;
+import com.mcmod.injection.McClassNode;
+import com.mcmod.injection.McHook;
+import com.mcmod.injection.McMethodNode;
+
 
 public class McCrafting extends McHook {
 	

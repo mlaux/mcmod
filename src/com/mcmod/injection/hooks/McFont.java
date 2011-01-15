@@ -1,11 +1,13 @@
-package com.mcmod.updater.hooks;
+package com.mcmod.injection.hooks;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.mcmod.updater.asm.McClassNode;
-import com.mcmod.updater.util.InstructionSearcher;
+import com.mcmod.injection.InstructionSearcher;
+import com.mcmod.injection.McClassNode;
+import com.mcmod.injection.McHook;
+
 
 public class McFont extends McHook {
 

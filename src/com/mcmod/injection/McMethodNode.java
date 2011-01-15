@@ -1,10 +1,11 @@
-package com.mcmod.updater.asm;
+package com.mcmod.injection;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+
 
 public class McMethodNode extends MethodNode {
 	private McClassNode owner;

@@ -1,4 +1,4 @@
-package com.mcmod.updater.hooks;
+package com.mcmod.injection.hooks;
 
 import java.util.List;
 
@@ -6,9 +6,11 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.mcmod.updater.asm.McClassNode;
-import com.mcmod.updater.asm.McMethodNode;
-import com.mcmod.updater.util.InstructionSearcher;
+import com.mcmod.injection.InstructionSearcher;
+import com.mcmod.injection.McClassNode;
+import com.mcmod.injection.McHook;
+import com.mcmod.injection.McMethodNode;
+
 
 public class McPlayerInfo extends McHook {
 	private String cst = "Setting user: ";

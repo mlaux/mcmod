@@ -1,8 +1,10 @@
-package com.mcmod.updater.hooks;
+package com.mcmod.injection.hooks;
 
 import org.objectweb.asm.tree.MethodNode;
 
-import com.mcmod.updater.asm.McClassNode;
+import com.mcmod.injection.McClassNode;
+import com.mcmod.injection.McHook;
+
 
 public class McMathUtil extends McHook {
 	public boolean canProcess(McClassNode node) {

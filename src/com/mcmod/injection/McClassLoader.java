@@ -1,4 +1,4 @@
-package com.mcmod;
+package com.mcmod.injection;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -13,24 +13,22 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
-import com.mcmod.updater.asm.McClassNode;
-import com.mcmod.updater.hooks.McChicken;
-import com.mcmod.updater.hooks.McCrafting;
-import com.mcmod.updater.hooks.McExtension;
-import com.mcmod.updater.hooks.McFont;
-import com.mcmod.updater.hooks.McHook;
-import com.mcmod.updater.hooks.McInventory;
-import com.mcmod.updater.hooks.McInventoryItem;
-import com.mcmod.updater.hooks.McItem;
-import com.mcmod.updater.hooks.McLocation;
-import com.mcmod.updater.hooks.McMainMenu;
-import com.mcmod.updater.hooks.McMathUtil;
-import com.mcmod.updater.hooks.McPig;
-import com.mcmod.updater.hooks.McPlayer;
-import com.mcmod.updater.hooks.McPlayerInfo;
-import com.mcmod.updater.hooks.McSign;
-import com.mcmod.updater.hooks.McWindowAdapter;
-import com.mcmod.updater.hooks.McWorld;
+import com.mcmod.injection.hooks.McChicken;
+import com.mcmod.injection.hooks.McCrafting;
+import com.mcmod.injection.hooks.McExtension;
+import com.mcmod.injection.hooks.McFont;
+import com.mcmod.injection.hooks.McInventory;
+import com.mcmod.injection.hooks.McInventoryItem;
+import com.mcmod.injection.hooks.McItem;
+import com.mcmod.injection.hooks.McLocation;
+import com.mcmod.injection.hooks.McMainMenu;
+import com.mcmod.injection.hooks.McMathUtil;
+import com.mcmod.injection.hooks.McPig;
+import com.mcmod.injection.hooks.McPlayer;
+import com.mcmod.injection.hooks.McPlayerInfo;
+import com.mcmod.injection.hooks.McSign;
+import com.mcmod.injection.hooks.McWindowAdapter;
+import com.mcmod.injection.hooks.McWorld;
 import com.mcmod.util.Util;
 
 public class McClassLoader extends ClassLoader {
