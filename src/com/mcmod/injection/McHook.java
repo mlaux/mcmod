@@ -71,9 +71,9 @@ public abstract class McHook {
 	public void identifyMethod(String name, MethodInsnNode insn) {
 		McClassNode cn = McClassLoader.classCache.get(insn.owner);
 		MethodNode mth = null;
-		for(MethodNode f : cn.methods)
-			if(f.name.equals(insn.name))
-				mth = f;
+		for(MethodNode m : cn.methods)
+			if(m.name.equals(insn.name) && m.desc.equals(insn.desc))
+				mth = m;
 		if(mth == null)
 			return;
 		identifyMethod(name, cn, mth);
@@ -106,7 +106,6 @@ public abstract class McHook {
 		String classType = null;
 		if(check.startsWith("L")) {
 			String name = check.substring(1, check.length() - 1);
-			System.out.println(check + " " + name);
 			if(interfaces.containsKey(name)) {
 				sigType = sigType.replace(name, interfaces.get(name));
 				classType = name;

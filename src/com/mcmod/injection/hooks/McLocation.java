@@ -31,7 +31,6 @@ public class McLocation extends McHook {
 			MethodInsnNode min = (MethodInsnNode) is.nextInsn(Opcodes.INVOKEVIRTUAL);
 			if(is.nextInsn(Opcodes.INVOKEVIRTUAL) == null)
 				continue;
-			
 			identifyMethod("setPosition", min);
 		}
 		
