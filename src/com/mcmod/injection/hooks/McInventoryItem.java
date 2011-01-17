@@ -14,7 +14,7 @@ public class McInventoryItem extends McHook {
 
 	
 	public boolean canProcess(McClassNode node) {
-		McClassNode inventoryItem = classes.get("InventoryItem");
+		McClassNode inventoryItem = getIdentifiedClass("InventoryItem");
 		
 		return inventoryItem != null && node.name.equals(inventoryItem.name);
 	}

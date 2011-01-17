@@ -15,8 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 
 import com.mcmod.debug.McDebug;
+import com.mcmod.injection.Injector;
 import com.mcmod.injection.McClassLoader;
-import com.mcmod.injection.McHook;
 import com.mcmod.inter.Minecraft;
 import com.mcmod.inter.PlayerInfo;
 import com.mcmod.inter.WindowAdapter;
@@ -113,7 +113,7 @@ public class Loader extends JFrame {
 	
 	public static Class<?> getClass(String name) {
 		try {
-			return classLoader.loadClass(McHook.getClassName(name));
+			return classLoader.loadClass(Injector.getClassName(name));
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}

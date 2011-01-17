@@ -12,7 +12,7 @@ import com.mcmod.injection.McHook;
 public class McInventory extends McHook {
 	
 	public boolean canProcess(McClassNode node) {
-		McClassNode inventory = classes.get("Inventory");
+		McClassNode inventory = getIdentifiedClass("Inventory");
 
 		return inventory != null && node.name.equals(inventory.name);
 	}

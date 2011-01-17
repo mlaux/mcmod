@@ -41,7 +41,7 @@ public class McWorld extends McHook {
 			identifyField(Character.toLowerCase(s.charAt(0)) + s.substring(1), fin);
 		}
 		
-		McClassNode minecraft = classes.get("Minecraft");
+		McClassNode minecraft = getIdentifiedClass("Minecraft");
 		
 		for(FieldNode field : minecraft.instanceFields) {
 			if(field.desc.equals("L" + node.name + ";")) {
