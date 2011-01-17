@@ -32,9 +32,9 @@ public class McPlayerInfo extends McHook {
 		
 		identifyClass(mcfield.owner, "Minecraft");
 		
-		McClassNode mc = classes.get("Minecraft");
+		McClassNode mc = getIdentifiedClass("Minecraft");
 		for(FieldNode fn : mc.instanceFields) {
-			if(fn.desc.equals("L" + classes.get("Font").name + ";"))
+			if(fn.desc.equals("L" + getIdentifiedClass("Font").name + ";"))
 				identifyField("font", mc, fn);
 		}
 		

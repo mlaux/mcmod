@@ -32,7 +32,12 @@ import com.mcmod.injection.hooks.McWorld;
 import com.mcmod.util.Util;
 
 public class McClassLoader extends ClassLoader {
-	public static Map<String, McClassNode> classCache = new HashMap<String, McClassNode>();
+	/**
+	 * Class that static field getters/setters are added to.
+	 */
+	public static final String STATIC_CLASS = "net/minecraft/client/Minecraft";
+	
+	public static final Map<String, McClassNode> classCache = new HashMap<String, McClassNode>();
 	
 	private JarFile minecraft = null;
 	private String jarLocation = "";
@@ -47,7 +52,6 @@ public class McClassLoader extends ClassLoader {
 		Enumeration<JarEntry> entries = minecraft.entries();
 		while(entries.hasMoreElements()) {
 			JarEntry entry = entries.nextElement();
-			
 			String name = entry.getName();
 			
 			if(name.endsWith(".class")) {
@@ -60,12 +64,13 @@ public class McClassLoader extends ClassLoader {
 		}
 		
 		System.out.println("Loaded " + classCache.size() + " classes.");
-
 		
 		for(McHook hook : hooks)
-			for(McClassNode node : classCache.values())
+			for(McClassNode node : classCache.values()) {
 				if(hook.canProcess(node))
 					hook.process(node);
+			}
+		Injector.inject();
 	}
 	
 	public URL getResource(String name) {
@@ -77,7 +82,6 @@ public class McClassLoader extends ClassLoader {
 		
 		return null;
     }
-	
 	
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
 		if(loadedClasses.containsKey(name))
@@ -121,5 +125,13 @@ public class McClassLoader extends ClassLoader {
 			new McSign(),
 			new McMathUtil()
 		};
+	}
+	
+	public static McClassNode getClassNode(String name) {
+		return classCache.get(name);
+	}
+	
+	public static McClassNode getStaticClass() {
+		return classCache.get(STATIC_CLASS);
 	}
 }
