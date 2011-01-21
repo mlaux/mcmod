@@ -59,7 +59,6 @@ public class FrameNode extends AbstractInsnNode {
      * {@link Opcodes#F_APPEND}, {@link Opcodes#F_SAME1} for compressed frames.
      */
     public int type;
-
     /**
      * The types of the local variables of this stack map frame. Elements of
      * this list can be Integer, String or LabelNode objects (for primitive,
@@ -67,7 +66,6 @@ public class FrameNode extends AbstractInsnNode {
      * {@link MethodVisitor}).
      */
     public List<Object> local;
-
     /**
      * The types of the operand stack elements of this stack map frame. Elements
      * of this list can be Integer, String or LabelNode objects (for primitive,
@@ -100,12 +98,11 @@ public class FrameNode extends AbstractInsnNode {
      *        respectively - see {@link MethodVisitor}).
      */
     public FrameNode(
-        final int type,
-        final int nLocal,
-        final Object[] local,
-        final int nStack,
-        final Object[] stack)
-    {
+            final int type,
+            final int nLocal,
+            final Object[] local,
+            final int nStack,
+            final Object[] stack) {
         super(-1);
         this.type = type;
         switch (type) {
@@ -189,7 +186,6 @@ public class FrameNode extends AbstractInsnNode {
     }
 
     // ------------------------------------------------------------------------
-
     private static List<Object> asList(final int n, final Object[] o) {
         return Arrays.asList(o).subList(0, n);
     }

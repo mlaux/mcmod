@@ -41,7 +41,6 @@ public class ByteVector {
      * The content of this vector.
      */
     byte[] data;
-
     /**
      * Actual number of bytes in this vector.
      */
@@ -265,8 +264,7 @@ public class ByteVector {
      * @param len number of bytes of b that must be copied.
      * @return this byte vector.
      */
-    public ByteVector putByteArray(final byte[] b, final int off, final int len)
-    {
+    public ByteVector putByteArray(final byte[] b, final int off, final int len) {
         if (length + len > data.length) {
             enlarge(len);
         }

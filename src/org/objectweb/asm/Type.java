@@ -45,126 +45,103 @@ public class Type {
      * The sort of the <tt>void</tt> type. See {@link #getSort getSort}.
      */
     public static final int VOID = 0;
-
     /**
      * The sort of the <tt>boolean</tt> type. See {@link #getSort getSort}.
      */
     public static final int BOOLEAN = 1;
-
     /**
      * The sort of the <tt>char</tt> type. See {@link #getSort getSort}.
      */
     public static final int CHAR = 2;
-
     /**
      * The sort of the <tt>byte</tt> type. See {@link #getSort getSort}.
      */
     public static final int BYTE = 3;
-
     /**
      * The sort of the <tt>short</tt> type. See {@link #getSort getSort}.
      */
     public static final int SHORT = 4;
-
     /**
      * The sort of the <tt>int</tt> type. See {@link #getSort getSort}.
      */
     public static final int INT = 5;
-
     /**
      * The sort of the <tt>float</tt> type. See {@link #getSort getSort}.
      */
     public static final int FLOAT = 6;
-
     /**
      * The sort of the <tt>long</tt> type. See {@link #getSort getSort}.
      */
     public static final int LONG = 7;
-
     /**
      * The sort of the <tt>double</tt> type. See {@link #getSort getSort}.
      */
     public static final int DOUBLE = 8;
-
     /**
      * The sort of array reference types. See {@link #getSort getSort}.
      */
     public static final int ARRAY = 9;
-
     /**
      * The sort of object reference type. See {@link #getSort getSort}.
      */
     public static final int OBJECT = 10;
-
     /**
      * The <tt>void</tt> type.
      */
     public static final Type VOID_TYPE = new Type(VOID, null, ('V' << 24)
             | (5 << 16) | (0 << 8) | 0, 1);
-
     /**
      * The <tt>boolean</tt> type.
      */
     public static final Type BOOLEAN_TYPE = new Type(BOOLEAN, null, ('Z' << 24)
             | (0 << 16) | (5 << 8) | 1, 1);
-
     /**
      * The <tt>char</tt> type.
      */
     public static final Type CHAR_TYPE = new Type(CHAR, null, ('C' << 24)
             | (0 << 16) | (6 << 8) | 1, 1);
-
     /**
      * The <tt>byte</tt> type.
      */
     public static final Type BYTE_TYPE = new Type(BYTE, null, ('B' << 24)
             | (0 << 16) | (5 << 8) | 1, 1);
-
     /**
      * The <tt>short</tt> type.
      */
     public static final Type SHORT_TYPE = new Type(SHORT, null, ('S' << 24)
             | (0 << 16) | (7 << 8) | 1, 1);
-
     /**
      * The <tt>int</tt> type.
      */
     public static final Type INT_TYPE = new Type(INT, null, ('I' << 24)
             | (0 << 16) | (0 << 8) | 1, 1);
-
     /**
      * The <tt>float</tt> type.
      */
     public static final Type FLOAT_TYPE = new Type(FLOAT, null, ('F' << 24)
             | (2 << 16) | (2 << 8) | 1, 1);
-
     /**
      * The <tt>long</tt> type.
      */
     public static final Type LONG_TYPE = new Type(LONG, null, ('J' << 24)
             | (1 << 16) | (1 << 8) | 2, 1);
-
     /**
      * The <tt>double</tt> type.
      */
     public static final Type DOUBLE_TYPE = new Type(DOUBLE, null, ('D' << 24)
             | (3 << 16) | (3 << 8) | 2, 1);
-
     // ------------------------------------------------------------------------
     // Fields
     // ------------------------------------------------------------------------
-
     /**
      * The sort of this Java type.
      */
     private final int sort;
-
     /**
      * A buffer containing the internal name of this Java type. This field is
      * only used for reference types.
      */
     private final char[] buf;
-
     /**
      * The offset of the internal name of this Java type in {@link #buf buf} or,
      * for primitive types, the size, descriptor and getOpcode offsets for this
@@ -172,7 +149,6 @@ public class Type {
      * for IALOAD or IASTORE, byte 3 the offset for all other instructions).
      */
     private final int off;
-
     /**
      * The length of the internal name of this Java type.
      */
@@ -181,7 +157,6 @@ public class Type {
     // ------------------------------------------------------------------------
     // Constructors
     // ------------------------------------------------------------------------
-
     /**
      * Constructs a reference type.
      * 
@@ -190,8 +165,7 @@ public class Type {
      * @param off the offset of this descriptor in the previous buffer.
      * @param len the length of this descriptor.
      */
-    private Type(final int sort, final char[] buf, final int off, final int len)
-    {
+    private Type(final int sort, final char[] buf, final int off, final int len) {
         this.sort = sort;
         this.buf = buf;
         this.off = off;
@@ -243,7 +217,7 @@ public class Type {
                 return DOUBLE_TYPE;
             } else if (c == Float.TYPE) {
                 return FLOAT_TYPE;
-            } else /* if (c == Long.TYPE) */{
+            } else /* if (c == Long.TYPE) */ {
                 return LONG_TYPE;
             }
         } else {
@@ -406,7 +380,7 @@ public class Type {
                     }
                 }
                 return new Type(ARRAY, buf, off, len + 1);
-                // case 'L':
+            // case 'L':
             default:
                 len = 1;
                 while (buf[off + len] != ';') {
@@ -419,7 +393,6 @@ public class Type {
     // ------------------------------------------------------------------------
     // Accessors
     // ------------------------------------------------------------------------
-
     /**
      * Returns the sort of this Java type.
      * 
@@ -488,7 +461,7 @@ public class Type {
                     b.append("[]");
                 }
                 return b.toString();
-                // case OBJECT:
+            // case OBJECT:
             default:
                 return new String(buf, off, len).replace('/', '.');
         }
@@ -509,7 +482,6 @@ public class Type {
     // ------------------------------------------------------------------------
     // Conversion to type descriptors
     // ------------------------------------------------------------------------
-
     /**
      * Returns the descriptor corresponding to this Java type.
      * 
@@ -531,9 +503,8 @@ public class Type {
      *         types.
      */
     public static String getMethodDescriptor(
-        final Type returnType,
-        final Type[] argumentTypes)
-    {
+            final Type returnType,
+            final Type[] argumentTypes) {
         StringBuffer buf = new StringBuffer();
         buf.append('(');
         for (int i = 0; i < argumentTypes.length; ++i) {
@@ -567,7 +538,6 @@ public class Type {
     // Direct conversion from classes to type descriptors,
     // without intermediate Type objects
     // ------------------------------------------------------------------------
-
     /**
      * Returns the internal name of the given class. The internal name of a
      * class is its fully qualified name, as returned by Class.getName(), where
@@ -653,7 +623,7 @@ public class Type {
                     car = 'D';
                 } else if (d == Float.TYPE) {
                     car = 'F';
-                } else /* if (d == Long.TYPE) */{
+                } else /* if (d == Long.TYPE) */ {
                     car = 'J';
                 }
                 buf.append(car);
@@ -678,7 +648,6 @@ public class Type {
     // ------------------------------------------------------------------------
     // Corresponding size and opcodes
     // ------------------------------------------------------------------------
-
     /**
      * Returns the size of values of this type.
      * 
@@ -715,7 +684,6 @@ public class Type {
     // ------------------------------------------------------------------------
     // Equals, hashCode and toString
     // ------------------------------------------------------------------------
-
     /**
      * Tests if the given object is equal to this type.
      * 

@@ -50,7 +50,6 @@ public abstract class MemberNode {
      * @label visible
      */
     public List<AnnotationNode> visibleAnnotations;
-
     /**
      * The runtime invisible annotations of this class, field or method. This
      * list is a list of {@link AnnotationNode} objects. May be <tt>null</tt>.
@@ -59,7 +58,6 @@ public abstract class MemberNode {
      * @label invisible
      */
     public List<AnnotationNode> invisibleAnnotations;
-
     /**
      * The non standard attributes of this class, field or method. This list is
      * a list of {@link Attribute} objects. May be <tt>null</tt>.
@@ -82,9 +80,8 @@ public abstract class MemberNode {
      * @return a visitor to visit the annotation values.
      */
     public AnnotationVisitor visitAnnotation(
-        final String desc,
-        final boolean visible)
-    {
+            final String desc,
+            final boolean visible) {
         AnnotationNode an = new AnnotationNode(desc);
         if (visible) {
             if (visibleAnnotations == null) {

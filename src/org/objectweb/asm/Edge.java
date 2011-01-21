@@ -40,7 +40,6 @@ class Edge {
      * Denotes a normal control flow graph edge.
      */
     static final int NORMAL = 0;
-
     /**
      * Denotes a control flow graph edge corresponding to an exception handler.
      * More precisely any {@link Edge} whose {@link #info} is strictly positive
@@ -49,7 +48,6 @@ class Edge {
      * is catched.
      */
     static final int EXCEPTION = 0x7FFFFFFF;
-
     /**
      * Information about this control flow graph edge. If
      * {@link ClassWriter#COMPUTE_MAXS} is used this field is the (relative)
@@ -61,12 +59,10 @@ class Edge {
      * EXCEPTION).
      */
     int info;
-
     /**
      * The successor block of the basic block from which this edge originates.
      */
     Label successor;
-
     /**
      * The next edge in the list of successors of the originating basic block.
      * See {@link Label#successors successors}.

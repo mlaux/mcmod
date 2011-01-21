@@ -45,7 +45,6 @@ public class AnnotationNode implements AnnotationVisitor {
      * The class descriptor of the annotation class.
      */
     public String desc;
-
     /**
      * The name value pairs of this annotation. Each name value pair is stored
      * as two consecutive elements in the list. The name is a {@link String},
@@ -80,7 +79,6 @@ public class AnnotationNode implements AnnotationVisitor {
     // ------------------------------------------------------------------------
     // Implementation of the AnnotationVisitor interface
     // ------------------------------------------------------------------------
-
     public void visit(final String name, final Object value) {
         if (values == null) {
             values = new ArrayList<Object>(this.desc != null ? 2 : 1);
@@ -92,23 +90,21 @@ public class AnnotationNode implements AnnotationVisitor {
     }
 
     public void visitEnum(
-        final String name,
-        final String desc,
-        final String value)
-    {
+            final String name,
+            final String desc,
+            final String value) {
         if (values == null) {
             values = new ArrayList<Object>(this.desc != null ? 2 : 1);
         }
         if (this.desc != null) {
             values.add(name);
         }
-        values.add(new String[] { desc, value });
+        values.add(new String[]{desc, value});
     }
 
     public AnnotationVisitor visitAnnotation(
-        final String name,
-        final String desc)
-    {
+            final String name,
+            final String desc) {
         if (values == null) {
             values = new ArrayList<Object>(this.desc != null ? 2 : 1);
         }
@@ -138,7 +134,6 @@ public class AnnotationNode implements AnnotationVisitor {
     // ------------------------------------------------------------------------
     // Accept methods
     // ------------------------------------------------------------------------
-
     /**
      * Makes the given visitor visit this annotation.
      * 
@@ -165,10 +160,9 @@ public class AnnotationNode implements AnnotationVisitor {
      * @param value the actual value.
      */
     static void accept(
-        final AnnotationVisitor av,
-        final String name,
-        final Object value)
-    {
+            final AnnotationVisitor av,
+            final String name,
+            final Object value) {
         if (av != null) {
             if (value instanceof String[]) {
                 String[] typeconst = (String[]) value;

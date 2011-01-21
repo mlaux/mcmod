@@ -51,7 +51,6 @@ public interface MethodVisitor {
     // -------------------------------------------------------------------------
     // Annotations and non standard attributes
     // -------------------------------------------------------------------------
-
     /**
      * Visits the default value of this annotation interface method.
      * 
@@ -84,9 +83,9 @@ public interface MethodVisitor {
      *         this visitor is not interested in visiting this annotation.
      */
     AnnotationVisitor visitParameterAnnotation(
-        int parameter,
-        String desc,
-        boolean visible);
+            int parameter,
+            String desc,
+            boolean visible);
 
     /**
      * Visits a non standard attribute of this method.
@@ -152,16 +151,15 @@ public interface MethodVisitor {
      *        is a Opcodes#F_SAME frame, in which case it is silently ignored).
      */
     void visitFrame(
-        int type,
-        int nLocal,
-        Object[] local,
-        int nStack,
-        Object[] stack);
+            int type,
+            int nLocal,
+            Object[] local,
+            int nStack,
+            Object[] stack);
 
     // -------------------------------------------------------------------------
     // Normal instructions
     // -------------------------------------------------------------------------
-
     /**
      * Visits a zero operand instruction.
      * 
@@ -276,7 +274,6 @@ public interface MethodVisitor {
     // -------------------------------------------------------------------------
     // Special instructions
     // -------------------------------------------------------------------------
-
     /**
      * Visits a LDC instruction.
      * 
@@ -328,7 +325,6 @@ public interface MethodVisitor {
     // -------------------------------------------------------------------------
     // Exceptions table entries, debug information, max stack and max locals
     // -------------------------------------------------------------------------
-
     /**
      * Visits a try catch block.
      * 
@@ -362,12 +358,12 @@ public interface MethodVisitor {
      *         {@link #visitLabel visitLabel} method).
      */
     void visitLocalVariable(
-        String name,
-        String desc,
-        String signature,
-        Label start,
-        Label end,
-        int index);
+            String name,
+            String desc,
+            String signature,
+            Label start,
+            Label end,
+            int index);
 
     /**
      * Visits a line number declaration.

@@ -46,12 +46,10 @@ public class FieldInsnNode extends AbstractInsnNode {
      * {@link org.objectweb.asm.Type#getInternalName() getInternalName}).
      */
     public String owner;
-
     /**
      * The field's name.
      */
     public String name;
-
     /**
      * The field's descriptor (see {@link org.objectweb.asm.Type}).
      */
@@ -68,11 +66,10 @@ public class FieldInsnNode extends AbstractInsnNode {
      * @param desc the field's descriptor (see {@link org.objectweb.asm.Type}).
      */
     public FieldInsnNode(
-        final int opcode,
-        final String owner,
-        final String name,
-        final String desc)
-    {
+            final int opcode,
+            final String owner,
+            final String name,
+            final String desc) {
         super(opcode);
         this.owner = owner;
         this.name = name;

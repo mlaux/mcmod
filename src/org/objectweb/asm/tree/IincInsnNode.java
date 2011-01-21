@@ -45,7 +45,6 @@ public class IincInsnNode extends AbstractInsnNode {
      * Index of the local variable to be incremented.
      */
     public int var;
-
     /**
      * Amount to increment the local variable by.
      */

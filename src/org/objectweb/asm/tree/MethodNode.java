@@ -53,29 +53,24 @@ public class MethodNode extends MemberNode implements MethodVisitor {
      * indicates if the method is synthetic and/or deprecated.
      */
     public int access;
-
     /**
      * The method's name.
      */
     public String name;
-
     /**
      * The method's descriptor (see {@link Type}).
      */
     public String desc;
-
     /**
      * The method's signature. May be <tt>null</tt>.
      */
     public String signature;
-
     /**
      * The internal names of the method's exception classes (see
      * {@link Type#getInternalName() getInternalName}). This list is a list of
      * {@link String} objects.
      */
     public List<String> exceptions;
-
     /**
      * The default value of this annotation interface method. This field must be
      * a {@link Byte}, {@link Boolean}, {@link Character}, {@link Short},
@@ -85,7 +80,6 @@ public class MethodNode extends MemberNode implements MethodVisitor {
      * values of one of the preceding types. May be <tt>null</tt>.
      */
     public Object annotationDefault;
-
     /**
      * The runtime visible parameter annotations of this method. These lists are
      * lists of {@link AnnotationNode} objects. May be <tt>null</tt>.
@@ -94,7 +88,6 @@ public class MethodNode extends MemberNode implements MethodVisitor {
      * @label invisible parameters
      */
     public List<Object>[] visibleParameterAnnotations;
-
     /**
      * The runtime invisible parameter annotations of this method. These lists
      * are lists of {@link AnnotationNode} objects. May be <tt>null</tt>.
@@ -103,7 +96,6 @@ public class MethodNode extends MemberNode implements MethodVisitor {
      * @label visible parameters
      */
     public List<Object>[] invisibleParameterAnnotations;
-
     /**
      * The instructions of this method. This list is a list of
      * {@link AbstractInsnNode} objects.
@@ -112,7 +104,6 @@ public class MethodNode extends MemberNode implements MethodVisitor {
      * @label instructions
      */
     public InsnList instructions;
-
     /**
      * The try catch blocks of this method. This list is a list of
      * {@link TryCatchBlockNode} objects.
@@ -120,17 +111,14 @@ public class MethodNode extends MemberNode implements MethodVisitor {
      * @associates org.objectweb.asm.tree.TryCatchBlockNode
      */
     public List<TryCatchBlockNode> tryCatchBlocks;
-
     /**
      * The maximum stack size of this method.
      */
     public int maxStack;
-
     /**
      * The maximum number of local variables of this method.
      */
     public int maxLocals;
-
     /**
      * The local variables of this method. This list is a list of
      * {@link LocalVariableNode} objects. May be <tt>null</tt>
@@ -145,7 +133,7 @@ public class MethodNode extends MemberNode implements MethodVisitor {
     public MethodNode() {
         this.instructions = new InsnList();
     }
-    
+
     /**
      * Constructs a new {@link MethodNode}.
      * 
@@ -160,12 +148,11 @@ public class MethodNode extends MemberNode implements MethodVisitor {
      *        <tt>null</tt>.
      */
     public MethodNode(
-        final int access,
-        final String name,
-        final String desc,
-        final String signature,
-        final String[] exceptions)
-    {
+            final int access,
+            final String name,
+            final String desc,
+            final String signature,
+            final String[] exceptions) {
         this();
         this.access = access;
         this.name = name;
@@ -187,9 +174,9 @@ public class MethodNode extends MemberNode implements MethodVisitor {
     // ------------------------------------------------------------------------
     // Implementation of the MethodVisitor interface
     // ------------------------------------------------------------------------
-
     public AnnotationVisitor visitAnnotationDefault() {
         return new AnnotationNode(new ArrayList<Object>(0) {
+
             public boolean add(final Object o) {
                 annotationDefault = o;
                 return super.add(o);
@@ -198,11 +185,10 @@ public class MethodNode extends MemberNode implements MethodVisitor {
     }
 
     @SuppressWarnings("unchecked")
-	public AnnotationVisitor visitParameterAnnotation(
-        final int parameter,
-        final String desc,
-        final boolean visible)
-    {
+    public AnnotationVisitor visitParameterAnnotation(
+            final int parameter,
+            final String desc,
+            final boolean visible) {
         AnnotationNode an = new AnnotationNode(desc);
         if (visible) {
             if (visibleParameterAnnotations == null) {
@@ -230,12 +216,11 @@ public class MethodNode extends MemberNode implements MethodVisitor {
     }
 
     public void visitFrame(
-        final int type,
-        final int nLocal,
-        final Object[] local,
-        final int nStack,
-        final Object[] stack)
-    {
+            final int type,
+            final int nLocal,
+            final Object[] local,
+            final int nStack,
+            final Object[] stack) {
         instructions.add(new FrameNode(type, nLocal, local == null
                 ? null
                 : getLabelNodes(local), nStack, stack == null
@@ -260,20 +245,18 @@ public class MethodNode extends MemberNode implements MethodVisitor {
     }
 
     public void visitFieldInsn(
-        final int opcode,
-        final String owner,
-        final String name,
-        final String desc)
-    {
+            final int opcode,
+            final String owner,
+            final String name,
+            final String desc) {
         instructions.add(new FieldInsnNode(opcode, owner, name, desc));
     }
 
     public void visitMethodInsn(
-        final int opcode,
-        final String owner,
-        final String name,
-        final String desc)
-    {
+            final int opcode,
+            final String owner,
+            final String name,
+            final String desc) {
         instructions.add(new MethodInsnNode(opcode, owner, name, desc));
     }
 
@@ -294,11 +277,10 @@ public class MethodNode extends MemberNode implements MethodVisitor {
     }
 
     public void visitTableSwitchInsn(
-        final int min,
-        final int max,
-        final Label dflt,
-        final Label[] labels)
-    {
+            final int min,
+            final int max,
+            final Label dflt,
+            final Label[] labels) {
         instructions.add(new TableSwitchInsnNode(min,
                 max,
                 getLabelNode(dflt),
@@ -306,10 +288,9 @@ public class MethodNode extends MemberNode implements MethodVisitor {
     }
 
     public void visitLookupSwitchInsn(
-        final Label dflt,
-        final int[] keys,
-        final Label[] labels)
-    {
+            final Label dflt,
+            final int[] keys,
+            final Label[] labels) {
         instructions.add(new LookupSwitchInsnNode(getLabelNode(dflt),
                 keys,
                 getLabelNodes(labels)));
@@ -320,11 +301,10 @@ public class MethodNode extends MemberNode implements MethodVisitor {
     }
 
     public void visitTryCatchBlock(
-        final Label start,
-        final Label end,
-        final Label handler,
-        final String type)
-    {
+            final Label start,
+            final Label end,
+            final Label handler,
+            final String type) {
         tryCatchBlocks.add(new TryCatchBlockNode(getLabelNode(start),
                 getLabelNode(end),
                 getLabelNode(handler),
@@ -332,13 +312,12 @@ public class MethodNode extends MemberNode implements MethodVisitor {
     }
 
     public void visitLocalVariable(
-        final String name,
-        final String desc,
-        final String signature,
-        final Label start,
-        final Label end,
-        final int index)
-    {
+            final String name,
+            final String desc,
+            final String signature,
+            final Label start,
+            final Label end,
+            final int index) {
         localVariables.add(new LocalVariableNode(name,
                 desc,
                 signature,
@@ -364,7 +343,7 @@ public class MethodNode extends MemberNode implements MethodVisitor {
      * 
      * @param l a Label.
      * @return the LabelNode corresponding to l.
-     */    
+     */
     protected LabelNode getLabelNode(final Label l) {
         if (!(l.info instanceof LabelNode)) {
             l.info = new LabelNode(l);
@@ -395,7 +374,6 @@ public class MethodNode extends MemberNode implements MethodVisitor {
     // ------------------------------------------------------------------------
     // Accept method
     // ------------------------------------------------------------------------
-
     /**
      * Makes the given class visitor visit this method.
      * 

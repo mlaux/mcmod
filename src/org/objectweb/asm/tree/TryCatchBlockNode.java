@@ -42,17 +42,14 @@ public class TryCatchBlockNode {
      * Beginning of the exception handler's scope (inclusive).
      */
     public LabelNode start;
-
     /**
      * End of the exception handler's scope (exclusive).
      */
     public LabelNode end;
-
     /**
      * Beginning of the exception handler's code.
      */
     public LabelNode handler;
-
     /**
      * Internal name of the type of exceptions handled by the handler. May be
      * <tt>null</tt> to catch any exceptions (for "finally" blocks).
@@ -70,11 +67,10 @@ public class TryCatchBlockNode {
      *        blocks).
      */
     public TryCatchBlockNode(
-        final LabelNode start,
-        final LabelNode end,
-        final LabelNode handler,
-        final String type)
-    {
+            final LabelNode start,
+            final LabelNode end,
+            final LabelNode handler,
+            final String type) {
         this.start = start;
         this.end = end;
         this.handler = handler;

@@ -1,3 +1,4 @@
+
 import java.util.List;
 
 import com.mcmod.Loader;
@@ -6,42 +7,43 @@ import com.mcmod.inter.Chicken;
 import com.mcmod.inter.Player;
 import com.mcmod.inter.World;
 
-
 public class ChickenFertilizer implements Mod {
-	@Override
-	public boolean isTogglable() {
-		return true;
-	}
 
-	@Override
-	public String getName() {
-		return "Chicken Fertilizer";
-	}
+    @Override
+    public boolean isTogglable() {
+        return true;
+    }
 
-	@Override
-	public String getDescription() {
-		return "Teleports all the chickens to you and makes them lay eggs -- rapidly.";
-	}
+    @Override
+    public String getName() {
+        return "Chicken Fertilizer";
+    }
 
-	@Override
-	public void process() {
-		World world = Loader.getMinecraft().getWorld();
-		Player me = Loader.getMinecraft().getPlayer();
-		
-		if(world != null) {
-			@SuppressWarnings("rawtypes")
-			List entities = world.getEntityList();
-			
-			for(Object o : entities) {
-				if(Chicken.class.isAssignableFrom(o.getClass())) {
-					Chicken c = (Chicken) o;
-					
-					c.setPosition(me.getX() + 1, me.getY(), me.getZ() + 1);
-					
-					if(c.getEggTimer() > 3)
-						c.setEggTimer(2);
-				}
-			}
-		}
-	}
+    @Override
+    public String getDescription() {
+        return "Teleports all the chickens to you and makes them lay eggs -- rapidly.";
+    }
+
+    @Override
+    public void process() {
+        World world = Loader.getMinecraft().getWorld();
+        Player me = Loader.getMinecraft().getPlayer();
+
+        if (world != null) {
+            @SuppressWarnings("rawtypes")
+            List entities = world.getEntityList();
+
+            for (Object o : entities) {
+                if (Chicken.class.isAssignableFrom(o.getClass())) {
+                    Chicken c = (Chicken) o;
+
+                    c.setPosition(me.getX() + 1, me.getY(), me.getZ() + 1);
+
+                    if (c.getEggTimer() > 3) {
+                        c.setEggTimer(2);
+                    }
+                }
+            }
+        }
+    }
 }

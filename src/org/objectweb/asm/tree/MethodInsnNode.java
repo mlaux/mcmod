@@ -46,12 +46,10 @@ public class MethodInsnNode extends AbstractInsnNode {
      * {@link org.objectweb.asm.Type#getInternalName() getInternalName}).
      */
     public String owner;
-
     /**
      * The method's name.
      */
     public String name;
-
     /**
      * The method's descriptor (see {@link org.objectweb.asm.Type}).
      */
@@ -70,11 +68,10 @@ public class MethodInsnNode extends AbstractInsnNode {
      * @param desc the method's descriptor (see {@link org.objectweb.asm.Type}).
      */
     public MethodInsnNode(
-        final int opcode,
-        final String owner,
-        final String name,
-        final String desc)
-    {
+            final int opcode,
+            final String owner,
+            final String name,
+            final String desc) {
         super(opcode);
         this.owner = owner;
         this.name = name;

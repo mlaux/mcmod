@@ -26,7 +26,7 @@ public class Flyer implements Mod {
     public void process() {
         Keyboard.enableRepeatEvents(true);
         Player p = Loader.getMinecraft().getPlayer();
-        
+
         if (p != null) {
             if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
                 p.setSpeedY(0.5d);

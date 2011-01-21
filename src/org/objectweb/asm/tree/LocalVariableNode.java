@@ -42,29 +42,24 @@ public class LocalVariableNode {
      * The name of a local variable.
      */
     public String name;
-
     /**
      * The type descriptor of this local variable.
      */
     public String desc;
-
     /**
      * The signature of this local variable. May be <tt>null</tt>.
      */
     public String signature;
-
     /**
      * The first instruction corresponding to the scope of this local variable
      * (inclusive).
      */
     public LabelNode start;
-
     /**
      * The last instruction corresponding to the scope of this local variable
      * (exclusive).
      */
     public LabelNode end;
-
     /**
      * The local variable's index.
      */
@@ -84,13 +79,12 @@ public class LocalVariableNode {
      * @param index the local variable's index.
      */
     public LocalVariableNode(
-        final String name,
-        final String desc,
-        final String signature,
-        final LabelNode start,
-        final LabelNode end,
-        final int index)
-    {
+            final String name,
+            final String desc,
+            final String signature,
+            final LabelNode start,
+            final LabelNode end,
+            final int index) {
         this.name = name;
         this.desc = desc;
         this.signature = signature;
