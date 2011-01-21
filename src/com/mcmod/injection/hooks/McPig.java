@@ -8,7 +8,7 @@ import com.mcmod.injection.McHook;
 public class McPig extends McHook {
 
     public boolean canProcess(McClassNode node) {
-        return node.constants.get("/mob/cow.png") != null;
+        return node.constants.get("/mob/pig.png") != null;
     }
 
     public void process(McClassNode node) {
