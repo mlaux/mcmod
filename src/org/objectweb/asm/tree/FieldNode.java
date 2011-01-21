@@ -45,22 +45,18 @@ public class FieldNode extends MemberNode implements FieldVisitor {
      * field also indicates if the field is synthetic and/or deprecated.
      */
     public int access;
-
     /**
      * The field's name.
      */
     public String name;
-
     /**
      * The field's descriptor (see {@link org.objectweb.asm.Type}).
      */
     public String desc;
-
     /**
      * The field's signature. May be <tt>null</tt>.
      */
     public String signature;
-
     /**
      * The field's initial value. This field, which may be <tt>null</tt> if
      * the field does not have an initial value, must be an {@link Integer}, a
@@ -84,12 +80,11 @@ public class FieldNode extends MemberNode implements FieldVisitor {
      *        {@link Double} or a {@link String}.
      */
     public FieldNode(
-        final int access,
-        final String name,
-        final String desc,
-        final String signature,
-        final Object value)
-    {
+            final int access,
+            final String name,
+            final String desc,
+            final String signature,
+            final Object value) {
         this.access = access;
         this.name = name;
         this.desc = desc;

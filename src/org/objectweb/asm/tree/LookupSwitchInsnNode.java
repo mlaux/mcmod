@@ -49,12 +49,10 @@ public class LookupSwitchInsnNode extends AbstractInsnNode {
      * Beginning of the default handler block.
      */
     public LabelNode dflt;
-
     /**
      * The values of the keys. This list is a list of {@link Integer} objects.
      */
     public List<Integer> keys;
-
     /**
      * Beginnings of the handler blocks. This list is a list of
      * {@link LabelNode} objects.
@@ -70,10 +68,9 @@ public class LookupSwitchInsnNode extends AbstractInsnNode {
      *        the beginning of the handler block for the <tt>keys[i]</tt> key.
      */
     public LookupSwitchInsnNode(
-        final LabelNode dflt,
-        final int[] keys,
-        final LabelNode[] labels)
-    {
+            final LabelNode dflt,
+            final int[] keys,
+            final LabelNode[] labels) {
         super(Opcodes.LOOKUPSWITCH);
         this.dflt = dflt;
         this.keys = new ArrayList<Integer>(keys == null ? 0 : keys.length);

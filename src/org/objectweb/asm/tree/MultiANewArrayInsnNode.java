@@ -45,7 +45,6 @@ public class MultiANewArrayInsnNode extends AbstractInsnNode {
      * An array type descriptor (see {@link org.objectweb.asm.Type}).
      */
     public String desc;
-
     /**
      * Number of dimensions of the array to allocate.
      */
@@ -74,5 +73,4 @@ public class MultiANewArrayInsnNode extends AbstractInsnNode {
     public AbstractInsnNode clone(final Map<?, ?> labels) {
         return new MultiANewArrayInsnNode(desc, dims);
     }
-
 }

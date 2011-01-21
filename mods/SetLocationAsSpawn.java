@@ -1,29 +1,31 @@
+
 import com.mcmod.Loader;
 import com.mcmod.api.Mod;
 import com.mcmod.inter.Player;
 import com.mcmod.inter.World;
 
 public class SetLocationAsSpawn implements Mod {
-	public boolean isTogglable() {
-		return false;
-	}
 
-	public String getName() {
-		return "Set Location As Spawn";
-	}
+    public boolean isTogglable() {
+        return false;
+    }
 
-	public String getDescription() {
-		return "Sets your current location as your spawn point.";
-	}
+    public String getName() {
+        return "Set Location As Spawn";
+    }
 
-	public void process() {
-		Player p = Loader.getMinecraft().getPlayer();
-		World w = Loader.getMinecraft().getWorld();
+    public String getDescription() {
+        return "Sets your current location as your spawn point.";
+    }
 
-		if (p != null && w != null) {
-			w.setSpawnX((int) p.getX());
-			w.setSpawnY((int) p.getY());
-			w.setSpawnZ((int) p.getZ());
-		}
-	}
+    public void process() {
+        Player p = Loader.getMinecraft().getPlayer();
+        World w = Loader.getMinecraft().getWorld();
+
+        if (p != null && w != null) {
+            w.setSpawnX((int) p.getX());
+            w.setSpawnY((int) p.getY());
+            w.setSpawnZ((int) p.getZ());
+        }
+    }
 }

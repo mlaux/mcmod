@@ -88,23 +88,19 @@ final class Frame {
      * possible, since actual type values are not always known - cf LOCAL and
      * STACK type kinds).
      */
-
     /**
      * Mask to get the dimension of a frame type. This dimension is a signed
      * integer between -8 and 7.
      */
     static final int DIM = 0xF0000000;
-
     /**
      * Constant to be added to a type to get a type with one more dimension.
      */
     static final int ARRAY_OF = 0x10000000;
-
     /**
      * Constant to be added to a type to get a type with one less dimension.
      */
     static final int ELEMENT_OF = 0xF0000000;
-
     /**
      * Mask to get the kind of a frame type.
      * 
@@ -113,7 +109,6 @@ final class Frame {
      * @see #STACK
      */
     static final int KIND = 0xF000000;
-
     /**
      * Flag used for LOCAL and STACK types. Indicates that if this type happens
      * to be a long or double type (during the computations of input frames), 
@@ -122,108 +117,88 @@ final class Frame {
      * no longer stores a valid long or double value.
      */
     static final int TOP_IF_LONG_OR_DOUBLE = 0x800000;
-
     /**
      * Mask to get the value of a frame type.
      */
     static final int VALUE = 0x7FFFFF;
-
     /**
      * Mask to get the kind of base types.
      */
     static final int BASE_KIND = 0xFF00000;
-
     /**
      * Mask to get the value of base types.
      */
     static final int BASE_VALUE = 0xFFFFF;
-
     /**
      * Kind of the types that are not relative to an input stack map frame.
      */
     static final int BASE = 0x1000000;
-
     /**
      * Base kind of the base reference types. The BASE_VALUE of such types is an
      * index into the type table.
      */
     static final int OBJECT = BASE | 0x700000;
-
     /**
      * Base kind of the uninitialized base types. The BASE_VALUE of such types
      * in an index into the type table (the Item at that index contains both an
      * instruction offset and an internal class name).
      */
     static final int UNINITIALIZED = BASE | 0x800000;
-
     /**
      * Kind of the types that are relative to the local variable types of an
      * input stack map frame. The value of such types is a local variable index.
      */
     private static final int LOCAL = 0x2000000;
-
     /**
      * Kind of the the types that are relative to the stack of an input stack
      * map frame. The value of such types is a position relatively to the top of
      * this stack.
      */
     private static final int STACK = 0x3000000;
-
     /**
      * The TOP type. This is a BASE type.
      */
     static final int TOP = BASE | 0;
-
     /**
      * The BOOLEAN type. This is a BASE type mainly used for array types.
      */
     static final int BOOLEAN = BASE | 9;
-
     /**
      * The BYTE type. This is a BASE type mainly used for array types.
      */
     static final int BYTE = BASE | 10;
-
     /**
      * The CHAR type. This is a BASE type mainly used for array types.
      */
     static final int CHAR = BASE | 11;
-
     /**
      * The SHORT type. This is a BASE type mainly used for array types.
      */
     static final int SHORT = BASE | 12;
-
     /**
      * The INTEGER type. This is a BASE type.
      */
     static final int INTEGER = BASE | 1;
-
     /**
      * The FLOAT type. This is a BASE type.
      */
     static final int FLOAT = BASE | 2;
-
     /**
      * The DOUBLE type. This is a BASE type.
      */
     static final int DOUBLE = BASE | 3;
-
     /**
      * The LONG type. This is a BASE type.
      */
     static final int LONG = BASE | 4;
-
     /**
      * The NULL type. This is a BASE type.
      */
     static final int NULL = BASE | 5;
-
     /**
      * The UNINITIALIZED_THIS type. This is a BASE type.
      */
     static final int UNINITIALIZED_THIS = BASE | 6;
-
     /**
      * The stack size variation corresponding to each JVM instruction. This
      * stack variation is equal to the size of the values produced by an
@@ -459,33 +434,27 @@ final class Frame {
         // }
         // System.err.println();
     }
-
     /**
      * The label (i.e. basic block) to which these input and output stack map
      * frames correspond.
      */
     Label owner;
-
     /**
      * The input stack map frame locals.
      */
     int[] inputLocals;
-
     /**
      * The input stack map frame stack.
      */
     int[] inputStack;
-
     /**
      * The output stack map frame locals.
      */
     private int[] outputLocals;
-
     /**
      * The output stack map frame stack.
      */
     private int[] outputStack;
-
     /**
      * Relative size of the output stack. The exact semantics of this field
      * depends on the algorithm that is used.
@@ -497,14 +466,12 @@ final class Frame {
      * actual number of types in {@link #outputStack}.
      */
     private int outputStackTop;
-
     /**
      * Number of types that are initialized in the basic block.
      * 
      * @see #initializations
      */
     private int initializationCount;
-
     /**
      * The types that are initialized in the basic block. A constructor
      * invocation on an UNINITIALIZED or UNINITIALIZED_THIS type must replace
@@ -635,7 +602,7 @@ final class Frame {
                 // stores the internal name, not the descriptor!
                 t = desc.substring(index + 1, desc.length() - 1);
                 return OBJECT | cw.addType(t);
-                // case '[':
+            // case '[':
             default:
                 // extracts the dimensions and the element type
                 int data;
@@ -793,11 +760,10 @@ final class Frame {
      * @param maxLocals the maximum number of local variables of this method.
      */
     void initInputFrame(
-        final ClassWriter cw,
-        final int access,
-        final Type[] args,
-        final int maxLocals)
-    {
+            final ClassWriter cw,
+            final int access,
+            final Type[] args,
+            final int maxLocals) {
         inputLocals = new int[maxLocals];
         inputStack = new int[0];
         int i = 0;
@@ -829,11 +795,10 @@ final class Frame {
      * @param item the operand of the instructions, if any.
      */
     void execute(
-        final int opcode,
-        final int arg,
-        final ClassWriter cw,
-        final Item item)
-    {
+            final int opcode,
+            final int arg,
+            final ClassWriter cw,
+            final Item item) {
         int t1, t2, t3, t4;
         switch (opcode) {
             case Opcodes.NOP:
@@ -1179,8 +1144,7 @@ final class Frame {
                 if (opcode != Opcodes.INVOKESTATIC) {
                     t1 = pop();
                     if (opcode == Opcodes.INVOKESPECIAL
-                            && item.strVal2.charAt(0) == '<')
-                    {
+                            && item.strVal2.charAt(0) == '<') {
                         init(t1);
                     }
                 }
@@ -1365,11 +1329,10 @@ final class Frame {
      *         operation.
      */
     private static boolean merge(
-        final ClassWriter cw,
-        int t,
-        final int[] types,
-        final int index)
-    {
+            final ClassWriter cw,
+            int t,
+            final int[] types,
+            final int index) {
         int u = types[index];
         if (u == t) {
             // if the types are equal, merge(u,t)=u, so there is no change

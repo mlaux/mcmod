@@ -49,17 +49,14 @@ public class TableSwitchInsnNode extends AbstractInsnNode {
      * The minimum key value.
      */
     public int min;
-
     /**
      * The maximum key value.
      */
     public int max;
-
     /**
      * Beginning of the default handler block.
      */
     public LabelNode dflt;
-
     /**
      * Beginnings of the handler blocks. This list is a list of
      * {@link LabelNode} objects.
@@ -76,11 +73,10 @@ public class TableSwitchInsnNode extends AbstractInsnNode {
      *        the beginning of the handler block for the <tt>min + i</tt> key.
      */
     public TableSwitchInsnNode(
-        final int min,
-        final int max,
-        final LabelNode dflt,
-        final LabelNode[] labels)
-    {
+            final int min,
+            final int max,
+            final LabelNode dflt,
+            final LabelNode[] labels) {
         super(Opcodes.TABLESWITCH);
         this.min = min;
         this.max = max;

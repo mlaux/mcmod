@@ -47,66 +47,54 @@ public class Label {
      * analysis algorithms (for optimization purposes).
      */
     static final int DEBUG = 1;
-
     /**
      * Indicates if the position of this label is known.
      */
     static final int RESOLVED = 2;
-
     /**
      * Indicates if this label has been updated, after instruction resizing.
      */
     static final int RESIZED = 4;
-
     /**
      * Indicates if this basic block has been pushed in the basic block stack.
      * See {@link MethodWriter#visitMaxs visitMaxs}.
      */
     static final int PUSHED = 8;
-
     /**
      * Indicates if this label is the target of a jump instruction, or the start
      * of an exception handler.
      */
     static final int TARGET = 16;
-
     /**
      * Indicates if a stack map frame must be stored for this label.
      */
     static final int STORE = 32;
-
     /**
      * Indicates if this label corresponds to a reachable basic block.
      */
     static final int REACHABLE = 64;
-
     /**
      * Indicates if this basic block ends with a JSR instruction.
      */
     static final int JSR = 128;
-
     /**
      * Indicates if this basic block ends with a RET instruction.
      */
     static final int RET = 256;
-
     /**
      * Indicates if this basic block is the start of a subroutine.
      */
     static final int SUBROUTINE = 512;
-
     /**
      * Indicates if this subroutine basic block has been visited by a 
      * visitSubroutine(null, ...) call.
      */
     static final int VISITED = 1024;
-
     /**
      * Indicates if this subroutine basic block has been visited by a
      * visitSubroutine(!null, ...) call.
      */
     static final int VISITED2 = 2048;
-
     /**
      * Field used to associate user information to a label. Warning: this field
      * is used by the ASM tree package. In order to use it with the ASM tree
@@ -114,7 +102,6 @@ public class Label {
      * org.objectweb.asm.tree.MethodNode#getLabelNode} method.
      */
     public Object info;
-
     /**
      * Flags that indicate the status of this label.
      * 
@@ -129,22 +116,18 @@ public class Label {
      * @see #RET
      */
     int status;
-
     /**
      * The line number corresponding to this label, if known.
      */
     int line;
-
     /**
      * The position of this label in the code, if known.
      */
     int position;
-
     /**
      * Number of forward references to this label, times two.
      */
     private int referenceCount;
-
     /**
      * Informations about forward references. Each forward reference is
      * described by two consecutive integers in this array: the first one is the
@@ -159,7 +142,6 @@ public class Label {
      * for both purposes without problems.
      */
     private int[] srcAndRefPositions;
-
     // ------------------------------------------------------------------------
 
     /*
@@ -188,7 +170,6 @@ public class Label {
      * used to compute stack map frames computes relative output frames and
      * absolute input frames.
      */
-
     /**
      * Start of the output stack relatively to the input stack. The exact
      * semantics of this field depends on the algorithm that is used.
@@ -205,20 +186,17 @@ public class Label {
      * stack.
      */
     int inputStackTop;
-
     /**
      * Maximum height reached by the output stack, relatively to the top of the
      * input stack. This maximum is always positive or null.
      */
     int outputStackMax;
-
     /**
      * Information about the input and output stack map frames of this basic
      * block. This field is only used when {@link ClassWriter#COMPUTE_FRAMES}
      * option is used.
      */
     Frame frame;
-
     /**
      * The successor of this label, in the order they are visited. This linked
      * list does not include labels used for debug info only. If
@@ -227,14 +205,12 @@ public class Label {
      * (in this case only the first label appears in this list).
      */
     Label successor;
-
     /**
      * The successors of this node in the control flow graph. These successors
      * are stored in a linked list of {@link Edge Edge} objects, linked to each
      * other by their {@link Edge#next} field.
      */
     Edge successors;
-
     /**
      * The next basic block in the basic block stack. This stack is used in the
      * main loop of the fix point algorithm used in the second step of the
@@ -248,7 +224,6 @@ public class Label {
     // ------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------
-
     /**
      * Constructs a new label.
      */
@@ -258,7 +233,6 @@ public class Label {
     // ------------------------------------------------------------------------
     // Methods to compute offsets and to manage forward references
     // ------------------------------------------------------------------------
-
     /**
      * Returns the offset corresponding to this label. This offset is computed
      * from the start of the method's bytecode. <i>This method is intended for
@@ -291,11 +265,10 @@ public class Label {
      *         the given code writer.
      */
     void put(
-        final MethodWriter owner,
-        final ByteVector out,
-        final int source,
-        final boolean wideOffset)
-    {
+            final MethodWriter owner,
+            final ByteVector out,
+            final int source,
+            final boolean wideOffset) {
         if ((status & RESOLVED) == 0) {
             if (wideOffset) {
                 addReference(-1 - source, out.length);
@@ -326,9 +299,8 @@ public class Label {
      *        reference must be stored.
      */
     private void addReference(
-        final int sourcePosition,
-        final int referencePosition)
-    {
+            final int sourcePosition,
+            final int referencePosition) {
         if (srcAndRefPositions == null) {
             srcAndRefPositions = new int[6];
         }
@@ -365,10 +337,9 @@ public class Label {
      *         or if it has not been created by the given code writer.
      */
     boolean resolve(
-        final MethodWriter owner,
-        final int position,
-        final byte[] data)
-    {
+            final MethodWriter owner,
+            final int position,
+            final byte[] data) {
         boolean needUpdate = false;
         this.status |= RESOLVED;
         this.position = position;
@@ -427,7 +398,6 @@ public class Label {
     // ------------------------------------------------------------------------
     // Methods related to subroutines
     // ------------------------------------------------------------------------
-
     /**
      * Returns true is this basic block belongs to the given subroutine.
      * 
@@ -474,7 +444,7 @@ public class Label {
         }
         srcAndRefPositions[(int) (id >>> 32)] |= (int) id;
     }
-    
+
     /**
      * Finds the basic blocks that belong to a given subroutine, and marks these
      * blocks as belonging to this subroutine. This method follows the control
@@ -487,8 +457,7 @@ public class Label {
      * @param id the id of this subroutine.
      * @param nbSubroutines the total number of subroutines in the method.
      */
-    void visitSubroutine(final Label JSR, final long id, final int nbSubroutines)
-    {
+    void visitSubroutine(final Label JSR, final long id, final int nbSubroutines) {
         // user managed stack of labels, to avoid using a recursive method
         // (recursivity can lead to stack overflow with very large methods)
         Label stack = this;
@@ -497,7 +466,7 @@ public class Label {
             Label l = stack;
             stack = l.next;
             l.next = null;
-            
+
             if (JSR != null) {
                 if ((l.status & VISITED2) != 0) {
                     continue;
@@ -519,7 +488,7 @@ public class Label {
                     continue;
                 }
                 // marks the l block as belonging to subroutine 'id'
-                l.addToSubroutine(id, nbSubroutines);            
+                l.addToSubroutine(id, nbSubroutines);
             }
             // pushes each successor of l on the stack, except JSR targets
             Edge e = l.successors;
@@ -542,7 +511,6 @@ public class Label {
     // ------------------------------------------------------------------------
     // Overriden Object methods
     // ------------------------------------------------------------------------
-
     /**
      * Returns a string representation of this label.
      * 

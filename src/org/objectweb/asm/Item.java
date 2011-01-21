@@ -41,7 +41,6 @@ final class Item {
      * Index of this item in the constant pool.
      */
     int index;
-
     /**
      * Type of this constant pool item. A single class is used to represent all
      * constant pool item types, in order to minimize the bytecode size of this
@@ -60,40 +59,33 @@ final class Item {
      * {@link ClassWriter#TYPE_MERGED}.
      */
     int type;
-
     /**
      * Value of this item, for an integer item.
      */
     int intVal;
-
     /**
      * Value of this item, for a long item.
      */
     long longVal;
-
     /**
      * First part of the value of this item, for items that do not hold a
      * primitive value.
      */
     String strVal1;
-
     /**
      * Second part of the value of this item, for items that do not hold a
      * primitive value.
      */
     String strVal2;
-
     /**
      * Third part of the value of this item, for items that do not hold a
      * primitive value.
      */
     String strVal3;
-
     /**
      * The hash code value of this constant pool item.
      */
     int hashCode;
-
     /**
      * Link to another constant pool item, used for collision lists in the
      * constant pool's hash table.
@@ -186,11 +178,10 @@ final class Item {
      * @param strVal3 third part of the value of this item.
      */
     void set(
-        final int type,
-        final String strVal1,
-        final String strVal2,
-        final String strVal3)
-    {
+            final int type,
+            final String strVal1,
+            final String strVal2,
+            final String strVal3) {
         this.type = type;
         this.strVal1 = strVal1;
         this.strVal2 = strVal2;
@@ -206,9 +197,9 @@ final class Item {
                 hashCode = 0x7FFFFFFF & (type + strVal1.hashCode()
                         * strVal2.hashCode());
                 return;
-                // ClassWriter.FIELD:
-                // ClassWriter.METH:
-                // ClassWriter.IMETH:
+            // ClassWriter.FIELD:
+            // ClassWriter.METH:
+            // ClassWriter.IMETH:
             default:
                 hashCode = 0x7FFFFFFF & (type + strVal1.hashCode()
                         * strVal2.hashCode() * strVal3.hashCode());
@@ -245,10 +236,9 @@ final class Item {
             // case ClassWriter.FIELD:
             // case ClassWriter.METH:
             // case ClassWriter.IMETH:
-            default:    
+            default:
                 return i.strVal1.equals(strVal1) && i.strVal2.equals(strVal2)
                         && i.strVal3.equals(strVal3);
         }
     }
-
 }

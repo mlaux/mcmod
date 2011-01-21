@@ -51,7 +51,6 @@ public class ClassWriter implements ClassVisitor {
      * @see #ClassWriter(int)
      */
     public static final int COMPUTE_MAXS = 1;
-
     /**
      * Flag to automatically compute the stack map frames of methods from
      * scratch. If this flag is set, then the calls to the
@@ -64,165 +63,133 @@ public class ClassWriter implements ClassVisitor {
      * @see #ClassWriter(int)
      */
     public static final int COMPUTE_FRAMES = 2;
-
     /**
      * Pseudo access flag to distinguish between the synthetic attribute and
      * the synthetic access flag.
      */
     static final int ACC_SYNTHETIC_ATTRIBUTE = 0x40000;
-    
     /**
      * The type of instructions without any argument.
      */
     static final int NOARG_INSN = 0;
-
     /**
      * The type of instructions with an signed byte argument.
      */
     static final int SBYTE_INSN = 1;
-
     /**
      * The type of instructions with an signed short argument.
      */
     static final int SHORT_INSN = 2;
-
     /**
      * The type of instructions with a local variable index argument.
      */
     static final int VAR_INSN = 3;
-
     /**
      * The type of instructions with an implicit local variable index argument.
      */
     static final int IMPLVAR_INSN = 4;
-
     /**
      * The type of instructions with a type descriptor argument.
      */
     static final int TYPE_INSN = 5;
-
     /**
      * The type of field and method invocations instructions.
      */
     static final int FIELDORMETH_INSN = 6;
-
     /**
      * The type of the INVOKEINTERFACE/INVOKEDYNAMIC instruction.
      */
     static final int ITFDYNMETH_INSN = 7;
-
     /**
      * The type of instructions with a 2 bytes bytecode offset label.
      */
     static final int LABEL_INSN = 8;
-
     /**
      * The type of instructions with a 4 bytes bytecode offset label.
      */
     static final int LABELW_INSN = 9;
-
     /**
      * The type of the LDC instruction.
      */
     static final int LDC_INSN = 10;
-
     /**
      * The type of the LDC_W and LDC2_W instructions.
      */
     static final int LDCW_INSN = 11;
-
     /**
      * The type of the IINC instruction.
      */
     static final int IINC_INSN = 12;
-
     /**
      * The type of the TABLESWITCH instruction.
      */
     static final int TABL_INSN = 13;
-
     /**
      * The type of the LOOKUPSWITCH instruction.
      */
     static final int LOOK_INSN = 14;
-
     /**
      * The type of the MULTIANEWARRAY instruction.
      */
     static final int MANA_INSN = 15;
-
     /**
      * The type of the WIDE instruction.
      */
     static final int WIDE_INSN = 16;
-
     /**
      * The instruction types of all JVM opcodes.
      */
     static final byte[] TYPE;
-
     /**
      * The type of CONSTANT_Class constant pool items.
      */
     static final int CLASS = 7;
-
     /**
      * The type of CONSTANT_Fieldref constant pool items.
      */
     static final int FIELD = 9;
-
     /**
      * The type of CONSTANT_Methodref constant pool items.
      */
     static final int METH = 10;
-
     /**
      * The type of CONSTANT_InterfaceMethodref constant pool items.
      */
     static final int IMETH = 11;
-
     /**
      * The type of CONSTANT_String constant pool items.
      */
     static final int STR = 8;
-
     /**
      * The type of CONSTANT_Integer constant pool items.
      */
     static final int INT = 3;
-
     /**
      * The type of CONSTANT_Float constant pool items.
      */
     static final int FLOAT = 4;
-
     /**
      * The type of CONSTANT_Long constant pool items.
      */
     static final int LONG = 5;
-
     /**
      * The type of CONSTANT_Double constant pool items.
      */
     static final int DOUBLE = 6;
-
     /**
      * The type of CONSTANT_NameAndType constant pool items.
      */
     static final int NAME_TYPE = 12;
-
     /**
      * The type of CONSTANT_Utf8 constant pool items.
      */
     static final int UTF8 = 1;
-
     /**
      * Normal type Item stored in the ClassWriter {@link ClassWriter#typeTable},
      * instead of the constant pool, in order to avoid clashes with normal
      * constant pool items in the ClassWriter constant pool's hash table.
      */
     static final int TYPE_NORMAL = 13;
-
     /**
      * Uninitialized type Item stored in the ClassWriter
      * {@link ClassWriter#typeTable}, instead of the constant pool, in order to
@@ -230,59 +197,48 @@ public class ClassWriter implements ClassVisitor {
      * pool's hash table.
      */
     static final int TYPE_UNINIT = 14;
-
     /**
      * Merged type Item stored in the ClassWriter {@link ClassWriter#typeTable},
      * instead of the constant pool, in order to avoid clashes with normal
      * constant pool items in the ClassWriter constant pool's hash table.
      */
     static final int TYPE_MERGED = 15;
-
     /**
      * The class reader from which this class writer was constructed, if any.
      */
     ClassReader cr;
-
     /**
      * Minor and major version numbers of the class to be generated.
      */
     int version;
-
     /**
      * Index of the next item to be added in the constant pool.
      */
     int index;
-
     /**
      * The constant pool of this class.
      */
     final ByteVector pool;
-
     /**
      * The constant pool's hash table data.
      */
     Item[] items;
-
     /**
      * The threshold of the constant pool's hash table.
      */
     int threshold;
-
     /**
      * A reusable key used to look for items in the {@link #items} hash table.
      */
     final Item key;
-
     /**
      * A reusable key used to look for items in the {@link #items} hash table.
      */
     final Item key2;
-
     /**
      * A reusable key used to look for items in the {@link #items} hash table.
      */
     final Item key3;
-
     /**
      * A type table used to temporarily store internal names that will not
      * necessarily be stored in the constant pool. This type table is used by
@@ -295,98 +251,80 @@ public class ClassWriter implements ClassVisitor {
      * {@link Item#strVal1} field.
      */
     Item[] typeTable;
-
     /**
      * Number of elements in the {@link #typeTable} array.
      */
     private short typeCount;
-
     /**
      * The access flags of this class.
      */
     private int access;
-
     /**
      * The constant pool item that contains the internal name of this class.
      */
     private int name;
-
     /**
      * The internal name of this class.
      */
     String thisName;
-
     /**
      * The constant pool item that contains the signature of this class.
      */
     private int signature;
-
     /**
      * The constant pool item that contains the internal name of the super class
      * of this class.
      */
     private int superName;
-
     /**
      * Number of interfaces implemented or extended by this class or interface.
      */
     private int interfaceCount;
-
     /**
      * The interfaces implemented or extended by this class or interface. More
      * precisely, this array contains the indexes of the constant pool items
      * that contain the internal names of these interfaces.
      */
     private int[] interfaces;
-
     /**
      * The index of the constant pool item that contains the name of the source
      * file from which this class was compiled.
      */
     private int sourceFile;
-
     /**
      * The SourceDebug attribute of this class.
      */
     private ByteVector sourceDebug;
-
     /**
      * The constant pool item that contains the name of the enclosing class of
      * this class.
      */
     private int enclosingMethodOwner;
-
     /**
      * The constant pool item that contains the name and descriptor of the
      * enclosing method of this class.
      */
     private int enclosingMethod;
-
     /**
      * The runtime visible annotations of this class.
      */
     private AnnotationWriter anns;
-
     /**
      * The runtime invisible annotations of this class.
      */
     private AnnotationWriter ianns;
-
     /**
      * The non standard attributes of this class.
      */
     private Attribute attrs;
-
     /**
      * The number of entries in the InnerClasses attribute.
      */
     private int innerClassesCount;
-
     /**
      * The InnerClasses attribute.
      */
     private ByteVector innerClasses;
-
     /**
      * The fields of this class. These fields are stored in a linked list of
      * {@link FieldWriter} objects, linked to each other by their
@@ -394,7 +332,6 @@ public class ClassWriter implements ClassVisitor {
      * this list.
      */
     FieldWriter firstField;
-
     /**
      * The fields of this class. These fields are stored in a linked list of
      * {@link FieldWriter} objects, linked to each other by their
@@ -402,7 +339,6 @@ public class ClassWriter implements ClassVisitor {
      * this list.
      */
     FieldWriter lastField;
-
     /**
      * The methods of this class. These methods are stored in a linked list of
      * {@link MethodWriter} objects, linked to each other by their
@@ -410,7 +346,6 @@ public class ClassWriter implements ClassVisitor {
      * this list.
      */
     MethodWriter firstMethod;
-
     /**
      * The methods of this class. These methods are stored in a linked list of
      * {@link MethodWriter} objects, linked to each other by their
@@ -418,18 +353,15 @@ public class ClassWriter implements ClassVisitor {
      * this list.
      */
     MethodWriter lastMethod;
-
     /**
      * <tt>true</tt> if the maximum stack size and number of local variables
      * must be automatically computed.
      */
     private final boolean computeMaxs;
-
     /**
      * <tt>true</tt> if the stack map frames must be recomputed from scratch.
      */
     private final boolean computeFrames;
-
     /**
      * <tt>true</tt> if the stack map tables of this class are invalid. The
      * {@link MethodWriter#resizeInstructions} method cannot transform existing
@@ -443,7 +375,6 @@ public class ClassWriter implements ClassVisitor {
     // ------------------------------------------------------------------------
     // Static initializer
     // ------------------------------------------------------------------------
-
     /**
      * Computes the instruction types of JVM opcodes.
      */
@@ -531,7 +462,6 @@ public class ClassWriter implements ClassVisitor {
     // ------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------
-
     /**
      * Constructs a new {@link ClassWriter} object.
      *
@@ -586,15 +516,13 @@ public class ClassWriter implements ClassVisitor {
     // ------------------------------------------------------------------------
     // Implementation of the ClassVisitor interface
     // ------------------------------------------------------------------------
-
     public void visit(
-        final int version,
-        final int access,
-        final String name,
-        final String signature,
-        final String superName,
-        final String[] interfaces)
-    {
+            final int version,
+            final int access,
+            final String name,
+            final String signature,
+            final String superName,
+            final String[] interfaces) {
         this.version = version;
         this.access = access;
         this.name = newClass(name);
@@ -622,10 +550,9 @@ public class ClassWriter implements ClassVisitor {
     }
 
     public void visitOuterClass(
-        final String owner,
-        final String name,
-        final String desc)
-    {
+            final String owner,
+            final String name,
+            final String desc) {
         enclosingMethodOwner = newClass(owner);
         if (name != null && desc != null) {
             enclosingMethod = newNameType(name, desc);
@@ -633,9 +560,8 @@ public class ClassWriter implements ClassVisitor {
     }
 
     public AnnotationVisitor visitAnnotation(
-        final String desc,
-        final boolean visible)
-    {
+            final String desc,
+            final boolean visible) {
         if (!ClassReader.ANNOTATIONS) {
             return null;
         }
@@ -659,11 +585,10 @@ public class ClassWriter implements ClassVisitor {
     }
 
     public void visitInnerClass(
-        final String name,
-        final String outerName,
-        final String innerName,
-        final int access)
-    {
+            final String name,
+            final String outerName,
+            final String innerName,
+            final int access) {
         if (innerClasses == null) {
             innerClasses = new ByteVector();
         }
@@ -675,22 +600,20 @@ public class ClassWriter implements ClassVisitor {
     }
 
     public FieldVisitor visitField(
-        final int access,
-        final String name,
-        final String desc,
-        final String signature,
-        final Object value)
-    {
+            final int access,
+            final String name,
+            final String desc,
+            final String signature,
+            final Object value) {
         return new FieldWriter(this, access, name, desc, signature, value);
     }
 
     public MethodVisitor visitMethod(
-        final int access,
-        final String name,
-        final String desc,
-        final String signature,
-        final String[] exceptions)
-    {
+            final int access,
+            final String name,
+            final String desc,
+            final String signature,
+            final String[] exceptions) {
         return new MethodWriter(this,
                 access,
                 name,
@@ -707,7 +630,6 @@ public class ClassWriter implements ClassVisitor {
     // ------------------------------------------------------------------------
     // Other public methods
     // ------------------------------------------------------------------------
-
     /**
      * Returns the bytecode of the class that was build with this class writer.
      *
@@ -757,8 +679,7 @@ public class ClassWriter implements ClassVisitor {
             newUTF8("Deprecated");
         }
         if ((access & Opcodes.ACC_SYNTHETIC) != 0
-                && ((version & 0xFFFF) < Opcodes.V1_5 || (access & ACC_SYNTHETIC_ATTRIBUTE) != 0))
-        {
+                && ((version & 0xFFFF) < Opcodes.V1_5 || (access & ACC_SYNTHETIC_ATTRIBUTE) != 0)) {
             ++attributeCount;
             size += 6;
             newUTF8("Synthetic");
@@ -828,8 +749,7 @@ public class ClassWriter implements ClassVisitor {
             out.putShort(newUTF8("Deprecated")).putInt(0);
         }
         if ((access & Opcodes.ACC_SYNTHETIC) != 0
-                && ((version & 0xFFFF) < Opcodes.V1_5 || (access & ACC_SYNTHETIC_ATTRIBUTE) != 0))
-        {
+                && ((version & 0xFFFF) < Opcodes.V1_5 || (access & ACC_SYNTHETIC_ATTRIBUTE) != 0)) {
             out.putShort(newUTF8("Synthetic")).putInt(0);
         }
         if (innerClasses != null) {
@@ -859,7 +779,6 @@ public class ClassWriter implements ClassVisitor {
     // ------------------------------------------------------------------------
     // Utility methods: constant pool management
     // ------------------------------------------------------------------------
-
     /**
      * Adds a number or string constant to the constant pool of the class being
      * build. Does nothing if the constant pool already contains a similar item.
@@ -985,8 +904,7 @@ public class ClassWriter implements ClassVisitor {
      * @param desc the field's descriptor.
      * @return a new or already existing field reference item.
      */
-    Item newFieldItem(final String owner, final String name, final String desc)
-    {
+    Item newFieldItem(final String owner, final String name, final String desc) {
         key3.set(FIELD, owner, name, desc);
         Item result = get(key3);
         if (result == null) {
@@ -1008,8 +926,7 @@ public class ClassWriter implements ClassVisitor {
      * @param desc the field's descriptor.
      * @return the index of a new or already existing field reference item.
      */
-    public int newField(final String owner, final String name, final String desc)
-    {
+    public int newField(final String owner, final String name, final String desc) {
         return newFieldItem(owner, name, desc).index;
     }
 
@@ -1024,11 +941,10 @@ public class ClassWriter implements ClassVisitor {
      * @return a new or already existing method reference item.
      */
     Item newMethodItem(
-        final String owner,
-        final String name,
-        final String desc,
-        final boolean itf)
-    {
+            final String owner,
+            final String name,
+            final String desc,
+            final boolean itf) {
         int type = itf ? IMETH : METH;
         key3.set(type, owner, name, desc);
         Item result = get(key3);
@@ -1053,11 +969,10 @@ public class ClassWriter implements ClassVisitor {
      * @return the index of a new or already existing method reference item.
      */
     public int newMethod(
-        final String owner,
-        final String name,
-        final String desc,
-        final boolean itf)
-    {
+            final String owner,
+            final String name,
+            final String desc,
+            final boolean itf) {
         return newMethodItem(owner, name, desc, itf).index;
     }
 
@@ -1166,7 +1081,7 @@ public class ClassWriter implements ClassVisitor {
     public int newNameType(final String name, final String desc) {
         return newNameTypeItem(name, desc).index;
     }
-    
+
     /**
      * Adds a name and type to the constant pool of the class being build. Does
      * nothing if the constant pool already contains a similar item.
@@ -1286,8 +1201,7 @@ public class ClassWriter implements ClassVisitor {
      * @return the internal name of the common super class of the two given
      *         classes.
      */
-    protected String getCommonSuperClass(final String type1, final String type2)
-    {
+    protected String getCommonSuperClass(final String type1, final String type2) {
         Class<?> c, d;
         try {
             c = Class.forName(type1.replace('/', '.'));

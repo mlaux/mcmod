@@ -41,43 +41,36 @@ final class AnnotationWriter implements AnnotationVisitor {
      * The class writer to which this annotation must be added.
      */
     private final ClassWriter cw;
-
     /**
      * The number of values in this annotation.
      */
     private int size;
-
     /**
      * <tt>true<tt> if values are named, <tt>false</tt> otherwise. Annotation 
      * writers used for annotation default and annotation arrays use unnamed
      * values.
      */
     private final boolean named;
-
     /**
      * The annotation values in bytecode form. This byte vector only contains
      * the values themselves, i.e. the number of values must be stored as a
      * unsigned short just before these bytes.
      */
     private final ByteVector bv;
-
     /**
      * The byte vector to be used to store the number of values of this
      * annotation. See {@link #bv}.
      */
     private final ByteVector parent;
-
     /**
      * Where the number of values of this annotation must be stored in
      * {@link #parent}.
      */
     private final int offset;
-
     /**
      * Next annotation writer. This field is used to store annotation lists.
      */
     AnnotationWriter next;
-
     /**
      * Previous annotation writer. This field is used to store annotation lists.
      */
@@ -86,7 +79,6 @@ final class AnnotationWriter implements AnnotationVisitor {
     // ------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------
-
     /**
      * Constructs a new {@link AnnotationWriter}.
      * 
@@ -98,12 +90,11 @@ final class AnnotationWriter implements AnnotationVisitor {
      *      be stored.
      */
     AnnotationWriter(
-        final ClassWriter cw,
-        final boolean named,
-        final ByteVector bv,
-        final ByteVector parent,
-        final int offset)
-    {
+            final ClassWriter cw,
+            final boolean named,
+            final ByteVector bv,
+            final ByteVector parent,
+            final int offset) {
         this.cw = cw;
         this.named = named;
         this.bv = bv;
@@ -114,7 +105,6 @@ final class AnnotationWriter implements AnnotationVisitor {
     // ------------------------------------------------------------------------
     // Implementation of the AnnotationVisitor interface
     // ------------------------------------------------------------------------
-
     public void visit(final String name, final Object value) {
         ++size;
         if (named) {
@@ -188,10 +178,9 @@ final class AnnotationWriter implements AnnotationVisitor {
     }
 
     public void visitEnum(
-        final String name,
-        final String desc,
-        final String value)
-    {
+            final String name,
+            final String desc,
+            final String value) {
         ++size;
         if (named) {
             bv.putShort(cw.newUTF8(name));
@@ -200,9 +189,8 @@ final class AnnotationWriter implements AnnotationVisitor {
     }
 
     public AnnotationVisitor visitAnnotation(
-        final String name,
-        final String desc)
-    {
+            final String name,
+            final String desc) {
         ++size;
         if (named) {
             bv.putShort(cw.newUTF8(name));
@@ -233,7 +221,6 @@ final class AnnotationWriter implements AnnotationVisitor {
     // ------------------------------------------------------------------------
     // Utility methods
     // ------------------------------------------------------------------------
-
     /**
      * Returns the size of this annotation writer list.
      * 
@@ -285,10 +272,9 @@ final class AnnotationWriter implements AnnotationVisitor {
      * @param out where the annotations must be put.
      */
     static void put(
-        final AnnotationWriter[] panns,
-        final int off,
-        final ByteVector out)
-    {
+            final AnnotationWriter[] panns,
+            final int off,
+            final ByteVector out) {
         int size = 1 + 2 * (panns.length - off);
         for (int i = off; i < panns.length; ++i) {
             size += panns[i] == null ? 0 : panns[i].getSize();

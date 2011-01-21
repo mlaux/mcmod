@@ -49,24 +49,20 @@ public class ClassNode extends MemberNode implements ClassVisitor {
      * The class version.
      */
     public int version;
-
     /**
      * The class's access flags (see {@link org.objectweb.asm.Opcodes}). This
      * field also indicates if the class is deprecated.
      */
     public int access;
-
     /**
      * The internal name of the class (see
      * {@link org.objectweb.asm.Type#getInternalName() getInternalName}).
      */
     public String name;
-
     /**
      * The signature of the class. Mayt be <tt>null</tt>.
      */
     public String signature;
-
     /**
      * The internal of name of the super class (see
      * {@link org.objectweb.asm.Type#getInternalName() getInternalName}). For
@@ -74,44 +70,37 @@ public class ClassNode extends MemberNode implements ClassVisitor {
      * but only for the {@link Object} class.
      */
     public String superName;
-
     /**
      * The internal names of the class's interfaces (see
      * {@link org.objectweb.asm.Type#getInternalName() getInternalName}). This
      * list is a list of {@link String} objects.
      */
     public List<String> interfaces;
-
     /**
      * The name of the source file from which this class was compiled. May be
      * <tt>null</tt>.
      */
     public String sourceFile;
-
     /**
      * Debug information to compute the correspondance between source and
      * compiled elements of the class. May be <tt>null</tt>.
      */
     public String sourceDebug;
-
     /**
      * The internal name of the enclosing class of the class. May be
      * <tt>null</tt>.
      */
     public String outerClass;
-
     /**
      * The name of the method that contains the class, or <tt>null</tt> if the
      * class is not enclosed in a method.
      */
     public String outerMethod;
-
     /**
      * The descriptor of the method that contains the class, or <tt>null</tt>
      * if the class is not enclosed in a method.
      */
     public String outerMethodDesc;
-
     /**
      * Informations about the inner classes of this class. This list is a list
      * of {@link InnerClassNode} objects.
@@ -119,7 +108,6 @@ public class ClassNode extends MemberNode implements ClassVisitor {
      * @associates org.objectweb.asm.tree.InnerClassNode
      */
     public List<InnerClassNode> innerClasses;
-
     /**
      * The fields of this class. This list is a list of {@link FieldNode}
      * objects.
@@ -127,7 +115,6 @@ public class ClassNode extends MemberNode implements ClassVisitor {
      * @associates org.objectweb.asm.tree.FieldNode
      */
     public List<FieldNode> fields;
-
     /**
      * The methods of this class. This list is a list of {@link MethodNode}
      * objects.
@@ -149,15 +136,13 @@ public class ClassNode extends MemberNode implements ClassVisitor {
     // ------------------------------------------------------------------------
     // Implementation of the ClassVisitor interface
     // ------------------------------------------------------------------------
-
     public void visit(
-        final int version,
-        final int access,
-        final String name,
-        final String signature,
-        final String superName,
-        final String[] interfaces)
-    {
+            final int version,
+            final int access,
+            final String name,
+            final String signature,
+            final String superName,
+            final String[] interfaces) {
         this.version = version;
         this.access = access;
         this.name = name;
@@ -174,21 +159,19 @@ public class ClassNode extends MemberNode implements ClassVisitor {
     }
 
     public void visitOuterClass(
-        final String owner,
-        final String name,
-        final String desc)
-    {
+            final String owner,
+            final String name,
+            final String desc) {
         outerClass = owner;
         outerMethod = name;
         outerMethodDesc = desc;
     }
 
     public void visitInnerClass(
-        final String name,
-        final String outerName,
-        final String innerName,
-        final int access)
-    {
+            final String name,
+            final String outerName,
+            final String innerName,
+            final int access) {
         InnerClassNode icn = new InnerClassNode(name,
                 outerName,
                 innerName,
@@ -197,24 +180,22 @@ public class ClassNode extends MemberNode implements ClassVisitor {
     }
 
     public FieldVisitor visitField(
-        final int access,
-        final String name,
-        final String desc,
-        final String signature,
-        final Object value)
-    {
+            final int access,
+            final String name,
+            final String desc,
+            final String signature,
+            final Object value) {
         FieldNode fn = new FieldNode(access, name, desc, signature, value);
         fields.add(fn);
         return fn;
     }
 
     public MethodVisitor visitMethod(
-        final int access,
-        final String name,
-        final String desc,
-        final String signature,
-        final String[] exceptions)
-    {
+            final int access,
+            final String name,
+            final String desc,
+            final String signature,
+            final String[] exceptions) {
         MethodNode mn = new MethodNode(access,
                 name,
                 desc,
@@ -227,7 +208,6 @@ public class ClassNode extends MemberNode implements ClassVisitor {
     // ------------------------------------------------------------------------
     // Accept method
     // ------------------------------------------------------------------------
-
     /**
      * Makes the given class visitor visit this class.
      * 

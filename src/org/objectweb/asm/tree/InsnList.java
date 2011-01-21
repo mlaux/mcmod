@@ -48,22 +48,18 @@ public class InsnList {
      * {@link #clear} methods to execute in O(n) time instead of O(1)</i>.
      */
     public static boolean check;
-
     /**
      * The number of instructions in this list.
      */
     private int size;
-
     /**
      * The first instruction in this list. May be <tt>null</tt>.
      */
     private AbstractInsnNode first;
-
     /**
      * The last instruction in this list. May be <tt>null</tt>.
      */
     private AbstractInsnNode last;
-
     /**
      * A cache of the instructions of this list. This cache is used to improve
      * the performance of the {@link #get} method.
@@ -190,7 +186,7 @@ public class InsnList {
     public ListIterator<?> iterator(int index) {
         return new InsnListIterator(index);
     }
-    
+
     /**
      * Returns an array containing all of the instructions in this list.
      * 
@@ -415,7 +411,7 @@ public class InsnList {
         cache = null;
         insns.removeAll(false);
     }
-    
+
     /**
      * Inserts the given instruction before the specified instruction.
      * 
@@ -444,7 +440,7 @@ public class InsnList {
         cache = null;
         insn.index = 0; // insn now belongs to an InsnList
     }
-    
+
     /**
      * Inserts the given instructions before the specified instruction.
      * 
@@ -456,7 +452,7 @@ public class InsnList {
      *         and if i does not belong to this list or if insns == this.
      */
     public void insertBefore(final AbstractInsnNode location, final InsnList insns) {
-        if (check && !(contains(location ) && insns != this)) {
+        if (check && !(contains(location) && insns != this)) {
             throw new IllegalArgumentException();
         }
         if (insns.size == 0) {
@@ -465,20 +461,18 @@ public class InsnList {
         size += insns.size;
         AbstractInsnNode ifirst = insns.first;
         AbstractInsnNode ilast = insns.last;
-        AbstractInsnNode prev = location .prev;
+        AbstractInsnNode prev = location.prev;
         if (prev == null) {
             first = ifirst;
         } else {
             prev.next = ifirst;
         }
-        location .prev = ilast;
-        ilast.next = location ;
+        location.prev = ilast;
+        ilast.next = location;
         ifirst.prev = prev;
         cache = null;
         insns.removeAll(false);
     }
-    
-    
 
     /**
      * Removes the given instruction from this list.
@@ -561,13 +555,14 @@ public class InsnList {
             insn = insn.next;
         }
     }
-    
+
     private final class InsnListIterator implements ListIterator<Object> {
+
         AbstractInsnNode next;
         AbstractInsnNode prev;
 
         InsnListIterator(int index) {
-            if(index==size()) {
+            if (index == size()) {
                 next = null;
                 prev = getLast();
             } else {
@@ -636,5 +631,4 @@ public class InsnList {
             prev = (AbstractInsnNode) o;
         }
     }
-
 }
