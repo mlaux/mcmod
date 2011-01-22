@@ -57,7 +57,7 @@ public class Loader extends JFrame {
 	}
 
 	public Loader(String user, String sid) {
-		super("McMod revision 72");
+		super("McMod revision 74");
 		try {
 			classLoader = new McClassLoader();
 		} catch (Exception e) {
