@@ -60,9 +60,9 @@ public class McPlayer extends McHook {
 
 		identifyClass(fin.desc.replaceAll("[L;]", ""), "Inventory");
 
-		method = humanoid.constants.get("http://www.minecraft.net/cloak/get.jsp?user=").get(0);
+		method = humanoid.constants.get("http://s3.amazonaws.com/MinecraftCloaks/").get(0);
 		searcher = new InstructionSearcher(method);
-		searcher.nextLdcInsn("http://www.minecraft.net/cloak/get.jsp?user=");
+		searcher.nextLdcInsn("http://s3.amazonaws.com/MinecraftCloaks/");
 
 		fin = searcher.nextFieldInsn();
 		identifyField("name", fin);
