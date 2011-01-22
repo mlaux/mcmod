@@ -9,41 +9,41 @@ import com.mcmod.inter.World;
 
 public class ChickenFertilizer implements Mod {
 
-    @Override
-    public boolean isTogglable() {
-        return true;
-    }
+	
+	public boolean isTogglable() {
+		return true;
+	}
 
-    @Override
-    public String getName() {
-        return "Chicken Fertilizer";
-    }
+	
+	public String getName() {
+		return "Chicken Fertilizer";
+	}
 
-    @Override
-    public String getDescription() {
-        return "Teleports all the chickens to you and makes them lay eggs -- rapidly.";
-    }
+	
+	public String getDescription() {
+		return "Teleports all the chickens to you and makes them lay eggs -- rapidly.";
+	}
 
-    @Override
-    public void process() {
-        World world = Loader.getMinecraft().getWorld();
-        Player me = Loader.getMinecraft().getPlayer();
+	
+	public void process() {
+		World world = Loader.getMinecraft().getWorld();
+		Player me = Loader.getMinecraft().getPlayer();
 
-        if (world != null) {
-            @SuppressWarnings("rawtypes")
-            List entities = world.getEntityList();
+		if (world != null) {
+			@SuppressWarnings("rawtypes")
+			List entities = world.getEntityList();
 
-            for (Object o : entities) {
-                if (Chicken.class.isAssignableFrom(o.getClass())) {
-                    Chicken c = (Chicken) o;
+			for (Object o : entities) {
+				if (Chicken.class.isAssignableFrom(o.getClass())) {
+					Chicken c = (Chicken) o;
 
-                    c.setPosition(me.getX() + 1, me.getY(), me.getZ() + 1);
+					c.setPosition(me.getX() + 1, me.getY(), me.getZ() + 1);
 
-                    if (c.getEggTimer() > 3) {
-                        c.setEggTimer(2);
-                    }
-                }
-            }
-        }
-    }
+					if (c.getEggTimer() > 3) {
+						c.setEggTimer(2);
+					}
+				}
+			}
+		}
+	}
 }

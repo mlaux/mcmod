@@ -15,93 +15,93 @@ import com.mcmod.injection.McMethodNode;
 
 public class McPlayer extends McHook {
 
-    private static final String cst = "Player is now ";
+	private static final String cst = "Player is now ";
 
-    public boolean canProcess(McClassNode node) {
-        List<McMethodNode> nodes = node.constants.get(cst);
+	public boolean canProcess(McClassNode node) {
+		List<McMethodNode> nodes = node.constants.get(cst);
 
-        return nodes != null && nodes.size() == 1;
-    }
+		return nodes != null && nodes.size() == 1;
+	}
 
-    public void process(McClassNode node) {
-        McMethodNode method = node.constants.get(cst).get(0);
+	public void process(McClassNode node) {
+		McMethodNode method = node.constants.get(cst).get(0);
 
-        InstructionSearcher searcher = new InstructionSearcher(method);
-        searcher.nextLdcInsn(cst);
+		InstructionSearcher searcher = new InstructionSearcher(method);
+		searcher.nextLdcInsn(cst);
 
-        FieldInsnNode fin = searcher.nextFieldInsn();
+		FieldInsnNode fin = searcher.nextFieldInsn();
 
-        identifyClass(fin.desc.replaceAll("[L;]", ""), "Player");
-        identifyClass(node, "Minecraft");
+		identifyClass(fin.desc.replaceAll("[L;]", ""), "Player");
+		identifyClass(node, "Minecraft");
 
-        identifyField("player", fin);
+		identifyField("player", fin);
 
-        method = node.constants.get("Respawning").get(0);
-        searcher = new InstructionSearcher(method);
+		method = node.constants.get("Respawning").get(0);
+		searcher = new InstructionSearcher(method);
 
-        searcher.nextLdcInsn("Respawning");
-        fin = searcher.nextFieldInsn();
+		searcher.nextLdcInsn("Respawning");
+		fin = searcher.nextFieldInsn();
 
-        identifyField("currentMenu", fin);
+		identifyField("currentMenu", fin);
 
-        McClassNode offlinePlayer = getIdentifiedClass("Player");
-        McClassNode humanoid = McClassLoader.getClassNode(offlinePlayer.superName);
+		McClassNode offlinePlayer = getIdentifiedClass("Player");
+		McClassNode humanoid = McClassLoader.getClassNode(offlinePlayer.superName);
 
-        MethodNode inventoryMethod = humanoid.constants.get("Inventory").get(0);
+		MethodNode inventoryMethod = humanoid.constants.get("Inventory").get(0);
 
-        searcher = new InstructionSearcher(inventoryMethod);
+		searcher = new InstructionSearcher(inventoryMethod);
 
-        searcher.nextLdcInsn("Inventory");
+		searcher.nextLdcInsn("Inventory");
 
-        fin = searcher.nextFieldInsn();
+		fin = searcher.nextFieldInsn();
 
-        identifyClass(humanoid, "Humanoid");
-        identifyField("inventory", fin);
+		identifyClass(humanoid, "Humanoid");
+		identifyField("inventory", fin);
 
-        identifyClass(fin.desc.replaceAll("[L;]", ""), "Inventory");
+		identifyClass(fin.desc.replaceAll("[L;]", ""), "Inventory");
 
-        method = humanoid.constants.get("http://www.minecraft.net/cloak/get.jsp?user=").get(0);
-        searcher = new InstructionSearcher(method);
-        searcher.nextLdcInsn("http://www.minecraft.net/cloak/get.jsp?user=");
+		method = humanoid.constants.get("http://www.minecraft.net/cloak/get.jsp?user=").get(0);
+		searcher = new InstructionSearcher(method);
+		searcher.nextLdcInsn("http://www.minecraft.net/cloak/get.jsp?user=");
 
-        fin = searcher.nextFieldInsn();
-        identifyField("name", fin);
+		fin = searcher.nextFieldInsn();
+		identifyField("name", fin);
 
-        method = node.constants.get("www.minecraft.net").get(0);
+		method = node.constants.get("www.minecraft.net").get(0);
 
-        searcher = new InstructionSearcher(method);
-        searcher.nextLdcInsn("www.minecraft.net");
+		searcher = new InstructionSearcher(method);
+		searcher.nextLdcInsn("www.minecraft.net");
 
-        fin = searcher.nextFieldInsn();
+		fin = searcher.nextFieldInsn();
 
-        identifyField("URL", fin);
+		identifyField("URL", fin);
 
-        McClassNode humanoidSuperClass = McClassLoader.getClassNode(humanoid.superName);
-        identifyClass(humanoidSuperClass, "Animable");
+		McClassNode humanoidSuperClass = McClassLoader.getClassNode(humanoid.superName);
+		identifyClass(humanoidSuperClass, "Animable");
 
-        method = humanoidSuperClass.constants.get("bubble").get(0);
+		method = humanoidSuperClass.constants.get("bubble").get(0);
 
-        searcher = new InstructionSearcher(method);
+		searcher = new InstructionSearcher(method);
 
-        searcher.nextLdcInsn("bubble");
-        fin = (FieldInsnNode) searcher.prevInsn(Opcodes.GETFIELD);
+		searcher.nextLdcInsn("bubble");
+		fin = (FieldInsnNode) searcher.prevInsn(Opcodes.GETFIELD);
 
-        identifyField("infoMap", fin);
+		identifyField("infoMap", fin);
 
-        for (MethodNode mn : humanoidSuperClass.constants.get("Health")) {
-            searcher = new InstructionSearcher(mn);
+		for (MethodNode mn : humanoidSuperClass.constants.get("Health")) {
+			searcher = new InstructionSearcher(mn);
 
-            if (searcher.nextInsn(Opcodes.PUTFIELD) != null) {
-                continue;
-            }
-            break;
-        }
+			if (searcher.nextInsn(Opcodes.PUTFIELD) != null) {
+				continue;
+			}
+			break;
+		}
 
-        LdcInsnNode ldc;
-        while ((ldc = searcher.nextLdcInsn()) != null) {
-            fin = (FieldInsnNode) searcher.nextInsn(Opcodes.GETFIELD);
-            String name = (String) ldc.cst;
-            identifyField(Character.toLowerCase(name.charAt(0)) + name.substring(1), fin);
-        }
-    }
+		LdcInsnNode ldc;
+		while ((ldc = searcher.nextLdcInsn()) != null) {
+			fin = (FieldInsnNode) searcher.nextInsn(Opcodes.GETFIELD);
+			String name = (String) ldc.cst;
+			identifyField(Character.toLowerCase(name.charAt(0)) + name.substring(1), fin);
+		}
+	}
 }

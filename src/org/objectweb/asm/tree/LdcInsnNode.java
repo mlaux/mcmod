@@ -7,13 +7,13 @@
  * modification, are permitted provided that the following conditions
  * are met:
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
+ *	notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
+ *	notice, this list of conditions and the following disclaimer in the
+ *	documentation and/or other materials provided with the distribution.
  * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ *	contributors may be used to endorse or promote products derived from
+ *	this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -41,34 +41,34 @@ import org.objectweb.asm.Opcodes;
  */
 public class LdcInsnNode extends AbstractInsnNode {
 
-    /**
-     * The constant to be loaded on the stack. This parameter must be a non null
-     * {@link Integer}, a {@link Float}, a {@link Long}, a {@link Double}, a
-     * {@link String} or a {@link org.objectweb.asm.Type}.
-     */
-    public Object cst;
+	/**
+	 * The constant to be loaded on the stack. This parameter must be a non null
+	 * {@link Integer}, a {@link Float}, a {@link Long}, a {@link Double}, a
+	 * {@link String} or a {@link org.objectweb.asm.Type}.
+	 */
+	public Object cst;
 
-    /**
-     * Constructs a new {@link LdcInsnNode}.
-     * 
-     * @param cst the constant to be loaded on the stack. This parameter must be
-     *        a non null {@link Integer}, a {@link Float}, a {@link Long}, a
-     *        {@link Double} or a {@link String}.
-     */
-    public LdcInsnNode(final Object cst) {
-        super(Opcodes.LDC);
-        this.cst = cst;
-    }
+	/**
+	 * Constructs a new {@link LdcInsnNode}.
+	 * 
+	 * @param cst the constant to be loaded on the stack. This parameter must be
+	 *		a non null {@link Integer}, a {@link Float}, a {@link Long}, a
+	 *		{@link Double} or a {@link String}.
+	 */
+	public LdcInsnNode(final Object cst) {
+		super(Opcodes.LDC);
+		this.cst = cst;
+	}
 
-    public int getType() {
-        return LDC_INSN;
-    }
+	public int getType() {
+		return LDC_INSN;
+	}
 
-    public void accept(final MethodVisitor mv) {
-        mv.visitLdcInsn(cst);
-    }
+	public void accept(final MethodVisitor mv) {
+		mv.visitLdcInsn(cst);
+	}
 
-    public AbstractInsnNode clone(final Map<?, ?> labels) {
-        return new LdcInsnNode(cst);
-    }
+	public AbstractInsnNode clone(final Map<?, ?> labels) {
+		return new LdcInsnNode(cst);
+	}
 }

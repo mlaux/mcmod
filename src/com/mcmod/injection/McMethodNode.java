@@ -8,25 +8,25 @@ import org.objectweb.asm.tree.MethodNode;
 
 public class McMethodNode extends MethodNode {
 
-    private McClassNode owner;
+	private McClassNode owner;
 
-    public McMethodNode(McClassNode owner, int access, String name, String desc, String signature, String[] exceptions) {
-        super(access, name, desc, signature, exceptions);
+	public McMethodNode(McClassNode owner, int access, String name, String desc, String signature, String[] exceptions) {
+		super(access, name, desc, signature, exceptions);
 
-        this.owner = owner;
-    }
+		this.owner = owner;
+	}
 
-    @Override
-    public void visitLdcInsn(Object cst) {
-        List<McMethodNode> methods = owner.constants.get(cst);
+	
+	public void visitLdcInsn(Object cst) {
+		List<McMethodNode> methods = owner.constants.get(cst);
 
-        if (methods == null) {
-            methods = new ArrayList<McMethodNode>();
-        }
+		if (methods == null) {
+			methods = new ArrayList<McMethodNode>();
+		}
 
-        methods.add(this);
+		methods.add(this);
 
-        owner.constants.put(cst, methods);
-        instructions.add(new LdcInsnNode(cst));
-    }
+		owner.constants.put(cst, methods);
+		instructions.add(new LdcInsnNode(cst));
+	}
 }

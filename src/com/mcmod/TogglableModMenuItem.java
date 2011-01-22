@@ -10,20 +10,20 @@ import com.mcmod.api.Mod;
 @SuppressWarnings("serial")
 public class TogglableModMenuItem extends JCheckBoxMenuItem implements ModMenu, ActionListener {
 
-    private Mod mod;
+	private Mod mod;
 
-    public TogglableModMenuItem(Mod mod) {
-        super(mod.getName());
-        this.mod = mod;
+	public TogglableModMenuItem(Mod mod) {
+		super(mod.getName());
+		this.mod = mod;
 
-        super.setToolTipText(mod.getDescription());
-        super.addActionListener(this);
-    }
+		super.setToolTipText(mod.getDescription());
+		super.addActionListener(this);
+	}
 
-    public Mod getMod() {
-        return mod;
-    }
+	public Mod getMod() {
+		return mod;
+	}
 
-    public void actionPerformed(ActionEvent e) {
-    }
+	public void actionPerformed(ActionEvent e) {
+	}
 }
