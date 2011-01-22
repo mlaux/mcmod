@@ -10,21 +10,21 @@ import com.mcmod.api.Mod;
 @SuppressWarnings("serial")
 public class ModMenuItem extends JMenuItem implements ModMenu, ActionListener {
 
-    private Mod mod;
+	private Mod mod;
 
-    public ModMenuItem(Mod mod) {
-        super(mod.getName());
-        this.mod = mod;
+	public ModMenuItem(Mod mod) {
+		super(mod.getName());
+		this.mod = mod;
 
-        super.setToolTipText(mod.getDescription());
-        super.addActionListener(this);
-    }
+		super.setToolTipText(mod.getDescription());
+		super.addActionListener(this);
+	}
 
-    public Mod getMod() {
-        return mod;
-    }
+	public Mod getMod() {
+		return mod;
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        mod.process();
-    }
+	public void actionPerformed(ActionEvent e) {
+		mod.process();
+	}
 }

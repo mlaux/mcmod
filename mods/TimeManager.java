@@ -8,29 +8,29 @@ import com.mcmod.inter.World;
 
 public class TimeManager implements Mod {
 
-    public boolean isTogglable() {
-        return true;
-    }
+	public boolean isTogglable() {
+		return true;
+	}
 
-    public String getName() {
-        return "Always Sunny";
-    }
+	public String getName() {
+		return "Always Sunny";
+	}
 
-    public String getDescription() {
-        return "Makes it so it's never night.";
-    }
+	public String getDescription() {
+		return "Makes it so it's never night.";
+	}
 
-    public void process() {
-        World w = Loader.getMinecraft().getWorld();
+	public void process() {
+		World w = Loader.getMinecraft().getWorld();
 
-        if (w != null) {
-            long time = w.getTime();
+		if (w != null) {
+			long time = w.getTime();
 
-            DrawingHelper.drawShadowString("[" + (time % 24000) + "]", 30, 30, Color.WHITE.getRGB());
+			DrawingHelper.drawShadowString("[" + (time % 24000) + "]", 30, 30, Color.WHITE.getRGB());
 
-            if ((time % 24000) >= 10000) {
-                w.setTime(time + 16000);
-            }
-        }
-    }
+			if ((time % 24000) >= 10000) {
+				w.setTime(time + 16000);
+			}
+		}
+	}
 }

@@ -10,20 +10,20 @@ import com.mcmod.injection.McMethodNode;
 
 public class McCrafting extends McHook {
 
-    public boolean canProcess(McClassNode node) {
-        List<McMethodNode> methods = node.constants.get("###");
-        return methods != null && methods.size() > 3 && node.methods.size() > 2;
-    }
+	public boolean canProcess(McClassNode node) {
+		List<McMethodNode> methods = node.constants.get("###");
+		return methods != null && methods.size() > 3 && node.methods.size() > 2;
+	}
 
-    public void process(McClassNode node) {
-        identifyClass(node, "CraftingManager");
+	public void process(McClassNode node) {
+		identifyClass(node, "CraftingManager");
 
-        FieldNode f = node.staticFields.get(0);
+		FieldNode f = node.staticFields.get(0);
 
-        identifyField("craftingManager", node, f);
+		identifyField("craftingManager", node, f);
 
-        f = node.instanceFields.get(0);
+		f = node.instanceFields.get(0);
 
-        identifyField("recipeList", node, f);
-    }
+		identifyField("recipeList", node, f);
+	}
 }

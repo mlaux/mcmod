@@ -7,13 +7,13 @@
  * modification, are permitted provided that the following conditions
  * are met:
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
+ *	notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
+ *	notice, this list of conditions and the following disclaimer in the
+ *	documentation and/or other materials provided with the distribution.
  * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ *	contributors may be used to endorse or promote products derived from
+ *	this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -45,64 +45,64 @@ import java.util.Map;
  */
 public class TableSwitchInsnNode extends AbstractInsnNode {
 
-    /**
-     * The minimum key value.
-     */
-    public int min;
-    /**
-     * The maximum key value.
-     */
-    public int max;
-    /**
-     * Beginning of the default handler block.
-     */
-    public LabelNode dflt;
-    /**
-     * Beginnings of the handler blocks. This list is a list of
-     * {@link LabelNode} objects.
-     */
-    public List<LabelNode> labels;
+	/**
+	 * The minimum key value.
+	 */
+	public int min;
+	/**
+	 * The maximum key value.
+	 */
+	public int max;
+	/**
+	 * Beginning of the default handler block.
+	 */
+	public LabelNode dflt;
+	/**
+	 * Beginnings of the handler blocks. This list is a list of
+	 * {@link LabelNode} objects.
+	 */
+	public List<LabelNode> labels;
 
-    /**
-     * Constructs a new {@link TableSwitchInsnNode}.
-     * 
-     * @param min the minimum key value.
-     * @param max the maximum key value.
-     * @param dflt beginning of the default handler block.
-     * @param labels beginnings of the handler blocks. <tt>labels[i]</tt> is
-     *        the beginning of the handler block for the <tt>min + i</tt> key.
-     */
-    public TableSwitchInsnNode(
-            final int min,
-            final int max,
-            final LabelNode dflt,
-            final LabelNode[] labels) {
-        super(Opcodes.TABLESWITCH);
-        this.min = min;
-        this.max = max;
-        this.dflt = dflt;
-        this.labels = new ArrayList<LabelNode>();
-        if (labels != null) {
-            this.labels.addAll(Arrays.asList(labels));
-        }
-    }
+	/**
+	 * Constructs a new {@link TableSwitchInsnNode}.
+	 * 
+	 * @param min the minimum key value.
+	 * @param max the maximum key value.
+	 * @param dflt beginning of the default handler block.
+	 * @param labels beginnings of the handler blocks. <tt>labels[i]</tt> is
+	 *		the beginning of the handler block for the <tt>min + i</tt> key.
+	 */
+	public TableSwitchInsnNode(
+			final int min,
+			final int max,
+			final LabelNode dflt,
+			final LabelNode[] labels) {
+		super(Opcodes.TABLESWITCH);
+		this.min = min;
+		this.max = max;
+		this.dflt = dflt;
+		this.labels = new ArrayList<LabelNode>();
+		if (labels != null) {
+			this.labels.addAll(Arrays.asList(labels));
+		}
+	}
 
-    public int getType() {
-        return TABLESWITCH_INSN;
-    }
+	public int getType() {
+		return TABLESWITCH_INSN;
+	}
 
-    public void accept(final MethodVisitor mv) {
-        Label[] labels = new Label[this.labels.size()];
-        for (int i = 0; i < labels.length; ++i) {
-            labels[i] = ((LabelNode) this.labels.get(i)).getLabel();
-        }
-        mv.visitTableSwitchInsn(min, max, dflt.getLabel(), labels);
-    }
+	public void accept(final MethodVisitor mv) {
+		Label[] labels = new Label[this.labels.size()];
+		for (int i = 0; i < labels.length; ++i) {
+			labels[i] = ((LabelNode) this.labels.get(i)).getLabel();
+		}
+		mv.visitTableSwitchInsn(min, max, dflt.getLabel(), labels);
+	}
 
-    public AbstractInsnNode clone(final Map<?, ?> labels) {
-        return new TableSwitchInsnNode(min,
-                max,
-                clone(dflt, labels),
-                clone(this.labels, labels));
-    }
+	public AbstractInsnNode clone(final Map<?, ?> labels) {
+		return new TableSwitchInsnNode(min,
+				max,
+				clone(dflt, labels),
+				clone(this.labels, labels));
+	}
 }

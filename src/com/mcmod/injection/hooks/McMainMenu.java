@@ -12,49 +12,49 @@ import com.mcmod.injection.McHook;
 
 public class McMainMenu extends McHook {
 
-    public boolean canProcess(McClassNode node) {
-        return node.constants.get("Happy new year!") != null;
-    }
+	public boolean canProcess(McClassNode node) {
+		return node.constants.get("Happy new year!") != null;
+	}
 
-    public void process(McClassNode node) {
-        identifyClass(node, "MainMenu");
-        identifyClass(node.superName, "Menu");
+	public void process(McClassNode node) {
+		identifyClass(node, "MainMenu");
+		identifyClass(node.superName, "Menu");
 
-        MethodNode method = node.constants.get("Happy new year!").get(0);
+		MethodNode method = node.constants.get("Happy new year!").get(0);
 
-        InstructionSearcher searcher = new InstructionSearcher(method);
-        searcher.nextLdcInsn("Happy new year!");
+		InstructionSearcher searcher = new InstructionSearcher(method);
+		searcher.nextLdcInsn("Happy new year!");
 
-        FieldInsnNode fin = searcher.nextFieldInsn();
+		FieldInsnNode fin = searcher.nextFieldInsn();
 
-        identifyField("extraString", fin);
+		identifyField("extraString", fin);
 
-        TypeInsnNode tin = (TypeInsnNode) searcher.nextInsn(Opcodes.NEW);
+		TypeInsnNode tin = (TypeInsnNode) searcher.nextInsn(Opcodes.NEW);
 
-        identifyClass(McClassLoader.getClassNode(tin.desc), "Button");
+		identifyClass(McClassLoader.getClassNode(tin.desc), "Button");
 
-        fin = searcher.nextFieldInsnOfType("Ljava/util/List;");
+		fin = searcher.nextFieldInsnOfType("Ljava/util/List;");
 
-        identifyField("buttonList", fin);
+		identifyField("buttonList", fin);
 
-        McClassNode button = getIdentifiedClass("Button");
+		McClassNode button = getIdentifiedClass("Button");
 
-        for (MethodNode mn : button.instanceMethods) {
-            if (mn.desc.endsWith("Z")) {
-                identifyMethod("containsPoint", button, mn);
+		for (MethodNode mn : button.instanceMethods) {
+			if (mn.desc.endsWith("Z")) {
+				identifyMethod("containsPoint", button, mn);
 
-                searcher = new InstructionSearcher(mn);
+				searcher = new InstructionSearcher(mn);
 
-                String[] names = {"enabled", "X", "Y", null, "width", null, "height"};
+				String[] names = {"enabled", "X", "Y", null, "width", null, "height"};
 
-                for (String s : names) {
-                    fin = searcher.nextFieldInsn();
+				for (String s : names) {
+					fin = searcher.nextFieldInsn();
 
-                    if (s != null) {
-                        identifyField(s, fin);
-                    }
-                }
-            }
-        }
-    }
+					if (s != null) {
+						identifyField(s, fin);
+					}
+				}
+			}
+		}
+	}
 }

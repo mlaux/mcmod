@@ -7,11 +7,11 @@ import com.mcmod.injection.McHook;
 
 public class McExtension extends McHook {
 
-    public boolean canProcess(McClassNode node) {
-        return node.superName.equals("net/minecraft/client/Minecraft") && Modifier.isFinal(node.access);
-    }
+	public boolean canProcess(McClassNode node) {
+		return node.superName.equals("net/minecraft/client/Minecraft") && Modifier.isFinal(node.access);
+	}
 
-    public void process(McClassNode node) {
-        identifyClass(node, "MinecraftExtension");
-    }
+	public void process(McClassNode node) {
+		identifyClass(node, "MinecraftExtension");
+	}
 }

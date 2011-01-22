@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface Menu {
 
-    @SuppressWarnings("rawtypes")
-    public List getButtonList();
+	@SuppressWarnings("rawtypes")
+	public List getButtonList();
 }

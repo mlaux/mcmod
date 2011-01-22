@@ -5,27 +5,27 @@ import com.mcmod.inter.Player;
 
 public class Emo implements Mod {
 
-    @Override
-    public boolean isTogglable() {
-        return false;
-    }
+	
+	public boolean isTogglable() {
+		return false;
+	}
 
-    @Override
-    public String getName() {
-        return "Kill yourself";
-    }
+	
+	public String getName() {
+		return "Kill yourself";
+	}
 
-    @Override
-    public String getDescription() {
-        return "Sets your HP to 0.";
-    }
+	
+	public String getDescription() {
+		return "Sets your HP to 0.";
+	}
 
-    @Override
-    public void process() {
-        Player p = Loader.getMinecraft().getPlayer();
+	
+	public void process() {
+		Player p = Loader.getMinecraft().getPlayer();
 
-        if (p != null) {
-            p.setHealth(0);
-        }
-    }
+		if (p != null) {
+			p.setHealth(0);
+		}
+	}
 }

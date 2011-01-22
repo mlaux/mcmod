@@ -8,19 +8,19 @@ import com.mcmod.inter.Player;
 
 public class PlayerDebug extends McDebug {
 
-    public String getName() {
-        return "Player";
-    }
+	public String getName() {
+		return "Player";
+	}
 
-    public void render() {
-        Player p = Loader.getMinecraft().getPlayer();
+	public void render() {
+		Player p = Loader.getMinecraft().getPlayer();
 
-        if (p != null) {
-            DrawingHelper.drawShadowString("Fall Distance: " + p.getFallDistance(), 30, 30, Color.WHITE.getRGB());
-            DrawingHelper.drawShadowString("AirTimer: " + p.getAirTimer(), 30, 45, Color.WHITE.getRGB());
-            DrawingHelper.drawShadowString("FireTimer: " + p.getFireTimer(), 30, 60, Color.WHITE.getRGB());
-            DrawingHelper.drawShadowString("OnGround: " + p.getOnGround(), 30, 75, Color.WHITE.getRGB());
-            DrawingHelper.drawShadowString("Player name: " + p.getName(), 30, 90, Color.WHITE.getRGB());
-        }
-    }
+		if (p != null) {
+			DrawingHelper.drawShadowString("Fall Distance: " + p.getFallDistance(), 30, 30, Color.WHITE.getRGB());
+			DrawingHelper.drawShadowString("AirTimer: " + p.getAirTimer(), 30, 45, Color.WHITE.getRGB());
+			DrawingHelper.drawShadowString("FireTimer: " + p.getFireTimer(), 30, 60, Color.WHITE.getRGB());
+			DrawingHelper.drawShadowString("OnGround: " + p.getOnGround(), 30, 75, Color.WHITE.getRGB());
+			DrawingHelper.drawShadowString("Player name: " + p.getName(), 30, 90, Color.WHITE.getRGB());
+		}
+	}
 }

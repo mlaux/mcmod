@@ -7,13 +7,13 @@
  * modification, are permitted provided that the following conditions
  * are met:
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
+ *	notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
+ *	notice, this list of conditions and the following disclaimer in the
+ *	documentation and/or other materials provided with the distribution.
  * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ *	contributors may be used to endorse or promote products derived from
+ *	this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -39,37 +39,37 @@ import org.objectweb.asm.MethodVisitor;
  */
 public class LabelNode extends AbstractInsnNode {
 
-    private Label label;
+	private Label label;
 
-    public LabelNode() {
-        super(-1);
-    }
+	public LabelNode() {
+		super(-1);
+	}
 
-    public LabelNode(final Label label) {
-        super(-1);
-        this.label = label;
-    }
+	public LabelNode(final Label label) {
+		super(-1);
+		this.label = label;
+	}
 
-    public int getType() {
-        return LABEL;
-    }
+	public int getType() {
+		return LABEL;
+	}
 
-    public Label getLabel() {
-        if (label == null) {
-            label = new Label();
-        }
-        return label;
-    }
+	public Label getLabel() {
+		if (label == null) {
+			label = new Label();
+		}
+		return label;
+	}
 
-    public void accept(final MethodVisitor cv) {
-        cv.visitLabel(getLabel());
-    }
+	public void accept(final MethodVisitor cv) {
+		cv.visitLabel(getLabel());
+	}
 
-    public AbstractInsnNode clone(final Map<?, ?> labels) {
-        return (LabelNode) labels.get(this);
-    }
+	public AbstractInsnNode clone(final Map<?, ?> labels) {
+		return (LabelNode) labels.get(this);
+	}
 
-    public void resetLabel() {
-        label = null;
-    }
+	public void resetLabel() {
+		label = null;
+	}
 }

@@ -7,13 +7,13 @@
  * modification, are permitted provided that the following conditions
  * are met:
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
+ *	notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
+ *	notice, this list of conditions and the following disclaimer in the
+ *	documentation and/or other materials provided with the distribution.
  * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ *	contributors may be used to endorse or promote products derived from
+ *	this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -42,46 +42,46 @@ import org.objectweb.asm.MethodVisitor;
  */
 public class VarInsnNode extends AbstractInsnNode {
 
-    /**
-     * The operand of this instruction. This operand is the index of a local
-     * variable.
-     */
-    public int var;
+	/**
+	 * The operand of this instruction. This operand is the index of a local
+	 * variable.
+	 */
+	public int var;
 
-    /**
-     * Constructs a new {@link VarInsnNode}.
-     * 
-     * @param opcode the opcode of the local variable instruction to be
-     *        constructed. This opcode must be ILOAD, LLOAD, FLOAD, DLOAD,
-     *        ALOAD, ISTORE, LSTORE, FSTORE, DSTORE, ASTORE or RET.
-     * @param var the operand of the instruction to be constructed. This operand
-     *        is the index of a local variable.
-     */
-    public VarInsnNode(final int opcode, final int var) {
-        super(opcode);
-        this.var = var;
-    }
+	/**
+	 * Constructs a new {@link VarInsnNode}.
+	 * 
+	 * @param opcode the opcode of the local variable instruction to be
+	 *		constructed. This opcode must be ILOAD, LLOAD, FLOAD, DLOAD,
+	 *		ALOAD, ISTORE, LSTORE, FSTORE, DSTORE, ASTORE or RET.
+	 * @param var the operand of the instruction to be constructed. This operand
+	 *		is the index of a local variable.
+	 */
+	public VarInsnNode(final int opcode, final int var) {
+		super(opcode);
+		this.var = var;
+	}
 
-    /**
-     * Sets the opcode of this instruction.
-     * 
-     * @param opcode the new instruction opcode. This opcode must be ILOAD,
-     *        LLOAD, FLOAD, DLOAD, ALOAD, ISTORE, LSTORE, FSTORE, DSTORE, ASTORE
-     *        or RET.
-     */
-    public void setOpcode(final int opcode) {
-        this.opcode = opcode;
-    }
+	/**
+	 * Sets the opcode of this instruction.
+	 * 
+	 * @param opcode the new instruction opcode. This opcode must be ILOAD,
+	 *		LLOAD, FLOAD, DLOAD, ALOAD, ISTORE, LSTORE, FSTORE, DSTORE, ASTORE
+	 *		or RET.
+	 */
+	public void setOpcode(final int opcode) {
+		this.opcode = opcode;
+	}
 
-    public int getType() {
-        return VAR_INSN;
-    }
+	public int getType() {
+		return VAR_INSN;
+	}
 
-    public void accept(final MethodVisitor mv) {
-        mv.visitVarInsn(opcode, var);
-    }
+	public void accept(final MethodVisitor mv) {
+		mv.visitVarInsn(opcode, var);
+	}
 
-    public AbstractInsnNode clone(final Map<?, ?> labels) {
-        return new VarInsnNode(opcode, var);
-    }
+	public AbstractInsnNode clone(final Map<?, ?> labels) {
+		return new VarInsnNode(opcode, var);
+	}
 }

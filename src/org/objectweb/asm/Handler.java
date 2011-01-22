@@ -7,13 +7,13 @@
  * modification, are permitted provided that the following conditions
  * are met:
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
+ *	notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
+ *	notice, this list of conditions and the following disclaimer in the
+ *	documentation and/or other materials provided with the distribution.
  * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ *	contributors may be used to endorse or promote products derived from
+ *	this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -36,30 +36,30 @@ package org.objectweb.asm;
  */
 class Handler {
 
-    /**
-     * Beginning of the exception handler's scope (inclusive).
-     */
-    Label start;
-    /**
-     * End of the exception handler's scope (exclusive).
-     */
-    Label end;
-    /**
-     * Beginning of the exception handler's code.
-     */
-    Label handler;
-    /**
-     * Internal name of the type of exceptions handled by this handler, or
-     * <tt>null</tt> to catch any exceptions.
-     */
-    String desc;
-    /**
-     * Constant pool index of the internal name of the type of exceptions
-     * handled by this handler, or 0 to catch any exceptions.
-     */
-    int type;
-    /**
-     * Next exception handler block info.
-     */
-    Handler next;
+	/**
+	 * Beginning of the exception handler's scope (inclusive).
+	 */
+	Label start;
+	/**
+	 * End of the exception handler's scope (exclusive).
+	 */
+	Label end;
+	/**
+	 * Beginning of the exception handler's code.
+	 */
+	Label handler;
+	/**
+	 * Internal name of the type of exceptions handled by this handler, or
+	 * <tt>null</tt> to catch any exceptions.
+	 */
+	String desc;
+	/**
+	 * Constant pool index of the internal name of the type of exceptions
+	 * handled by this handler, or 0 to catch any exceptions.
+	 */
+	int type;
+	/**
+	 * Next exception handler block info.
+	 */
+	Handler next;
 }

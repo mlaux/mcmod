@@ -7,17 +7,17 @@ import com.mcmod.injection.McHook;
 
 public class McPig extends McHook {
 
-    public boolean canProcess(McClassNode node) {
-        return node.constants.get("/mob/pig.png") != null;
-    }
+	public boolean canProcess(McClassNode node) {
+		return node.constants.get("/mob/pig.png") != null;
+	}
 
-    public void process(McClassNode node) {
-        identifyClass(node, "Pig");
+	public void process(McClassNode node) {
+		identifyClass(node, "Pig");
 
-        for (FieldNode fn : node.instanceFields) {
-            if (fn.desc.equals("Z")) {
-                identifyField("saddled", node, fn);
-            }
-        }
-    }
+		for (FieldNode fn : node.instanceFields) {
+			if (fn.desc.equals("Z")) {
+				identifyField("saddled", node, fn);
+			}
+		}
+	}
 }

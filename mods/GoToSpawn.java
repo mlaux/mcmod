@@ -6,28 +6,28 @@ import com.mcmod.inter.World;
 
 public class GoToSpawn implements Mod {
 
-    @Override
-    public boolean isTogglable() {
-        return false;
-    }
+	
+	public boolean isTogglable() {
+		return false;
+	}
 
-    @Override
-    public String getName() {
-        return "Go To Spawn";
-    }
+	
+	public String getName() {
+		return "Go To Spawn";
+	}
 
-    @Override
-    public String getDescription() {
-        return "Teleports you to your spawn.";
-    }
+	
+	public String getDescription() {
+		return "Teleports you to your spawn.";
+	}
 
-    @Override
-    public void process() {
-        Player p = Loader.getMinecraft().getPlayer();
-        World w = Loader.getMinecraft().getWorld();
+	
+	public void process() {
+		Player p = Loader.getMinecraft().getPlayer();
+		World w = Loader.getMinecraft().getWorld();
 
-        if (p != null && w != null) {
-            p.setPosition(w.getSpawnX(), w.getSpawnY(), w.getSpawnZ());
-        }
-    }
+		if (p != null && w != null) {
+			p.setPosition(w.getSpawnX(), w.getSpawnY(), w.getSpawnZ());
+		}
+	}
 }
