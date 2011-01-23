@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,6 +34,8 @@ public class LoginDialog extends JDialog implements ActionListener {
 
 	private JTextField usernameField = new JTextField(12);
 	private JPasswordField passField = new JPasswordField(12);
+	private JCheckBox rememberMe;
+	
 	private String currentVersion;
 	private String localVersion;
 	private String downloadTicket;
@@ -41,6 +44,8 @@ public class LoginDialog extends JDialog implements ActionListener {
 
 	public LoginDialog() {
 		super((Frame) null, "McMod");
+		String[] info = Util.readLoginInfo();
+		
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setResizable(false);
 		setLayout(new BorderLayout());
@@ -59,12 +64,20 @@ public class LoginDialog extends JDialog implements ActionListener {
 		lab = new JLabel("Password: ");
 		panel.add(lab);
 		panel.add(passField);
+		
 
 		JPanel cont = new JPanel();
 		cont.add(panel);
 		add(cont, BorderLayout.CENTER);
-
+		
 		JPanel bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+		rememberMe = new JCheckBox("Remember your password?", (info[1] == "") ? false : true);
+		if (rememberMe.isSelected())
+		{
+			usernameField.setText(info[0]);
+			passField.setText(info[1]);
+		}
+		bottom.add(rememberMe);
 		JButton button = new JButton("Login");
 		getRootPane().setDefaultButton(button);
 		button.addActionListener(this);
@@ -99,6 +112,10 @@ public class LoginDialog extends JDialog implements ActionListener {
 				downloadTicket = data[1];
 				user = data[2];
 				sid = data[3];
+				if(rememberMe.isSelected())
+					Util.writeLoginInfo(usernameField.getText(), new String(passField.getPassword()));
+				else
+					Util.writeLoginInfo(user, "");
 				if (Util.versionFile.exists()) {
 					if (currentVersion.equals("-1") || currentVersion.equals(Util.readVersionFile())) {
 						setVisible(false);
