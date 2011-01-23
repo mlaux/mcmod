@@ -58,4 +58,13 @@ public interface World {
 	 * @return
 	 */
 	public boolean setBlock(int x, int y, int z, int id);
+	
+	/**
+	 * Gets the block ID at (x, y, z) 
+	 * @param x X coordinate of the block
+	 * @param y Y coordinate of the block
+	 * @param z Z coordinate of the block
+	 * @return The id of the block
+	 */
+	public int getBlockId(int x, int y, int z);
 }

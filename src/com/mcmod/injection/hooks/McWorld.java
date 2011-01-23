@@ -27,7 +27,7 @@ public class McWorld extends McHook {
 			}
 		}
 
-		String[] ldcs = {"SpawnX", "SpawnY", "SpawnZ", "Time"};
+		String[] ldcs = { "SpawnX", "SpawnY", "SpawnZ", "Time" };
 		InstructionSearcher searcher = new InstructionSearcher(method);
 
 		FieldInsnNode fin = null;
@@ -36,7 +36,8 @@ public class McWorld extends McHook {
 			searcher.nextLdcInsn(s);
 			fin = searcher.nextFieldInsn();
 
-			identifyField(Character.toLowerCase(s.charAt(0)) + s.substring(1), fin);
+			identifyField(Character.toLowerCase(s.charAt(0)) + s.substring(1),
+					fin);
 		}
 
 		McClassNode minecraft = getIdentifiedClass("Minecraft");
@@ -51,7 +52,7 @@ public class McWorld extends McHook {
 		searcher = new InstructionSearcher(method);
 		searcher.nextLdcInsn("Player count: ");
 
-		String[] names = {"playerList", "entityList"};
+		String[] names = { "playerList", "entityList" };
 
 		for (String s : names) {
 			fin = searcher.nextFieldInsn();
@@ -60,6 +61,7 @@ public class McWorld extends McHook {
 
 		int lowest = Integer.MAX_VALUE;
 
+		// TODO: Find another way to do this hackiness :P
 		for (MethodNode mn : node.instanceMethods) {
 			if (mn.desc.equals("(IIII)Z")) {
 				searcher = new InstructionSearcher(mn);
@@ -72,9 +74,15 @@ public class McWorld extends McHook {
 						method = mn;
 					}
 				}
+			} else if (mn.desc.equals("(III)I")) {
+				searcher = new InstructionSearcher(mn);
+				if (searcher.nextLdcInsn(-32000000) != null
+						&& searcher.count(Opcodes.BIPUSH) > 1
+						&& searcher.count(Opcodes.IAND) == 2
+						&& !(searcher.count(Opcodes.ASTORE) > 0))
+					identifyMethod("getBlockId", node, mn);
 			}
 		}
-
 		identifyMethod("setBlock", node, method);
 	}
 }
