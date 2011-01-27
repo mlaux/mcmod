@@ -14,25 +14,24 @@ public class InventoryAPI {
 	 * of the local player.
 	 * @param id Item ID to add
 	 * @param count How many of the item to add
+	 * @param dmg The damage of the new item
 	 * @return 'true' if the items were added, 'false' if the inventory
 	 * was full.
 	 */
-	public static boolean addItem(int id, int count) {
+	public static boolean addItem(int id, int count, int dmg) {
 		Inventory in = Loader.getMinecraft().getPlayer().getInventory();
 		int spot = -1;
 
 		InventoryItem[] it = in.getInventoryItems();
-		for (int k = 0; k < it.length; k++) {
-			if (it[k] == null) {
+		for (int k = 0; k < it.length; k++)
+			if (it[k] == null)
 				spot = k;
-			}
-		}
 
-		if (spot == -1) {
+		if (spot == -1)
 			return false;
-		}
 
-		Object ii = Loader.instantiate("InventoryItem", new Class<?>[]{int.class, int.class, int.class}, id, count, 0);
+		Object ii = Loader.instantiate("InventoryItem", new Class<?>[] { 
+				int.class, int.class, int.class }, id, count, dmg);
 		it[spot] = (InventoryItem) ii;
 		return true;
 	}

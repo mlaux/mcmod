@@ -7,7 +7,6 @@ import com.mcmod.api.Mod;
 import com.mcmod.inter.Player;
 
 public class ItemSpawner implements Mod {
-
 	public boolean isTogglable() {
 		return false;
 	}
@@ -22,28 +21,26 @@ public class ItemSpawner implements Mod {
 
 	public void process() {
 		Player p = Loader.getMinecraft().getPlayer();
+		if(p == null) return;
+		
+		String info = JOptionPane.showInputDialog("Item: \"itemid [amount] [damage]\"");
+		if(info == null) return;
+		
+		try {
+			String[] data = info.split(" ");
 
-		if (p != null) {
-			String info = JOptionPane.showInputDialog("Item: \"itemid [amount]\"");
+			int amount = 1, damage = 0;
+			int id = Integer.parseInt(data[0]);
 
-			if (info != null) {
-				try {
-					// TODO: figure out why item.getName() doesn't work anymore.
-
-					String[] data = info.split(" ");
-
-					int amount = 1;
-					int id = Integer.parseInt(data[0]);
-
-					if (data.length > 1) {
-						amount = Integer.parseInt(data[1]);
-					}
-
-					InventoryAPI.addItem(id, amount);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			if (data.length > 1) {
+				amount = Integer.parseInt(data[1]);
+				if(data.length > 2)
+					damage = Integer.parseInt(data[2]);
 			}
+
+			InventoryAPI.addItem(id, amount, damage);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
